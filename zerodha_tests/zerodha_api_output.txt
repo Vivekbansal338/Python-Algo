@@ -1,0 +1,867 @@
+Zerodha API Test Output - Generated at 2026-01-06 16:56:38.414986
+
+================================================================================
+TEST: User Profile
+================================================================================
+{
+  "user_id": "IJE205",
+  "user_type": "individual/res_no_nn",
+  "email": "vickyaggarwal375@gmail.com",
+  "user_name": "Vivek .",
+  "user_shortname": "Vivek",
+  "broker": "ZERODHA",
+  "exchanges": [
+    "NSE",
+    "MF",
+    "BSE"
+  ],
+  "products": [
+    "CNC",
+    "NRML",
+    "MIS",
+    "BO",
+    "CO"
+  ],
+  "order_types": [
+    "MARKET",
+    "LIMIT",
+    "SL",
+    "SL-M"
+  ],
+  "avatar_url": null,
+  "meta": {
+    "demat_consent": "consent"
+  }
+}
+
+================================================================================
+TEST: Margins
+================================================================================
+{
+  "commodity": {
+    "enabled": false,
+    "net": 0,
+    "available": {
+      "adhoc_margin": 0,
+      "cash": 0,
+      "opening_balance": 0,
+      "live_balance": 0,
+      "collateral": 0,
+      "intraday_payin": 0
+    },
+    "utilised": {
+      "debits": 0,
+      "payout": 0,
+      "liquid_collateral": 0,
+      "stock_collateral": 0,
+      "span": 0,
+      "exposure": 0,
+      "additional": 0,
+      "delivery": 0,
+      "option_premium": 0,
+      "holding_sales": 0,
+      "turnover": 0,
+      "equity": 0,
+      "m2m_realised": 0,
+      "m2m_unrealised": 0
+    }
+  },
+  "equity": {
+    "segment": "EQUITY",
+    "enabled": true,
+    "net": 2076.7,
+    "available": {
+      "adhoc_margin": 0,
+      "cash": 0,
+      "opening_balance": 0,
+      "live_balance": 2076.7,
+      "collateral": 0,
+      "intraday_payin": 10000
+    },
+    "utilised": {
+      "debits": 7923.3,
+      "payout": 0,
+      "liquid_collateral": 0,
+      "stock_collateral": 0,
+      "span": 0,
+      "exposure": 0,
+      "additional": 0,
+      "delivery": 0,
+      "option_premium": 0,
+      "holding_sales": 0,
+      "turnover": 0,
+      "equity": 0,
+      "m2m_realised": 0,
+      "m2m_unrealised": 0
+    }
+  }
+}
+
+================================================================================
+TEST: Orders
+================================================================================
+[
+  {
+    "account_id": "IJE205",
+    "placed_by": "IJE205",
+    "terminal_id": "5555555555555588",
+    "order_id": "2008386625712955392",
+    "exchange_order_id": "1767670200015528765",
+    "parent_order_id": null,
+    "status": "COMPLETE",
+    "status_message": null,
+    "status_message_raw": null,
+    "order_timestamp": "2026-01-06 09:24:20",
+    "exchange_update_timestamp": "2026-01-06 09:24:20",
+    "exchange_timestamp": "2026-01-06 09:24:20",
+    "variety": "regular",
+    "modified": false,
+    "exchange": "BSE",
+    "tradingsymbol": "MUTHOOTFIN",
+    "instrument_token": 136549892,
+    "order_type": "MARKET",
+    "transaction_type": "BUY",
+    "validity": "DAY",
+    "validity_ttl": 0,
+    "product": "CNC",
+    "quantity": 2,
+    "disclosed_quantity": 0,
+    "price": 0,
+    "trigger_price": 0,
+    "average_price": 3961.65,
+    "filled_quantity": 2,
+    "pending_quantity": 0,
+    "cancelled_quantity": 0,
+    "market_protection": 0,
+    "meta": {},
+    "meta_raw": "{\"tag\":\"\",\"tags\":null,\"app_id\":19,\"gttp\":null,\"iceberg\":{\"leg\":0,\"legs\":0,\"leg_quantity\":0,\"total_quantity\":0,\"remaining_quantity\":0},\"validity_ttl\":0,\"aucno\":\"\",\"kite_order_id\":\"\",\"_kite\":{\"user\":{\"silo\":\"i\",\"poa\":\"consent\",\"twofa_type\":\"sms\"},\"silo\":\"i\"}}",
+    "tag": null,
+    "guid": null
+  }
+]
+
+================================================================================
+TEST: Positions
+================================================================================
+{
+  "day": [
+    {
+      "tradingsymbol": "MUTHOOTFIN",
+      "exchange": "NSE",
+      "instrument_token": 6054401,
+      "product": "CNC",
+      "segment": "CASH",
+      "quantity": 2,
+      "overnight_quantity": 0,
+      "overnight_price": 0,
+      "overnight_value": 0,
+      "multiplier": 1,
+      "average_price": 3961.65,
+      "close_price": 0,
+      "last_price": 3935.1,
+      "value": 7923.3,
+      "pnl": -53.100000000000364,
+      "m2m": -53.100000000000364,
+      "unrealised": -53.100000000000364,
+      "realised": 0,
+      "buy_quantity": 2,
+      "buy_price": 3961.65,
+      "buy_value": 7923.3,
+      "buy_m2m": 7923.3,
+      "sell_quantity": 0,
+      "sell_price": 0,
+      "sell_value": 0,
+      "sell_m2m": 0,
+      "day_buy_quantity": 2,
+      "day_buy_price": 3961.65,
+      "day_buy_value": 7923.3,
+      "day_sell_quantity": 0,
+      "day_sell_price": 0,
+      "day_sell_value": 0,
+      "settlement": false
+    }
+  ],
+  "net": [
+    {
+      "tradingsymbol": "MUTHOOTFIN",
+      "exchange": "NSE",
+      "instrument_token": 6054401,
+      "product": "CNC",
+      "segment": "CASH",
+      "quantity": 2,
+      "overnight_quantity": 0,
+      "overnight_price": 0,
+      "overnight_value": 0,
+      "multiplier": 1,
+      "average_price": 3961.65,
+      "close_price": 0,
+      "last_price": 3935.1,
+      "value": 7923.3,
+      "pnl": -53.100000000000364,
+      "m2m": -53.100000000000364,
+      "unrealised": -53.100000000000364,
+      "realised": 0,
+      "buy_quantity": 2,
+      "buy_price": 3961.65,
+      "buy_value": 7923.3,
+      "buy_m2m": 7923.3,
+      "sell_quantity": 0,
+      "sell_price": 0,
+      "sell_value": 0,
+      "sell_m2m": 0,
+      "day_buy_quantity": 2,
+      "day_buy_price": 3961.65,
+      "day_buy_value": 7923.3,
+      "day_sell_quantity": 0,
+      "day_sell_price": 0,
+      "day_sell_value": 0,
+      "settlement": false
+    }
+  ]
+}
+
+================================================================================
+TEST: Holdings
+================================================================================
+[
+  {
+    "tradingsymbol": "ABCAPITAL",
+    "exchange": "NSE",
+    "instrument_token": 5533185,
+    "isin": "INE674K01013",
+    "product": "CNC",
+    "price": 0,
+    "quantity": 102,
+    "used_quantity": 0,
+    "t1_quantity": 0,
+    "realised_quantity": 102,
+    "authorised_quantity": 0,
+    "authorised_date": "2026-01-06 00:00:00",
+    "opening_quantity": 102,
+    "short_quantity": 0,
+    "collateral_quantity": 0,
+    "collateral_type": "",
+    "discrepancy": false,
+    "average_price": 298.547058,
+    "last_price": 360.65,
+    "close_price": 363.3,
+    "pnl": 6334.500083999998,
+    "day_change": -2.650000000000034,
+    "day_change_percentage": -0.7294247178640336,
+    "mtf": {
+      "quantity": 0,
+      "used_quantity": 0,
+      "average_price": 0,
+      "value": 0,
+      "initial_margin": 0
+    }
+  },
+  {
+    "tradingsymbol": "ADANIPOWER",
+    "exchange": "BSE",
+    "instrument_token": 136472580,
+    "isin": "INE814H01029",
+    "product": "CNC",
+    "price": 0,
+    "quantity": 288,
+    "used_quantity": 0,
+    "t1_quantity": 0,
+    "realised_quantity": 288,
+    "authorised_quantity": 0,
+    "authorised_date": "2026-01-06 00:00:00",
+    "opening_quantity": 288,
+    "short_quantity": 0,
+    "collateral_quantity": 0,
+    "collateral_type": "",
+    "discrepancy": false,
+    "average_price": 131.361284,
+    "last_price": 147.6,
+    "close_price": 146.2,
+    "pnl": 4676.750207999995,
+    "day_change": 1.4000000000000057,
+    "day_change_percentage": 0.9575923392612898,
+    "mtf": {
+      "quantity": 0,
+      "used_quantity": 0,
+      "average_price": 0,
+      "value": 0,
+      "initial_margin": 0
+    }
+  },
+  {
+    "tradingsymbol": "AIIL",
+    "exchange": "BSE",
+    "instrument_token": 138029316,
+    "isin": "INE206F01022",
+    "product": "CNC",
+    "price": 0,
+    "quantity": 9,
+    "used_quantity": 0,
+    "t1_quantity": 0,
+    "realised_quantity": 9,
+    "authorised_quantity": 0,
+    "authorised_date": "2026-01-06 00:00:00",
+    "opening_quantity": 9,
+    "short_quantity": 0,
+    "collateral_quantity": 0,
+    "collateral_type": "",
+    "discrepancy": false,
+    "average_price": 3123.8,
+    "last_price": 3144.5,
+    "close_price": 3098.35,
+    "pnl": 186.29999999999836,
+    "day_change": 46.15000000000009,
+    "day_change_percentage": 1.4895024771249243,
+    "mtf": {
+      "quantity": 0,
+      "used_quantity": 0,
+      "average_price": 0,
+      "value": 0,
+      "initial_margin": 0
+    }
+  },
+  {
+    "tradingsymbol": "CCL",
+    "exchange": "NSE",
+    "instrument_token": 2931713,
+    "isin": "INE421D01022",
+    "product": "CNC",
+    "price": 0,
+    "quantity": 22,
+    "used_quantity": 0,
+    "t1_quantity": 0,
+    "realised_quantity": 22,
+    "authorised_quantity": 0,
+    "authorised_date": "2026-01-06 00:00:00",
+    "opening_quantity": 22,
+    "short_quantity": 0,
+    "collateral_quantity": 0,
+    "collateral_type": "",
+    "discrepancy": false,
+    "average_price": 948.845454,
+    "last_price": 924.05,
+    "close_price": 933.65,
+    "pnl": -545.4999880000014,
+    "day_change": -9.600000000000023,
+    "day_change_percentage": -1.0282225673432253,
+    "mtf": {
+      "quantity": 0,
+      "used_quantity": 0,
+      "average_price": 0,
+      "value": 0,
+      "initial_margin": 0
+    }
+  },
+  {
+    "tradingsymbol": "EDELWEISS",
+    "exchange": "NSE",
+    "instrument_token": 3870465,
+    "isin": "INE532F01054",
+    "product": "CNC",
+    "price": 0,
+    "quantity": 675,
+    "used_quantity": 0,
+    "t1_quantity": 0,
+    "realised_quantity": 675,
+    "authorised_quantity": 0,
+    "authorised_date": "2026-01-06 00:00:00",
+    "opening_quantity": 675,
+    "short_quantity": 0,
+    "collateral_quantity": 0,
+    "collateral_type": "",
+    "discrepancy": false,
+    "average_price": 101.34114,
+    "last_price": 114.35,
+    "close_price": 114.33,
+    "pnl": 8780.9805,
+    "day_change": 0.01999999999999602,
+    "day_change_percentage": 0.017493221376713042,
+    "mtf": {
+      "quantity": 0,
+      "used_quantity": 0,
+      "average_price": 0,
+      "value": 0,
+      "initial_margin": 0
+    }
+  },
+  {
+    "tradingsymbol": "MUTHOOTFIN",
+    "exchange": "BSE",
+    "instrument_token": 136549892,
+    "isin": "INE414G01012",
+    "product": "CNC",
+    "price": 0,
+    "quantity": 9,
+    "used_quantity": 0,
+    "t1_quantity": 0,
+    "realised_quantity": 9,
+    "authorised_quantity": 0,
+    "authorised_date": "2026-01-06 00:00:00",
+    "opening_quantity": 9,
+    "short_quantity": 0,
+    "collateral_quantity": 0,
+    "collateral_type": "",
+    "discrepancy": false,
+    "average_price": 3373.361111,
+    "last_price": 3935.1,
+    "close_price": 3922.4,
+    "pnl": 5055.650000999998,
+    "day_change": 12.699999999999818,
+    "day_change_percentage": 0.3237813583520247,
+    "mtf": {
+      "quantity": 0,
+      "used_quantity": 0,
+      "average_price": 0,
+      "value": 0,
+      "initial_margin": 0
+    }
+  },
+  {
+    "tradingsymbol": "SHAILY",
+    "exchange": "BSE",
+    "instrument_token": 128364292,
+    "isin": "INE151G01028",
+    "product": "CNC",
+    "price": 0,
+    "quantity": 34,
+    "used_quantity": 0,
+    "t1_quantity": 0,
+    "realised_quantity": 34,
+    "authorised_quantity": 0,
+    "authorised_date": "2026-01-06 00:00:00",
+    "opening_quantity": 34,
+    "short_quantity": 0,
+    "collateral_quantity": 0,
+    "collateral_type": "",
+    "discrepancy": false,
+    "average_price": 1859.475,
+    "last_price": 2273.65,
+    "close_price": 2309.25,
+    "pnl": 14081.950000000006,
+    "day_change": -35.59999999999991,
+    "day_change_percentage": -1.5416260690700405,
+    "mtf": {
+      "quantity": 0,
+      "used_quantity": 0,
+      "average_price": 0,
+      "value": 0,
+      "initial_margin": 0
+    }
+  },
+  {
+    "tradingsymbol": "SILVERBEES",
+    "exchange": "NSE",
+    "instrument_token": 2068481,
+    "isin": "INF204KC1402",
+    "product": "CNC",
+    "price": 0,
+    "quantity": 60,
+    "used_quantity": 0,
+    "t1_quantity": 0,
+    "realised_quantity": 60,
+    "authorised_quantity": 0,
+    "authorised_date": "2026-01-06 00:00:00",
+    "opening_quantity": 60,
+    "short_quantity": 0,
+    "collateral_quantity": 0,
+    "collateral_type": "",
+    "discrepancy": false,
+    "average_price": 217.1,
+    "last_price": 231.65,
+    "close_price": 225.54,
+    "pnl": 873.0000000000007,
+    "day_change": 6.110000000000014,
+    "day_change_percentage": 2.7090538263722683,
+    "mtf": {
+      "quantity": 0,
+      "used_quantity": 0,
+      "average_price": 0,
+      "value": 0,
+      "initial_margin": 0
+    }
+  },
+  {
+    "tradingsymbol": "SOUTHBANK",
+    "exchange": "NSE",
+    "instrument_token": 1522689,
+    "isin": "INE683A01023",
+    "product": "CNC",
+    "price": 0,
+    "quantity": 550,
+    "used_quantity": 0,
+    "t1_quantity": 0,
+    "realised_quantity": 550,
+    "authorised_quantity": 0,
+    "authorised_date": "2026-01-06 00:00:00",
+    "opening_quantity": 550,
+    "short_quantity": 0,
+    "collateral_quantity": 0,
+    "collateral_type": "",
+    "discrepancy": false,
+    "average_price": 38.390909,
+    "last_price": 42.12,
+    "close_price": 39.71,
+    "pnl": 2051.0000499999983,
+    "day_change": 2.4099999999999966,
+    "day_change_percentage": 6.069000251825727,
+    "mtf": {
+      "quantity": 0,
+      "used_quantity": 0,
+      "average_price": 0,
+      "value": 0,
+      "initial_margin": 0
+    }
+  },
+  {
+    "tradingsymbol": "ZYDUSWELL",
+    "exchange": "NSE",
+    "instrument_token": 4514561,
+    "isin": "INE768C01028",
+    "product": "CNC",
+    "price": 0,
+    "quantity": 21,
+    "used_quantity": 0,
+    "t1_quantity": 0,
+    "realised_quantity": 21,
+    "authorised_quantity": 0,
+    "authorised_date": "2026-01-06 00:00:00",
+    "opening_quantity": 21,
+    "short_quantity": 0,
+    "collateral_quantity": 0,
+    "collateral_type": "",
+    "discrepancy": false,
+    "average_price": 485.7,
+    "last_price": 478.4,
+    "close_price": 482.7,
+    "pnl": -153.30000000000024,
+    "day_change": -4.300000000000011,
+    "day_change_percentage": -0.8908224570126397,
+    "mtf": {
+      "quantity": 0,
+      "used_quantity": 0,
+      "average_price": 0,
+      "value": 0,
+      "initial_margin": 0
+    }
+  }
+]
+
+================================================================================
+TEST: Sample Instruments (VIX, NIFTY, RELIANCE)
+================================================================================
+[
+  {
+    "instrument_token": 256265,
+    "exchange_token": "1001",
+    "tradingsymbol": "NIFTY 50",
+    "name": "NIFTY 50",
+    "last_price": 0.0,
+    "expiry": "",
+    "strike": 0.0,
+    "tick_size": 0.0,
+    "lot_size": 0,
+    "instrument_type": "EQ",
+    "segment": "INDICES",
+    "exchange": "NSE"
+  },
+  {
+    "instrument_token": 264969,
+    "exchange_token": "1035",
+    "tradingsymbol": "INDIA VIX",
+    "name": "INDIA VIX",
+    "last_price": 0.0,
+    "expiry": "",
+    "strike": 0.0,
+    "tick_size": 0.0,
+    "lot_size": 0,
+    "instrument_type": "EQ",
+    "segment": "INDICES",
+    "exchange": "NSE"
+  },
+  {
+    "instrument_token": 738561,
+    "exchange_token": "2885",
+    "tradingsymbol": "RELIANCE",
+    "name": "RELIANCE INDUSTRIES",
+    "last_price": 0.0,
+    "expiry": "",
+    "strike": 0.0,
+    "tick_size": 0.1,
+    "lot_size": 1,
+    "instrument_type": "EQ",
+    "segment": "NSE",
+    "exchange": "NSE"
+  }
+]
+
+================================================================================
+TEST: Quote (Full) for ['264969', '256265', '738561']
+================================================================================
+{
+  "256265": {
+    "instrument_token": 256265,
+    "tradingsymbol": "NIFTY 50",
+    "timestamp": "2026-01-06 16:56:43",
+    "last_price": 26178.7,
+    "net_change": -71.6,
+    "ohlc": {
+      "open": 26189.7,
+      "high": 26273.95,
+      "low": 26124.75,
+      "close": 26250.3
+    }
+  },
+  "264969": {
+    "instrument_token": 264969,
+    "tradingsymbol": "INDIA VIX",
+    "timestamp": "2026-01-06 16:56:43",
+    "last_price": 10.02,
+    "net_change": 0,
+    "ohlc": {
+      "open": 10.02,
+      "high": 10.29,
+      "low": 9.65,
+      "close": 10.02
+    }
+  },
+  "738561": {
+    "instrument_token": 738561,
+    "timestamp": "2026-01-06 16:54:20",
+    "last_trade_time": "2026-01-06 15:59:55",
+    "last_price": 1507.6,
+    "last_quantity": 10,
+    "buy_quantity": 0,
+    "sell_quantity": 11120,
+    "volume": 27417125,
+    "average_price": 1516.17,
+    "oi": 0,
+    "oi_day_high": 0,
+    "oi_day_low": 0,
+    "net_change": 0,
+    "lower_circuit_limit": 1356.9,
+    "upper_circuit_limit": 1658.3,
+    "ohlc": {
+      "open": 1569,
+      "high": 1569,
+      "low": 1496.3,
+      "close": 1578.1
+    },
+    "depth": {
+      "buy": [
+        {
+          "price": 0,
+          "quantity": 0,
+          "orders": 0
+        },
+        {
+          "price": 0,
+          "quantity": 0,
+          "orders": 0
+        },
+        {
+          "price": 0,
+          "quantity": 0,
+          "orders": 0
+        },
+        {
+          "price": 0,
+          "quantity": 0,
+          "orders": 0
+        },
+        {
+          "price": 0,
+          "quantity": 0,
+          "orders": 0
+        }
+      ],
+      "sell": [
+        {
+          "price": 1507.6,
+          "quantity": 11120,
+          "orders": 48
+        },
+        {
+          "price": 0,
+          "quantity": 0,
+          "orders": 0
+        },
+        {
+          "price": 0,
+          "quantity": 0,
+          "orders": 0
+        },
+        {
+          "price": 0,
+          "quantity": 0,
+          "orders": 0
+        },
+        {
+          "price": 0,
+          "quantity": 0,
+          "orders": 0
+        }
+      ]
+    }
+  }
+}
+
+================================================================================
+TEST: Quote (OHLC) for ['264969', '256265', '738561']
+================================================================================
+{
+  "256265": {
+    "instrument_token": 256265,
+    "last_price": 26178.7,
+    "ohlc": {
+      "open": 26189.7,
+      "high": 26273.95,
+      "low": 26124.75,
+      "close": 26250.3
+    }
+  },
+  "264969": {
+    "instrument_token": 264969,
+    "last_price": 10.02,
+    "ohlc": {
+      "open": 10.02,
+      "high": 10.29,
+      "low": 9.65,
+      "close": 10.02
+    }
+  },
+  "738561": {
+    "instrument_token": 738561,
+    "last_price": 1507.6,
+    "ohlc": {
+      "open": 1569,
+      "high": 1569,
+      "low": 1496.3,
+      "close": 1578.1
+    }
+  }
+}
+
+================================================================================
+TEST: Quote (LTP) for ['264969', '256265', '738561']
+================================================================================
+{
+  "256265": {
+    "instrument_token": 256265,
+    "last_price": 26178.7
+  },
+  "264969": {
+    "instrument_token": 264969,
+    "last_price": 10.02
+  },
+  "738561": {
+    "instrument_token": 738561,
+    "last_price": 1507.6
+  }
+}
+
+================================================================================
+TEST: Historical Data (Minute) - RELIANCE
+================================================================================
+[
+  {
+    "date": "2026-01-02 09:15:00+05:30",
+    "open": 1580,
+    "high": 1586,
+    "low": 1578.2,
+    "close": 1581.6,
+    "volume": 71010
+  },
+  {
+    "date": "2026-01-02 09:16:00+05:30",
+    "open": 1581.6,
+    "high": 1582.8,
+    "low": 1580.9,
+    "close": 1582,
+    "volume": 21521
+  },
+  {
+    "date": "2026-01-02 09:17:00+05:30",
+    "open": 1581.6,
+    "high": 1584,
+    "low": 1581.5,
+    "close": 1582.6,
+    "volume": 15175
+  },
+  {
+    "date": "2026-01-02 09:18:00+05:30",
+    "open": 1583,
+    "high": 1583,
+    "low": 1581.8,
+    "close": 1582.1,
+    "volume": 15562
+  },
+  {
+    "date": "2026-01-02 09:19:00+05:30",
+    "open": 1582.1,
+    "high": 1584.8,
+    "low": 1581.2,
+    "close": 1584,
+    "volume": 22518
+  }
+]
+
+================================================================================
+TEST: Historical Data (Day) - RELIANCE
+================================================================================
+[
+  {
+    "date": "2025-12-02 00:00:00+05:30",
+    "open": 1561.1,
+    "high": 1567.5,
+    "low": 1542,
+    "close": 1546.3,
+    "volume": 11389150
+  },
+  {
+    "date": "2025-12-03 00:00:00+05:30",
+    "open": 1545.2,
+    "high": 1552.4,
+    "low": 1533,
+    "close": 1538.8,
+    "volume": 6090883
+  },
+  {
+    "date": "2025-12-04 00:00:00+05:30",
+    "open": 1536,
+    "high": 1560.5,
+    "low": 1517.6,
+    "close": 1535.6,
+    "volume": 11867930
+  },
+  {
+    "date": "2025-12-05 00:00:00+05:30",
+    "open": 1530.4,
+    "high": 1545.8,
+    "low": 1520.6,
+    "close": 1540.6,
+    "volume": 10183266
+  },
+  {
+    "date": "2025-12-08 00:00:00+05:30",
+    "open": 1539.2,
+    "high": 1551,
+    "low": 1535,
+    "close": 1543,
+    "volume": 11301491
+  }
+]
+
+================================================================================
+TEST: WebSocket Ticks (LTP Mode Sample)
+================================================================================
+No Data
+
+================================================================================
+TEST: WebSocket Ticks (QUOTE Mode Sample)
+================================================================================
+No Data
+
+================================================================================
+TEST: WebSocket Ticks (FULL Mode Sample)
+================================================================================
+No Data

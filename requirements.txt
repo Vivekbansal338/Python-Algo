@@ -1,0 +1,26 @@
+# Core Trading
+kiteconnect==3.9.6
+pandas>=2.0.0
+numpy>=1.24.0
+pandas-ta  # Technical Analysis
+
+# Infrastructure & Utils
+pyyaml>=6.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+pytz>=2023.3
+apscheduler>=3.10.0
+prometheus_client>=0.17.0  # Monitoring
+
+# Terminal UI & Logging
+rich>=13.0.0
+
+# API & Web (Future Dashboard)
+fastapi>=0.100.0
+uvicorn>=0.23.0
+
+# Data Storage
+redis>=5.0.0
+
+# Testing
+pytest>=7.0.0

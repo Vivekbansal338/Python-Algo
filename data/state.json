@@ -1,0 +1,21 @@
+{
+  "last_updated": "2026-01-08T16:56:00.823372",
+  "daily_start_equity": 0.0,
+  "daily_high_equity": 1000000.0,
+  "trades": {
+    "TRD_OIL_133026": {
+      "id": "TRD_OIL_133026",
+      "symbol": "OIL",
+      "direction": "SHORT",
+      "entry_price": 409.0,
+      "qty": 171,
+      "initial_stop": 430.80999999999995,
+      "current_stop": 430.80999999999995,
+      "target_1": 376.2850000000001,
+      "stage": "CLOSED",
+      "entry_time": "2026-01-08T13:30:26.395414",
+      "atr_at_entry": 10.904999999999983,
+      "highest_price": 411.7,
+      "lowest_price": 409.0,
+      "pnl": 0.0,
+      "last_anchor_update": 
