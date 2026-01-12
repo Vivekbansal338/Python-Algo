@@ -21,6 +21,7 @@ uvicorn>=0.23.0
 
 # Data Storage
 redis>=5.0.0
+pyarrow>=14.0.0
 
 # Testing
 pytest>=7.0.0

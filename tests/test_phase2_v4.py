@@ -1,5 +1,11 @@
 import time
 import logging
+import sys
+import os
+
+# Add parent directory to path to allow importing core modules
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from datetime import datetime, time as dt_time
 from execution_v4.risk_v4 import RiskManager
 from execution_v4.orders_v4 import OrderManager

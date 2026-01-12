@@ -223,8 +223,9 @@ class DashboardUI:
     # SCANNER (Left Panel)
     # ══════════════════════════════════════════════════════════════════════════
 
-    def generate_scanner(self, sectors: list, stocks: list) -> Panel:
+    def generate_scanner(self, sectors: list, stocks: list, nifty_pct: float = 0.0, active_positions: list = None) -> Panel:
         """Combined Sector Rank & Stock Signals table."""
+        if active_positions is None: active_positions = []
         
         # 1. Sector Table
         sec_table = Table(box=box.SIMPLE_HEAD, expand=True, padding=(0,1))
@@ -238,9 +239,14 @@ class DashboardUI:
         sec_table.add_column("RS-3", justify="right", width=5, style="bright_cyan")
         sec_table.add_column("RS-D", justify="right", width=5, style="bright_blue")
         sec_table.add_column("Brdth", justify="right", width=5)
+        sec_table.add_column("Mkt", justify="right", width=5, style="dim") # New Nifty Impact
         sec_table.add_column("Score", justify="right", width=5, style="bright_yellow")
         
-        for s in sectors[:8]: # Show Top 8 to fit detailed view
+        # We need Nifty Pct to calculate the Mkt column display
+        nifty_impact = nifty_pct * 30.0 # Weight from model
+        mkt_style = "bright_green" if nifty_impact > 0 else "bright_red" if nifty_impact < 0 else "dim white"
+        
+        for s in sectors[:12]: # Show Top 8 to fit detailed view
             # Selection indicator
             rank_text = f"{SYMBOLS['star']}{s.rank}" if s.is_selected else str(s.rank)
             rank_style = "bold bright_cyan" if s.is_selected else "dim"
@@ -292,7 +298,8 @@ class DashboardUI:
                 f"{s.shortterm_rs:+.1f}",
                 f"{s.intraday_rs:+.1f}",
                 Text(br_text, style=br_style),
-                Text(f"{sc:+.1f}", style=sc_style),
+                Text(f"{nifty_impact:+.1f}", style=mkt_style), # New Market Impact value
+                Text(f"{s.composite_score:+.1f}", style=sc_style),
             )
 
         # 2. Stock Table
@@ -320,7 +327,7 @@ class DashboardUI:
         # Sort stocks by Score (High -> Low)
         sorted_stocks = sorted(stocks, key=lambda s: s.score, reverse=True)
         
-        for rank, s in enumerate(sorted_stocks[:8], 1):
+        for rank, s in enumerate(sorted_stocks[:15], 1): # Increased from 8 to 15
             # Symbol Style
             sym_style = "bold bright_green" if s.multiplier > 0 else "white"
             
@@ -379,7 +386,41 @@ class DashboardUI:
                 get_grade_display(s.grade)
             )
 
-        return Panel(Group(sec_table, Text(" "), stk_table), title="📡 Market Scan", border_style="blue")
+        # 3. Active Monitor Table (Health Check for Open Trades)
+        active_table = Table(
+            box=box.SIMPLE_HEAD,
+            expand=True,
+            title=f"[bold yellow]🛡️ ACTIVE MONITOR[/]",
+            padding=(0,1),
+            show_header=True
+        )
+        # Simplified Columns: Symbol, Price, Chg%, HMA
+        active_table.add_column("Symbol", ratio=1)
+        active_table.add_column("Price", justify="right", width=10)
+        active_table.add_column("Chg%", justify="right", width=8)
+        active_table.add_column("HMA", justify="center", width=8)
+
+        # Filter signals for active positions
+        active_syms = [p['symbol'] for p in active_positions]
+        active_signals = [s for s in stocks if s.symbol in active_syms]
+
+        if not active_signals and active_syms:
+            active_table.add_row("Loading...", "-", "-", "-")
+        elif not active_syms:
+             active_table.add_row("[dim]No Active Positions[/]", "", "", "")
+        else:
+            for s in active_signals:
+                # Color coding for HMA
+                hma_disp = get_alignment_display(s.hma_align)
+                
+                active_table.add_row(
+                    Text(s.symbol, style="bold cyan"),
+                    f"{s.price:,.1f}",
+                    Text(f"{s.change_pct:+.1f}%", style="white"),
+                    hma_disp
+                )
+
+        return Panel(Group(sec_table, Text(" "), stk_table, Text(" "), active_table), title="📡 Market Scan", border_style="blue")
 
     # ══════════════════════════════════════════════════════════════════════════
     # PORTFOLIO (Right Panel)
@@ -471,7 +512,12 @@ class DashboardUI:
         self.layout["header"].update(header)
         
         # Left Panel
-        scanner = self.generate_scanner(state_data['sectors'], state_data['signals'])
+        scanner = self.generate_scanner(
+            state_data['sectors'], 
+            state_data['signals'], 
+            state_data.get('nifty_pct', 0.0),
+            state_data['positions']
+        )
         self.layout["scanner"].update(scanner)
         
         # Right Panel

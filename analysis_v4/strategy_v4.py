@@ -130,10 +130,11 @@ class SectorScorer:
             "structural": 3.0,
             "shortterm": 10.0,
             "intraday": 20.0,
-            "breadth": 40.0
+            "breadth": 40.0,
+            "nifty": 30.0
         }
 
-    def score_all(self, sectors: List[SectorScore], regime: str) -> List[SectorScore]:
+    def score_all(self, sectors: List[SectorScore], regime: str, nifty_pct: float = 0.0) -> List[SectorScore]:
         """
         Input: List of SectorScore with raw metrics (RS values and Net Breadth).
         Output: Same list with composite_score, rank, and bias populated.
@@ -141,16 +142,15 @@ class SectorScorer:
         if not sectors: return []
         
         # Calculate Composite Score for each sector
-        # Formula: Weighted Sum of RS Metrics and Net Breadth
-        # RS metrics are naturally signed (+/-).
-        # Net Breadth is -1.0 to +1.0.
+        # Formula: Weighted Sum of RS Metrics and Net Breadth + Nifty Vector
         
         for s in sectors:
             raw_score = 0.0
             raw_score += s.structural_rs * self.weights["structural"]
             raw_score += s.shortterm_rs * self.weights["shortterm"]
             raw_score += s.intraday_rs * self.weights["intraday"]
-            raw_score += s.breadth * self.weights["breadth"] # Breadth is -1 to 1
+            raw_score += s.breadth * self.weights["breadth"]
+            raw_score += nifty_pct * self.weights["nifty"] # Market Gravity
             
             s.composite_score = raw_score
             

@@ -8,6 +8,12 @@ Verifies connectivity, data fetching, and core analysis logic for V4 rewrite.
 
 import time
 import logging
+import sys
+import os
+
+# Add parent directory to path to allow importing core modules
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from datetime import datetime, timedelta
 from core_v4.data_v4 import data_manager
 from analysis_v4.strategy_v4 import MarketRegimeDetector, SectorScorer, SectorScore, StockGrader
@@ -52,7 +58,8 @@ def main():
         SectorScore("NIFTY AUTO", structural_rs=-1.0, shortterm_rs=-0.5, intraday_rs=-0.2, breadth=0.3),
         SectorScore("NIFTY BANK", structural_rs=0.5, shortterm_rs=0.8, intraday_rs=0.1, breadth=0.5),
     ]
-    ranked = scorer.score_all(mock_sectors, "NEUTRAL")
+    # Pass Nifty PCT = -0.5 (Market Drag)
+    ranked = scorer.score_all(mock_sectors, "NEUTRAL", nifty_pct=-0.5)
     selected = scorer.select_top_n(ranked)
     print(f"📊 Sector Check: Top 1={ranked[0].symbol}, Score={ranked[0].composite_score:.2f}, Selected={selected}")
 

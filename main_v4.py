@@ -165,7 +165,8 @@ class TradingBotV4:
         self.log(f"📥 Fetching history for {len(symbols)} stocks...")
         to_date = datetime.now()
         from_date_daily = to_date - timedelta(days=60)
-        from_date_5m = datetime.combine(to_date.date(), dt_time(9, 15))
+        # Fix: Fetch 5 days of 5m data to ensure we cover weekends/holidays
+        from_date_5m = to_date - timedelta(days=5)
         
         for sym in symbols:
             token = data_manager.get_token(f"NSE:{sym}")
@@ -184,7 +185,11 @@ class TradingBotV4:
             # 5m History
             m_data = data_manager.get_historical(token, from_date_5m, to_date, "5minute")
             if m_data:
-                self.stock_history_5m[sym] = np.array([d['close'] for d in m_data])
+                # Store Close (for HMA) and Volume (for RVOL)
+                self.stock_history_5m[sym] = {
+                    'close': np.array([d['close'] for d in m_data]),
+                    'volume': np.array([d['volume'] for d in m_data])
+                }
 
     def _get_hma_alignment(self, sym: str, current_price: float) -> str:
         """Calculate 3-layer HMA alignment (Position + Slope)."""
@@ -195,7 +200,8 @@ class TradingBotV4:
         
         # 1. Prepare Price Series
         closes_d = np.append(daily['close'], current_price)
-        closes_5m = np.append(m5, current_price)
+        # Fix: Access 'close' from 5m dict
+        closes_5m = np.append(m5['close'], current_price)
         
         # 2. Calculate HMA Values (Current & Previous for slope)
         # We need a small lookback for slopes
@@ -204,8 +210,9 @@ class TradingBotV4:
         # hma40_curr = ind.calculate_hma(closes_d, 40)
         # hma40_prev = ind.calculate_hma(closes_d[:-1], 40)
         
-        hma16_curr = ind.calculate_hma(closes_d, 16)
-        hma16_prev = ind.calculate_hma(closes_d[:-1], 16)
+        # Tactical Trend: HMA 9 (Daily)
+        hma9_curr = ind.calculate_hma(closes_d, 9)
+        hma9_prev = ind.calculate_hma(closes_d[:-1], 9)
         
         hma20_curr = ind.calculate_hma(closes_5m, 20)
         hma20_prev = ind.calculate_hma(closes_5m[:-1], 20)
@@ -213,16 +220,16 @@ class TradingBotV4:
         # 3. Determine Alignment (Position AND Slope)
         # Bullish: Price > HMA AND Slope is UP
         # h40_bull = (current_price > hma40_curr and ind.calculate_slope(hma40_curr, hma40_prev) == "UP")
-        h16_bull = (current_price > hma16_curr and ind.calculate_slope(hma16_curr, hma16_prev) == "UP")
+        h9_bull = (current_price > hma9_curr and ind.calculate_slope(hma9_curr, hma9_prev) == "UP")
         h20_bull = (current_price > hma20_curr and ind.calculate_slope(hma20_curr, hma20_prev) == "UP")
         
         # Bearish: Price < HMA AND Slope is DOWN
         # h40_bear = (current_price < hma40_curr and ind.calculate_slope(hma40_curr, hma40_prev) == "DOWN")
-        h16_bear = (current_price < hma16_curr and ind.calculate_slope(hma16_curr, hma16_prev) == "DOWN")
+        h9_bear = (current_price < hma9_curr and ind.calculate_slope(hma9_curr, hma9_prev) == "DOWN")
         h20_bear = (current_price < hma20_curr and ind.calculate_slope(hma20_curr, hma20_prev) == "DOWN")
         
-        if h16_bull and h20_bull: return "BULLISH" # Removed h40_bull check
-        if h16_bear and h20_bear: return "BEARISH" # Removed h40_bear check
+        if h9_bull and h20_bull: return "BULLISH" # HMA 9 used
+        if h9_bear and h20_bear: return "BEARISH" # HMA 9 used
         return "MIXED"
 
     def _calculate_baselines(self):
@@ -437,7 +444,7 @@ class TradingBotV4:
             )
             new_scores.append(score)
             
-        self.sector_scores = self.sector_scorer.score_all(new_scores, regime)
+        self.sector_scores = self.sector_scorer.score_all(new_scores, regime, self.nifty_pct)
         self.sector_scorer.select_top_n(self.sector_scores)
 
     def _scan_tradeable_stocks(self, regime: str, vix_ltp: float):
@@ -454,6 +461,13 @@ class TradingBotV4:
             sec_name = next((i['name'] for i in self.indices if i['symbol'] == sec_sym), None)
             if sec_name:
                 all_candidate_symbols.extend(self.sector_map.get(sec_name, []))
+        
+        # CRITICAL: Force-add Active Positions to scan list
+        # Even if their sector drops out of Top N, we MUST continue scanning 
+        # our open positions to monitor their health (HMA, Score, etc.) in the UI.
+        for active_sym in self.risk.state.active_symbols:
+            if active_sym not in all_candidate_symbols:
+                all_candidate_symbols.append(active_sym)
             
         # 3. Fetch History for new symbols (one-time fetch)
         missing_hist = [s for s in all_candidate_symbols if s not in self.stock_history_daily]
@@ -494,8 +508,24 @@ class TradingBotV4:
             hma_align = self._get_hma_alignment(symbol, curr_p)
             stoch_k, _ = ind.calculate_stoch_rsi(np.append(hist['close'], curr_p))
             
-            avg_vol = np.mean(hist['volume'][-20:])
-            rvol = ind.calculate_rvol(tick.get('volume', 0), avg_vol)
+            # RVOL Calculation (UPDATED)
+            # Old Logic: 5-Day Average (Skewed by Open/Close volume).
+            # New Logic: Rolling 20-Bar Average (Last ~1.5 hours).
+            # This detects immediate momentum spikes relative to recent activity.
+            hist_5m = self.stock_history_5m.get(symbol)
+            if hist_5m and len(hist_5m['volume']) >= 20:
+                # Use last 20 bars for average
+                recent_vols = hist_5m['volume'][-20:]
+                avg_vol_20 = np.mean(recent_vols)
+                last_closed_vol = hist_5m['volume'][-1]
+                
+                # Protect against zero division
+                if avg_vol_20 > 0:
+                    rvol = ind.calculate_rvol(last_closed_vol, avg_vol_20)
+                else:
+                    rvol = 0.0
+            else:
+                rvol = 0.0
             
             # D. Signal Grading
             # Get rank of the primary sector this stock belongs to
@@ -669,7 +699,7 @@ class TradingBotV4:
 
         # 3. Re-Score & Sort
         regime = self.regime_detector.get_regime(self.vix_percentile)
-        self.sector_scores = self.sector_scorer.score_all(self.sector_scores, regime)
+        self.sector_scores = self.sector_scorer.score_all(self.sector_scores, regime, self.nifty_pct)
         self.sector_scorer.select_top_n(self.sector_scores)
 
     def run(self):
