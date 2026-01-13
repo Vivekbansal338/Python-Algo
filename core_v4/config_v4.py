@@ -22,8 +22,8 @@ load_dotenv()
 # SYSTEM PATHS
 # ══════════════════════════════════════════════════════════════════════════════
 
-PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
-CONFIG_DIR = Path(__file__).parent.parent.parent / "config"
+PROJECT_ROOT = Path(__file__).parent.parent
+CONFIG_DIR = Path(__file__).parent.parent / "config"
 UNIVERSE_PATH = CONFIG_DIR / "universe.json"
 DATA_DIR = Path(__file__).parent.parent / "data"
 LOG_FILE = Path(__file__).parent.parent / "v4_bot.log"
