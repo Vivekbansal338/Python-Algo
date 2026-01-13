@@ -79,7 +79,8 @@ class LifecycleManager:
             
         # 2. Calculate Targets
         risk = abs(entry_price - stop_price)
-        target_1_price = entry_price + (risk * 1.5) if direction == "LONG" else entry_price - (risk * 1.5)
+        t1_dist = risk * config.TARGET_1_MULT
+        target_1_price = entry_price + t1_dist if direction == "LONG" else entry_price - t1_dist
         
         # 3. Register Trade
         trade_id = f"TRD_{symbol}_{datetime.now().strftime('%H%M%S')}"
@@ -163,8 +164,8 @@ class LifecycleManager:
             if target_hit:
                 logger.info(f"TARGET 1 HIT: {trade.id} @ {ltp}")
                 
-                # Close 50%
-                partial_qty = max(1, int(trade.qty * 0.5))
+                # Close Partial
+                partial_qty = max(1, int(trade.qty * config.TARGET_1_EXIT_PCT))
                 self.orders.close_position(trade.symbol, partial_qty, f"{trade.id}_T1")
                 trade.qty -= partial_qty
                 
@@ -197,7 +198,7 @@ class LifecycleManager:
         Calculate Chandelier Stop using a 10-bar 5-min lookback extreme.
         Refreshes every 60 seconds to save API calls.
         """
-        atr_buffer = trade.atr_at_entry * 3.0
+        atr_buffer = trade.atr_at_entry * config.CHANDELIER_ATR_MULT
         now = datetime.now()
 
         # 1. Update Lookback Extreme if needed (Rolling window)
@@ -212,12 +213,12 @@ class LifecycleManager:
                         now, 
                         "5minute"
                     )
-                    if hist and len(hist) >= 10:
-                        last_10 = hist[-10:]
+                    if hist and len(hist) >= config.CHANDELIER_LOOKBACK:
+                        last_n = hist[-config.CHANDELIER_LOOKBACK:]
                         if trade.direction == "LONG":
-                            trade.cached_lookback_extreme = max(d['high'] for d in last_10)
+                            trade.cached_lookback_extreme = max(d['high'] for d in last_n)
                         else:
-                            trade.cached_lookback_extreme = min(d['low'] for d in last_10)
+                            trade.cached_lookback_extreme = min(d['low'] for d in last_n)
                         
                         trade.last_anchor_update = now
             except Exception as e:

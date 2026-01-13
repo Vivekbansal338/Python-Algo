@@ -150,12 +150,12 @@ class RiskManager:
         day_mult = 1.0
         # Lunch Lull (12:00 - 13:15) -> 70%
         if config.LUNCH_START_TIME <= current_time <= config.LUNCH_END_TIME:
-            day_mult = 0.70
+            day_mult = config.RISK_MULT_LUNCH
         # Daily DD Warning (-1%) -> 50%
         if self.state.daily_start_equity > 0:
             daily_dd = (self.state.equity - self.state.daily_start_equity) / self.state.daily_start_equity
             if daily_dd <= config.DAILY_DRAWDOWN_WARNING_PCT:
-                day_mult = 0.50
+                day_mult = config.RISK_MULT_WARNING
 
         # 4. Total Multiplier
         total_mult = grade_mult * vix_multiplier * day_mult

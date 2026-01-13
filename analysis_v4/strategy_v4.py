@@ -126,13 +126,7 @@ class SectorScorer:
     def __init__(self):
         # Weights for Composite Score
         # Balanced to ensure Intraday Flow (Breadth) can override Historical Legacy (Structural RS)
-        self.weights = {
-            "structural": 3.0,
-            "shortterm": 10.0,
-            "intraday": 20.0,
-            "breadth": 40.0,
-            "nifty": 30.0
-        }
+        self.weights = config.SECTOR_WEIGHTS
 
     def score_all(self, sectors: List[SectorScore], regime: str, nifty_pct: float = 0.0) -> List[SectorScore]:
         """
@@ -184,7 +178,7 @@ class SectorScorer:
         # Compare magnitude of Top 1 vs Top 5
         if len(ranked_sectors) >= 5:
             spread = abs(ranked_sectors[0].composite_score) - abs(ranked_sectors[4].composite_score)
-            n = 3 if spread >= 15.0 else 5
+            n = 3 if spread >= config.SECTOR_TOP_N_SPREAD else 5
         else:
             n = len(ranked_sectors)
         
@@ -261,7 +255,7 @@ class StockGrader:
         
         # HMA (3 pts)
         if hma_align in ["BULLISH", "BEARISH"]:
-            score += 3
+            score += config.POINTS_HMA
             reasons.append("HMA Fully Aligned")
         else:
             score += 1
@@ -269,7 +263,7 @@ class StockGrader:
             
         # Volume (2 pts)
         if rvol >= rvol_threshold + 0.3:
-            score += 2
+            score += config.POINTS_RVOL
             reasons.append(f"Strong RVOL ({rvol:.2f})")
         else:
             score += 1
@@ -277,7 +271,7 @@ class StockGrader:
             
         # StochRSI Confirmation (2 pts)
         if (direction == "LONG" and stoch_k < 20) or (direction == "SHORT" and stoch_k > 80):
-            score += 2
+            score += config.POINTS_STOCH
             reasons.append("StochRSI Extreme Confirmation")
         elif 20 <= stoch_k <= 80:
             score += 1
@@ -285,7 +279,7 @@ class StockGrader:
             
         # Sector (2 pts)
         if sector_rank <= 3:
-            score += 2
+            score += config.POINTS_SECTOR_RANK
             reasons.append(f"Top 3 Sector (Rank {sector_rank})")
         elif sector_rank <= 5:
             score += 1
@@ -294,13 +288,13 @@ class StockGrader:
         # Spread Quality (1 pt)
         gate_limit = config.STRICT_SPREAD_ATR_LIMIT if playbook == "ORB" else config.NORMAL_SPREAD_ATR_LIMIT
         if spread_atr < gate_limit * 0.5:
-            score += 1
+            score += config.POINTS_SPREAD
             reasons.append("Superior Spread Quality")
 
         # 3. Final Grade Assignment
-        if score >= 9: grade = "A+"
-        elif score >= 7: grade = "A"
-        elif score >= 4: grade = "B"
+        if score >= config.THRESHOLD_A_PLUS: grade = "A+"
+        elif score >= config.THRESHOLD_A: grade = "A"
+        elif score >= config.THRESHOLD_B: grade = "B"
         else: grade = "C"
         
         return StockSignal(

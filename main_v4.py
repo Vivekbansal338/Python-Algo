@@ -164,9 +164,9 @@ class TradingBotV4:
         
         self.log(f"📥 Fetching history for {len(symbols)} stocks...")
         to_date = datetime.now()
-        from_date_daily = to_date - timedelta(days=60)
+        from_date_daily = to_date - timedelta(days=config.LOOKBACK_DAYS_DAILY)
         # Fix: Fetch 5 days of 5m data to ensure we cover weekends/holidays
-        from_date_5m = to_date - timedelta(days=5)
+        from_date_5m = to_date - timedelta(days=config.LOOKBACK_DAYS_INTRA)
         
         for sym in symbols:
             token = data_manager.get_token(f"NSE:{sym}")
@@ -280,7 +280,7 @@ class TradingBotV4:
         # 4. Fetch Historical VIX for Percentiles
         self.log("📈 Fetching VIX history...")
         vix_token = 264969 # INDIA VIX
-        hist = data_manager.get_historical(vix_token, datetime.now() - timedelta(days=45), datetime.now(), "day")
+        hist = data_manager.get_historical(vix_token, datetime.now() - timedelta(days=config.LOOKBACK_DAYS_VIX), datetime.now(), "day")
         self.vix_history = [d['close'] for d in hist]
         
         # 5. Fetch Sector History & Baselines
@@ -346,7 +346,7 @@ class TradingBotV4:
             return
 
         # 3. Sector Scoring (Every 15 mins or session change)
-        if time.time() - self.last_recalc_time > 900 or not self.sector_scores:
+        if time.time() - self.last_recalc_time > config.SECTOR_RECALC_INTERVAL_SEC or not self.sector_scores:
             self.last_recalc_time = time.time()
             self._update_sector_ranks(market_quotes, nifty_quote, regime)
 
@@ -596,7 +596,7 @@ class TradingBotV4:
             return
             
         # Calculate Stop (Concept based)
-        stop_mult = 2.4 if self.current_playbook == "ORB" else 2.0
+        stop_mult = config.STOP_ATR_MULT_ORB if self.current_playbook == "ORB" else config.STOP_ATR_MULT_MAIN
         stop_dist = atr * stop_mult
         stop_price = ltp - stop_dist if signal.direction == "LONG" else ltp + stop_dist
         
@@ -779,7 +779,7 @@ class TradingBotV4:
                         positions_for_ui.append(pos)
 
                     # Update Risk State with actual positions
-                    current_equity = max(self.risk.state.equity, 1000000.0)
+                    current_equity = max(self.risk.state.equity, config.DEFAULT_PAPER_EQUITY)
                     self.risk.update_account(
                         current_equity,
                         self.risk.state.current_pnl, 

@@ -126,6 +126,34 @@ RVOL_THRESHOLDS_MAIN = [
     (100, 1.0)
 ]
 
+# ══════════════════════════════════════════════════════════════════════════════
+# STRATEGY WEIGHTS & SCORING
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Sector Scoring Weights
+SECTOR_WEIGHTS = {
+    "structural": 3.0,
+    "shortterm": 10.0,
+    "intraday": 20.0,
+    "breadth": 40.0,
+    "nifty": 30.0
+}
+
+# Sector Selection Thresholds
+SECTOR_TOP_N_SPREAD = 15.0  # Spread between #1 and #5 to pick Top 3 vs Top 5
+
+# Stock Grading Points (Total 10)
+POINTS_HMA = 3
+POINTS_RVOL = 2
+POINTS_STOCH = 2
+POINTS_SECTOR_RANK = 2
+POINTS_SPREAD = 1
+
+# Grade Cutoffs
+THRESHOLD_A_PLUS = 9
+THRESHOLD_A = 7
+THRESHOLD_B = 4
+
 # Microstructure Gate Constants
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -165,5 +193,34 @@ CACHE_HISTORICAL_SEC = 60 * 15     # 15 minutes
 # This flag protects against accidental live orders in v4 logic.
 IS_PAPER_TRADING = True
 
-# UI & Loop Settings
-UI_REFRESH_INTERVAL = 5 # Seconds between full scorecard recalculations
+# ══════════════════════════════════════════════════════════════════════════════
+# DATA & REFRESH SETTINGS
+# ══════════════════════════════════════════════════════════════════════════════
+SECTOR_RECALC_INTERVAL_SEC = 900  # 15 Minutes
+LOOKBACK_DAYS_DAILY = 60
+LOOKBACK_DAYS_INTRA = 5
+LOOKBACK_DAYS_VIX = 45
+
+# ══════════════════════════════════════════════════════════════════════════════
+# RISK & SIZING ADVANCED
+# ══════════════════════════════════════════════════════════════════════════════
+DEFAULT_PAPER_EQUITY = 1000000.0
+RISK_MULT_LUNCH = 0.70
+RISK_MULT_WARNING = 0.50
+
+# ══════════════════════════════════════════════════════════════════════════════
+# LIFECYCLE & STOPS
+# ══════════════════════════════════════════════════════════════════════════════
+STOP_ATR_MULT_ORB = 2.4
+STOP_ATR_MULT_MAIN = 2.0
+
+TARGET_1_MULT = 1.5
+TARGET_1_EXIT_PCT = 0.50
+
+CHANDELIER_ATR_MULT = 3.0
+CHANDELIER_LOOKBACK = 10
+
+# ══════════════════════════════════════════════════════════════════════════════
+# UI & EXECUTION SETTINGS
+# ══════════════════════════════════════════════════════════════════════════════
+UI_REFRESH_INTERVAL = 5  # Seconds between full scorecard recalculations

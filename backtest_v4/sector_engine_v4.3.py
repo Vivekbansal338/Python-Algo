@@ -1,21 +1,31 @@
 """
 ================================================================================
-V4 SECTOR BACKTEST ENGINE (V4.2 - HIGH FIDELITY)
+V4 SECTOR BACKTEST ENGINE (V4.3 - PRODUCTION ALIGNED)
 ================================================================================
 Validates Sector Ranking logic with exact Production Timing & Playbook phases.
 
-Changes in v4.2:
-- Implemented strict Playbook phases (ORB vs MAIN).
-- Enforces NO TRADE zones (Wait: 9:15-9:35, Gap: 10:05-10:10).
-- Dynamically passes Playbook to StockGrader for variable RVOL/Spread thresholds.
+Changes in v4.3:
+- Added historical VIX percentile calculation
+- Added day state multipliers (Lunch 0.70x, DD Warning 0.50x)
+- Added rejection cooldown (5 minutes)
+- Added active position monitoring (force-add active stocks to scan)
+- Skipped spread/ATR gate (no order book depth in historical data)
+
+Matches main_v4.py logic for:
+- Dynamic VIX sizing multipliers
+- Playbook-based RVOL thresholds
+- Day state sizing adjustments
+- Rejection cooldown mechanism
+- Active position health monitoring
 
 Features:
 - Daily & 5-Min Data Alignment.
 - Real-time Breadth simulation.
 - Lifecycle Management (Target 1.5R, Chandelier Trail).
+- VIX-based regime detection and sizing.
 
 Author: Sector Analysis System
-Version: 4.2.0
+Version: 4.3.0
 ================================================================================
 """
 
@@ -70,12 +80,19 @@ class SectorBacktester:
         # Portfolio State
         self.equity = 1000000.0  # ₹10 Lakh
         self.initial_equity = 1000000.0
+        self.daily_start_equity = 1000000.0
         self.active_trades: Dict[str, BacktestTrade] = {}
         self.trade_history: List[BacktestTrade] = []
         
         # Universe Metadata
         self.indices = []
         self.sector_map = {} # Sector Name -> [Stocks]
+        
+        # V4.3: VIX History for Percentile Calculation
+        self.vix_history: List[float] = []
+        
+        # V4.3: Rejection Cooldown (Symbol -> Timestamp)
+        self.rejected_symbols: Dict[str, datetime] = {}
         
     def initialize(self):
         """Load universe and preload all indices and stocks into memory."""
@@ -94,7 +111,7 @@ class SectorBacktester:
                     self.sector_map[sec].append(s['symbol'])
 
         # 2. Preload Data
-        symbols = ["NIFTY 50"] + [i['symbol'] for i in self.indices]
+        symbols = ["NIFTY 50", "INDIA VIX"] + [i['symbol'] for i in self.indices]
         for sector_stocks in self.sector_map.values():
             symbols.extend(sector_stocks)
         
@@ -105,13 +122,18 @@ class SectorBacktester:
             # Daily
             d_path = self.data_root / "daily" / f"{sym}.parquet"
             if d_path.exists():
-                self.daily_data[sym] = pd.read_parquet(d_path).sort_values('date')
+                df = pd.read_parquet(d_path).sort_values('date')
+                self.daily_data[sym] = df
+                
+                # V4.3: Store VIX history for percentile calculation
+                if sym == "INDIA VIX":
+                    self.vix_history = [d['close'] for d in df.to_dict('records')]
             
             # Intra
             i_path = self.data_root / "5minute" / f"{sym}.parquet"
             if i_path.exists():
                 df = pd.read_parquet(i_path).sort_values('date')
-                # Pre-calculate VWAP for the day
+                # Pre-calculate VWAP for day
                 df['typical_price'] = (df['high'] + df['low'] + df['close']) / 3
                 df['tp_vol'] = df['typical_price'] * df['volume']
                 # Cumulative per day
@@ -122,13 +144,18 @@ class SectorBacktester:
                 self.intra_data[sym] = df
 
     def _validate_data_sufficiency(self, start_date: datetime.date) -> bool:
-        """Ensure we have at least 30 days of history before the start date for indicators."""
-        required_start = start_date - timedelta(days=config.LOOKBACK_DAYS_VIX) # Using VIX lookback as proxy for sufficient history
+        """Ensure we have at least 30 days of history before start date for indicators."""
+        required_start = start_date - timedelta(days=config.LOOKBACK_DAYS_VIX)
         
         has_nifty = "NIFTY 50" in self.daily_data and not self.daily_data["NIFTY 50"].empty
+        has_vix = "INDIA VIX" in self.daily_data and not self.daily_data["INDIA VIX"].empty
         
         if not has_nifty:
             logger.error("❌ NIFTY 50 daily data missing. Please run data_miner.py first.")
+            return False
+        
+        if not has_vix:
+            logger.error("❌ INDIA VIX daily data missing. Please run data_miner.py first.")
             return False
 
         first_available = self.daily_data["NIFTY 50"].iloc[0]['date'].date()
@@ -138,6 +165,57 @@ class SectorBacktester:
             
         logger.info("✅ Data Sufficiency Check Passed.")
         return True
+
+    def _get_vix_percentile(self, timestamp: datetime) -> float:
+        """V4.3: Calculate VIX percentile for given timestamp."""
+        if not self.vix_history:
+            return 50.0
+        
+        # Find VIX close for this timestamp
+        vix_current = 0.0
+        vix_df = self.daily_data.get("INDIA VIX")
+        if vix_df is not None:
+            # Get closest VIX value on or before timestamp
+            mask = vix_df['date'].dt.date <= timestamp.date()
+            if mask.any():
+                vix_current = vix_df[mask].iloc[-1]['close']
+        
+        if vix_current <= 0:
+            return 50.0
+        
+        # Use last 20 VIX values for percentile (simulating rolling window)
+        # In production, this uses a 20-day rolling window of VIX values
+        vix_window = self.vix_history[-20:] if len(self.vix_history) >= 20 else self.vix_history
+        
+        count_below = sum(1 for v in vix_window if v < vix_current)
+        return (count_below / len(vix_window)) * 100 if vix_window else 50.0
+
+    def _get_vix_multiplier(self, vix_pctl: float) -> float:
+        """V4.3: Get VIX sizing multiplier based on percentile."""
+        if vix_pctl >= config.VIX_PCTL_HALT_THRESHOLD:
+            return config.VIX_MULT_HIGH  # 0.75x
+        elif vix_pctl >= config.VIX_PCTL_HIGH_THRESHOLD:
+            return config.VIX_MULT_HIGH
+        elif vix_pctl > 50:
+            return config.VIX_MULT_ELEVATED
+        elif vix_pctl > config.VIX_PCTL_LOW_THRESHOLD:
+            return config.VIX_MULT_NORMAL
+        else:
+            return config.VIX_MULT_LOW
+
+    def _get_day_state_multiplier(self, timestamp: datetime, daily_pnl_pct: float) -> float:
+        """V4.3: Get day state multiplier (Lunch, DD Warning)."""
+        mult = 1.0
+        
+        # Lunch Lull (12:00 - 13:15) -> 70%
+        if dt_time(12, 0) <= timestamp.time() < dt_time(13, 15):
+            mult = config.RISK_MULT_LUNCH
+        
+        # Daily DD Warning (-1%) -> 50%
+        if daily_pnl_pct <= config.DAILY_DRAWDOWN_WARNING_PCT:
+            mult = config.RISK_MULT_WARNING
+        
+        return mult
 
     def _get_playbook(self, t: dt_time) -> str:
         """Determine current market phase based on config timings."""
@@ -234,6 +312,13 @@ class SectorBacktester:
 
     def _execute_trade(self, symbol: str, direction: str, grade: str, price: float, atr: float, sector: str, timestamp: datetime):
         """Check risk and enter new trade."""
+        # V4.3: Check Rejection Cooldown (5 mins)
+        if symbol in self.rejected_symbols:
+            if timestamp - self.rejected_symbols[symbol] < timedelta(minutes=5):
+                return
+            else:
+                del self.rejected_symbols[symbol]  # Expired
+
         # 1. Risk Limits
         if len(self.active_trades) >= config.MAX_CONCURRENT_POSITIONS: return
         
@@ -242,19 +327,34 @@ class SectorBacktester:
         
         if symbol in self.active_trades: return
 
-        # 2. Sizing
-        base_risk = self.equity * config.BASE_RISK_PER_TRADE_PCT
-        grade_mult = config.GRADE_MULTIPLIERS.get(grade, 0.0)
-        
-        # Calculate stop distance based on Playbook Phase
+        # 2. Sizing with Multipliers
         current_playbook = self._get_playbook(timestamp.time())
         stop_mult = config.STOP_ATR_MULT_ORB if current_playbook == "ORB" else config.STOP_ATR_MULT_MAIN
         
         stop_dist = atr * stop_mult
         stop_p = price - stop_dist if direction == "LONG" else price + stop_dist
         
-        qty = int((base_risk * grade_mult) / stop_dist)
-        if qty < 1: return
+        # V4.3: Calculate multipliers
+        vix_pctl = self._get_vix_percentile(timestamp)
+        vix_mult = self._get_vix_multiplier(vix_pctl)
+        
+        # Calculate daily PnL for DD warning
+        daily_pnl_pct = ((self.equity - self.daily_start_equity) / self.daily_start_equity * 100) if self.daily_start_equity > 0 else 0.0
+        day_state_mult = self._get_day_state_multiplier(timestamp, daily_pnl_pct)
+        
+        base_risk = self.equity * config.BASE_RISK_PER_TRADE_PCT
+        grade_mult = config.GRADE_MULTIPLIERS.get(grade, 0.0)
+        
+        # Total multiplier
+        total_mult = grade_mult * vix_mult * day_state_mult
+        
+        risk_amount = base_risk * total_mult
+        qty = int(risk_amount / stop_dist)
+        
+        if qty < 1:
+            # V4.3: Add to rejection cache on size failure
+            self.rejected_symbols[symbol] = timestamp
+            return
         
         # 3. Target 1
         risk_val = abs(price - stop_p)
@@ -290,6 +390,14 @@ class SectorBacktester:
             sec_name = next((i['name'] for i in self.indices if i['symbol'] == sec_sym), None)
             if sec_name:
                 target_stocks.extend([(s, sec_sym) for s in self.sector_map.get(sec_name, [])])
+        
+        # V4.3: Force-add Active Positions to scan list
+        # This ensures we monitor health of existing trades even if their sector drops
+        for active_sym in self.active_trades.keys():
+            if active_sym not in [s[0] for s in target_stocks]:
+                active_sector = next((i['symbol'] for i in self.indices if i['name'] == self.active_trades[active_sym].sector), None)
+                if active_sector:
+                    target_stocks.append((active_sym, active_sector))
                 
         for sym, sec_sym in target_stocks:
             d_df = self.daily_data.get(sym)
@@ -327,9 +435,13 @@ class SectorBacktester:
             # Grading
             sec_info = sec_info_map.get(sec_sym)
             
-            # NOTE: We assume VIX Percentile = 50 (Neutral) for backtest as we don't have historical VIX synced perfectly yet.
-            # Passing current_playbook allows the Grader to use stricter RVOL/Spread logic for ORB.
-            signal = self.grader.calculate_grade(hma_align, rvol, stoch_k, sec_info.rank if sec_info else 10, 0.0, current_playbook, 50)
+            # V4.3: Use real VIX percentile for grading
+            vix_pctl = self._get_vix_percentile(timestamp)
+            
+            # V4.3: Skip spread/ATR gate - use neutral value
+            spread_atr = 0.1  # Neutral value for backtest
+            
+            signal = self.grader.calculate_grade(hma_align, rvol, stoch_k, sec_info.rank if sec_info else 10, spread_atr, current_playbook, vix_pctl)
             
             # Directional Filter
             sec_bias = sec_info.bias if sec_info else "NEUTRAL"
@@ -340,7 +452,7 @@ class SectorBacktester:
                     atr = ind.calculate_atr(d_hist['high'].values, d_hist['low'].values, d_hist['close'].values, 10)
                     # Attempt Execution
                     self._execute_trade(sym, signal.direction, signal.grade, curr_price, atr, sec_name, timestamp)
-                
+            
         return sorted(signals, key=lambda x: x['score'], reverse=True)[:5]
 
     def run_backtest(self, start_date: datetime.date, end_date: datetime.date):
@@ -364,23 +476,26 @@ class SectorBacktester:
         logger.info(f"✅ Found {len(trading_days)} trading sessions.")
         
         # 2. Header
-        print("\n" + "="*120)
-        print(f"{ 'DATE':<12} | {'START EQUITY':<15} | {'END EQUITY':<15} | {'PNL':<15} | {'TRADES':<6} | {'TRADE PNLS'}")
-        print("="*120)
+        print("\n" + "="*140)
+        print(f"{'DATE':<12} | {'START EQUITY':<15} | {'END EQUITY':<15} | {'DAY PnL':<10} | {'TRADES':<6} | {'TRADE PNLS'}")
+        print("="*140)
         
         for day in trading_days:
             start_eq = self.equity
+            self.daily_start_equity = start_eq  # V4.3: Reset daily equity
             self._run_day(day)
             day_pnl = self.equity - start_eq
+            day_pnl_pct = (day_pnl / start_eq * 100) if start_eq > 0 else 0.0
             
             # Get PnLs of trades closed on this day
             day_trades = [t for t in self.trade_history if t.entry_time.date() == day]
             trade_pnls_str = ", ".join([f"{t.realized_pnl:,.0f}" for t in day_trades])
             
-            print(f"{day}   | ₹{start_eq:<14,.0f} | ₹{self.equity:<14,.0f} | ₹{day_pnl:<14,.0f} | {len(day_trades):<6} | {trade_pnls_str}")
+            print(f"{day}   | ₹{start_eq:<14,.0f} | ₹{self.equity:<14,.0f} | ₹{day_pnl:>8,.0f} | {len(day_trades):<6} | {trade_pnls_str}")
             
             # Reset Intraday State (but keep Equity and History)
             self.active_trades.clear()
+            self.rejected_symbols.clear()  # V4.3: Clear cooldowns daily
 
         # 3. Final Report
         self._print_grand_summary(len(trading_days))
@@ -413,14 +528,12 @@ class SectorBacktester:
                     self.trade_history.append(trade)
                     del self.active_trades[sym]
 
-            # C. Calculate Unrealized PnL (Skipped for speed in multi-day, only needed for daily PnL check if implemented)
-            
-            # D. Nifty State
+            # C. Nifty State
             nifty_open = nifty_day.iloc[0]['open']
             nifty_curr = row['close']
             nifty_pct = ((nifty_curr - nifty_open) / nifty_open) * 100
             
-            # E. Sector Processing
+            # D. Sector Processing
             scores = []
             for idx in self.indices:
                 sym = idx['symbol']
@@ -464,28 +577,40 @@ class SectorBacktester:
                 net_breadth = (above/valid - below/valid) if valid > 0 else 0.0
                 scores.append(SectorScore(symbol=sym, structural_rs=struct_rs, shortterm_rs=short_rs, intraday_rs=intra_rs, breadth=net_breadth))
 
-            # D. Scoring & Ranking
-            final_scores = self.scorer.score_all(scores, "NEUTRAL", nifty_pct)
+            # E. V4.3: Get VIX Percentile for Regime
+            vix_pctl = self._get_vix_percentile(ts)
+            regime = self.regime_detector.get_regime(vix_pctl) if hasattr(self, 'regime_detector') else "NEUTRAL"
+            if not hasattr(self, 'regime_detector'):
+                # Fallback simple regime classification
+                if vix_pctl >= 90: regime = "EXTREME"
+                elif vix_pctl >= 75: regime = "MEAN_REVERT"
+                elif vix_pctl <= 20: regime = "TRENDING"
+                else: regime = "NEUTRAL"
+
+            # F. Scoring & Ranking
+            final_scores = self.scorer.score_all(scores, regime, nifty_pct)
             selected = self.scorer.select_top_n(final_scores)
             
-            # E. Scan & Trade
+            # G. Scan & Trade
             signals = self._scan_stocks(selected, final_scores, ts)
             
     def _print_grand_summary(self, total_days):
-        print("\n" + "="*60)
-        print(f"🏁 GRAND BACKTEST SUMMARY")
-        print("-" * 60)
-        print(f"Days Traded:    {total_days}")
-        print(f"Initial Equity: ₹{self.initial_equity:,.0f}")
-        print(f"Final Equity:   ₹{self.equity:,.0f}")
+        print("\n" + "="*70)
+        print(f"🏁 GRAND BACKTEST SUMMARY (V4.3 - Production Aligned)")
+        print("-" * 70)
+        print(f"Days Traded:        {total_days}")
+        print(f"Initial Equity:     ₹{self.initial_equity:,.0f}")
+        print(f"Final Equity:       ₹{self.equity:,.0f}")
         abs_return = self.equity - self.initial_equity
         pct_return = ((self.equity/self.initial_equity)-1) * 100
-        print(f"Total Return:   ₹{abs_return:,.0f} ({pct_return:.2f}%)")
+        print(f"Total Return:       ₹{abs_return:,.0f} ({pct_return:.2f}%)")
         
-        print(f"Total Trades:   {len(self.trade_history)}")
+        print(f"Total Trades:       {len(self.trade_history)}")
         if self.trade_history:
             wins = sum(1 for t in self.trade_history if t.realized_pnl > 0)
-            print(f"Win Rate:       {wins/len(self.trade_history):.1%}")
+            losses = sum(1 for t in self.trade_history if t.realized_pnl < 0)
+            print(f"Win Rate:          {wins/len(self.trade_history):.1%}")
+            print(f"Wins/Losses:       {wins}/{losses}")
             
             gross_pnl = sum(t.realized_pnl for t in self.trade_history)
             # Simple Sharpe Proxy (Avg Trade / StdDev of Trade PnL)
@@ -493,10 +618,18 @@ class SectorBacktester:
             avg_pnl = np.mean(pnls)
             std_pnl = np.std(pnls)
             sharpe = avg_pnl / std_pnl if std_pnl > 0 else 0
-            print(f"Expectancy:     ₹{avg_pnl:,.0f} per trade")
-            print(f"Sharpe Ratio:   {sharpe:.2f}")
+            print(f"Expectancy:        ₹{avg_pnl:,.0f} per trade")
+            print(f"Sharpe Ratio:      {sharpe:.2f}")
             
-        print("="*60 + "\n")
+            # Trade Statistics
+            max_win = max(t.realized_pnl for t in self.trade_history)
+            max_loss = min(t.realized_pnl for t in self.trade_history)
+            profit_factor = sum(t.realized_pnl for t in self.trade_history if t.realized_pnl > 0) / abs(sum(t.realized_pnl for t in self.trade_history if t.realized_pnl < 0))
+            print(f"Max Win:           ₹{max_win:,.0f}")
+            print(f"Max Loss:          ₹{max_loss:,.0f}")
+            print(f"Profit Factor:      {profit_factor:.2f}")
+        
+        print("="*70 + "\n")
 
 if __name__ == "__main__":
     engine = SectorBacktester(Path(__file__).parent / "data")

@@ -119,7 +119,7 @@ class SectorBacktester:
 
     def _validate_data_sufficiency(self, start_date: datetime.date) -> bool:
         """Ensure we have at least 30 days of history before the start date for indicators."""
-        required_start = start_date - timedelta(days=45) # 30 trading days buffer approx
+        required_start = start_date - timedelta(days=config.LOOKBACK_DAYS_VIX) # Using VIX lookback as proxy for sufficient history
         
         has_nifty = "NIFTY 50" in self.daily_data and not self.daily_data["NIFTY 50"].empty
         
@@ -137,15 +137,15 @@ class SectorBacktester:
 
     def _calculate_chandelier(self, trade: BacktestTrade, timestamp: datetime) -> float:
         """Cloned Chandelier logic from lifecycle_v4.py."""
-        atr_buffer = trade.atr_at_entry * 3.0
+        atr_buffer = trade.atr_at_entry * config.CHANDELIER_ATR_MULT
         
         # Get last 10 5-min bars for extreme
         i_df = self.intra_data.get(trade.symbol)
         if i_df is None: return trade.current_stop
         
         # Lookback 10 bars
-        lookback = i_df[i_df['date'] <= timestamp].tail(10)
-        if len(lookback) < 10: return trade.current_stop
+        lookback = i_df[i_df['date'] <= timestamp].tail(config.CHANDELIER_LOOKBACK)
+        if len(lookback) < config.CHANDELIER_LOOKBACK: return trade.current_stop
         
         if trade.direction == "LONG":
             anchor = max(lookback['high'].max(), trade.highest_price)
@@ -195,7 +195,7 @@ class SectorBacktester:
                 
                 if target_hit:
                     # Sell 50% at Target Price
-                    partial_qty = max(1, int(trade.qty * 0.5))
+                    partial_qty = max(1, int(trade.qty * config.TARGET_1_EXIT_PCT))
                     pnl = (trade.target_1 - trade.entry_price) * partial_qty if trade.direction == "LONG" else (trade.entry_price - trade.target_1) * partial_qty
                     trade.realized_pnl += pnl
                     self.equity += pnl
@@ -220,19 +220,19 @@ class SectorBacktester:
     def _execute_trade(self, symbol: str, direction: str, grade: str, price: float, atr: float, sector: str, timestamp: datetime):
         """Check risk and enter new trade."""
         # 1. Risk Limits
-        if len(self.active_trades) >= 6: return
+        if len(self.active_trades) >= config.MAX_CONCURRENT_POSITIONS: return
         
         sector_count = sum(1 for t in self.active_trades.values() if t.sector == sector)
-        if sector_count >= 2: return
+        if sector_count >= config.MAX_POSITIONS_PER_SECTOR: return
         
         if symbol in self.active_trades: return
 
         # 2. Sizing
-        base_risk = self.equity * 0.005 # 0.5%
-        grade_mult = 1.0 if grade == "A+" else 0.85
+        base_risk = self.equity * config.BASE_RISK_PER_TRADE_PCT
+        grade_mult = config.GRADE_MULTIPLIERS.get(grade, 0.0)
         
-        # Calculate stop distance
-        stop_dist = atr * 2.0
+        # Calculate stop distance (Default to MAIN multiplier for v4.1 simple mode)
+        stop_dist = atr * config.STOP_ATR_MULT_MAIN
         stop_p = price - stop_dist if direction == "LONG" else price + stop_dist
         
         qty = int((base_risk * grade_mult) / stop_dist)
@@ -240,7 +240,8 @@ class SectorBacktester:
         
         # 3. Target 1
         risk_val = abs(price - stop_p)
-        t1 = price + (risk_val * 1.5) if direction == "LONG" else price - (risk_val * 1.5)
+        t1_dist = risk_val * config.TARGET_1_MULT
+        t1 = price + t1_dist if direction == "LONG" else price - t1_dist
         
         # 4. Create Trade
         self.active_trades[symbol] = BacktestTrade(
