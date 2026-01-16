@@ -1,3 +1,11 @@
+## V5
+
+python main_v5.py
+
+cd backtest_v5
+python sector_engine_v5.py --start 2026-01-05 --end 2026-01-10
+python sector_engine_v5.py --start 2026-01-05 --end 2026-01-10 --export
+
 ## V4
 
 python 07.python_practice/main_v4.py

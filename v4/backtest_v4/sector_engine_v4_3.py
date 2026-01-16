@@ -635,4 +635,4 @@ if __name__ == "__main__":
     engine = SectorBacktester(Path(__file__).parent / "data")
     engine.initialize()
     # Run Multi-Day Simulation
-    engine.run_backtest(datetime(2026, 1, 5).date(), datetime(2026, 1, 9).date())
+    engine.run_backtest(datetime(2026, 1, 5).date(), datetime(2026, 1, 6).date())

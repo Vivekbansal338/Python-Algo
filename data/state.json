@@ -1,0 +1,357 @@
+{
+  "last_updated": "2026-01-14T14:16:01.261485",
+  "daily_start_equity": 0.0,
+  "daily_high_equity": 1000000.0,
+  "trades": {
+    "TRD_HINDALCO_093402": {
+      "id": "TRD_HINDALCO_093402",
+      "symbol": "HINDALCO",
+      "direction": "LONG",
+      "entry_price": 944.0,
+      "qty": 59,
+      "initial_stop": 890.192,
+      "current_stop": 890.192,
+      "target_1": 1024.712,
+      "stage": "ACTIVE",
+      "entry_time": "2026-01-14T09:34:02.954402",
+      "atr_at_entry": 22.41999999999998,
+      "highest_price": 959.0,
+      "lowest_price": 940.85,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-01-14T09:34:02.954408",
+      "cached_lookback_extreme": 0.0
+    },
+    "TRD_HINDZINC_093402": {
+      "id": "TRD_HINDZINC_093402",
+      "symbol": "HINDZINC",
+      "direction": "LONG",
+      "entry_price": 646.15,
+      "qty": 73,
+      "initial_stop": 595.2220000000001,
+      "current_stop": 595.2220000000001,
+      "target_1": 722.5419999999998,
+      "stage": "ACTIVE",
+      "entry_time": "2026-01-14T09:34:02.955918",
+      "atr_at_entry": 21.21999999999997,
+      "highest_price": 669.95,
+      "lowest_price": 644.4,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-01-14T09:34:02.955922",
+      "cached_lookback_extreme": 0.0
+    },
+    "TRD_SRF_093402": {
+      "id": "TRD_SRF_093402",
+      "symbol": "SRF",
+      "direction": "LONG",
+      "entry_price": 3052.2,
+      "qty": 27,
+      "initial_stop": 2915.4719999999998,
+      "current_stop": 2915.4719999999998,
+      "target_1": 3257.292,
+      "stage": "ACTIVE",
+      "entry_time": "2026-01-14T09:34:02.973544",
+      "atr_at_entry": 56.969999999999985,
+      "highest_price": 3068.1,
+      "lowest_price": 3026.0,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-01-14T09:34:02.973547",
+      "cached_lookback_extreme": 0.0
+    },
+    "TRD_BANKINDIA_093544": {
+      "id": "TRD_BANKINDIA_093544",
+      "symbol": "BANKINDIA",
+      "direction": "LONG",
+      "entry_price": 148.24,
+      "qty": 381,
+      "initial_stop": 138.4096,
+      "current_stop": 138.4096,
+      "target_1": 162.9856,
+      "stage": "ACTIVE",
+      "entry_time": "2026-01-14T09:35:44.588966",
+      "atr_at_entry": 4.096000000000004,
+      "highest_price": 151.9,
+      "lowest_price": 146.15,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-01-14T09:35:44.588970",
+      "cached_lookback_extreme": 0.0
+    },
+    "TRD_CANBK_093544": {
+      "id": "TRD_CANBK_093544",
+      "symbol": "CANBK",
+      "direction": "LONG",
+      "entry_price": 151.78,
+      "qty": 416,
+      "initial_stop": 142.78480000000002,
+      "current_stop": 142.78480000000002,
+      "target_1": 165.27279999999996,
+      "stage": "ACTIVE",
+      "entry_time": "2026-01-14T09:35:44.591669",
+      "atr_at_entry": 3.7479999999999962,
+      "highest_price": 154.36,
+      "lowest_price": 150.4,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-01-14T09:35:44.591672",
+      "cached_lookback_extreme": 0.0
+    },
+    "TRD_PERSISTENT_093955": {
+      "id": "TRD_PERSISTENT_093955",
+      "symbol": "PERSISTENT",
+      "direction": "SHORT",
+      "entry_price": 6311.5,
+      "qty": 9,
+      "initial_stop": 6664.78,
+      "current_stop": 6664.78,
+      "target_1": 5781.58,
+      "stage": "ACTIVE",
+      "entry_time": "2026-01-14T09:39:55.523374",
+      "atr_at_entry": 147.2,
+      "highest_price": 6350.0,
+      "lowest_price": 6251.5,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-01-14T09:39:55.523377",
+      "cached_lookback_extreme": 0.0
+    },
+    "TRD_BANKBARODA_131952": {
+      "id": "TRD_BANKBARODA_131952",
+      "symbol": "BANKBARODA",
+      "direction": "LONG",
+      "entry_price": 306.8,
+      "qty": 261,
+      "initial_stop": 292.47,
+      "current_stop": 292.47,
+      "target_1": 328.29499999999996,
+      "stage": "ACTIVE",
+      "entry_time": "2026-01-14T13:19:52.257581",
+      "atr_at_entry": 7.165000000000004,
+      "highest_price": 307.8,
+      "lowest_price": 305.85,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-01-14T13:19:52.257587",
+      "cached_lookback_extreme": 0.0
+    },
+    "TRD_BANKINDIA_131952": {
+      "id": "TRD_BANKINDIA_131952",
+      "symbol": "BANKINDIA",
+      "direction": "LONG",
+      "entry_price": 151.85,
+      "qty": 434,
+      "initial_stop": 143.22,
+      "current_stop": 143.22,
+      "target_1": 164.795,
+      "stage": "ACTIVE",
+      "entry_time": "2026-01-14T13:19:52.259158",
+      "atr_at_entry": 4.315000000000003,
+      "highest_price": 151.9,
+      "lowest_price": 150.81,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-01-14T13:19:52.259161",
+      "cached_lookback_extreme": 0.0
+    }
+  },
+  "paper_orders": {
+    "ORD_F5F2498C": {
+      "order_id": "ORD_F5F2498C",
+      "symbol": "HINDALCO",
+      "direction": "LONG",
+      "qty": 59,
+      "price": 944.0,
+      "status": "COMPLETE",
+      "tag": "V4_ENTRY",
+      "timestamp": "2026-01-14T09:34:02.954387"
+    },
+    "SL_F5646864": {
+      "order_id": "SL_F5646864",
+      "symbol": "HINDALCO",
+      "direction": "SELL",
+      "qty": 59,
+      "trigger_price": 890.192,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_HINDALCO_093402_SL",
+      "timestamp": "2026-01-14T09:34:02.954474"
+    },
+    "ORD_7F03C150": {
+      "order_id": "ORD_7F03C150",
+      "symbol": "HINDZINC",
+      "direction": "LONG",
+      "qty": 73,
+      "price": 646.15,
+      "status": "COMPLETE",
+      "tag": "V4_ENTRY",
+      "timestamp": "2026-01-14T09:34:02.955902"
+    },
+    "SL_0BF27111": {
+      "order_id": "SL_0BF27111",
+      "symbol": "HINDZINC",
+      "direction": "SELL",
+      "qty": 73,
+      "trigger_price": 595.2220000000001,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_HINDZINC_093402_SL",
+      "timestamp": "2026-01-14T09:34:02.955988"
+    },
+    "ORD_66F7E44C": {
+      "order_id": "ORD_66F7E44C",
+      "symbol": "SRF",
+      "direction": "LONG",
+      "qty": 27,
+      "price": 3052.2,
+      "status": "COMPLETE",
+      "tag": "V4_ENTRY",
+      "timestamp": "2026-01-14T09:34:02.973530"
+    },
+    "SL_C41BE1AF": {
+      "order_id": "SL_C41BE1AF",
+      "symbol": "SRF",
+      "direction": "SELL",
+      "qty": 27,
+      "trigger_price": 2915.4719999999998,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_SRF_093402_SL",
+      "timestamp": "2026-01-14T09:34:02.973609"
+    },
+    "ORD_7CB9A7A4": {
+      "order_id": "ORD_7CB9A7A4",
+      "symbol": "BANKINDIA",
+      "direction": "LONG",
+      "qty": 381,
+      "price": 148.24,
+      "status": "COMPLETE",
+      "tag": "V4_ENTRY",
+      "timestamp": "2026-01-14T09:35:44.588951"
+    },
+    "SL_EF9163F3": {
+      "order_id": "SL_EF9163F3",
+      "symbol": "BANKINDIA",
+      "direction": "SELL",
+      "qty": 381,
+      "trigger_price": 138.4096,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_BANKINDIA_093544_SL",
+      "timestamp": "2026-01-14T09:35:44.589036"
+    },
+    "ORD_97A28279": {
+      "order_id": "ORD_97A28279",
+      "symbol": "CANBK",
+      "direction": "LONG",
+      "qty": 416,
+      "price": 151.78,
+      "status": "COMPLETE",
+      "tag": "V4_ENTRY",
+      "timestamp": "2026-01-14T09:35:44.591655"
+    },
+    "SL_E5AD8319": {
+      "order_id": "SL_E5AD8319",
+      "symbol": "CANBK",
+      "direction": "SELL",
+      "qty": 416,
+      "trigger_price": 142.78480000000002,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_CANBK_093544_SL",
+      "timestamp": "2026-01-14T09:35:44.591735"
+    },
+    "ORD_3634FBA8": {
+      "order_id": "ORD_3634FBA8",
+      "symbol": "PERSISTENT",
+      "direction": "SHORT",
+      "qty": 9,
+      "price": 6311.5,
+      "status": "COMPLETE",
+      "tag": "V4_ENTRY",
+      "timestamp": "2026-01-14T09:39:55.523357"
+    },
+    "SL_E39EB075": {
+      "order_id": "SL_E39EB075",
+      "symbol": "PERSISTENT",
+      "direction": "BUY",
+      "qty": 9,
+      "trigger_price": 6664.78,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_PERSISTENT_093955_SL",
+      "timestamp": "2026-01-14T09:39:55.523445"
+    },
+    "ORD_94956227": {
+      "order_id": "ORD_94956227",
+      "symbol": "BANKBARODA",
+      "direction": "LONG",
+      "qty": 261,
+      "price": 306.8,
+      "status": "COMPLETE",
+      "tag": "V4_ENTRY",
+      "timestamp": "2026-01-14T13:19:52.257562"
+    },
+    "SL_FD1668F6": {
+      "order_id": "SL_FD1668F6",
+      "symbol": "BANKBARODA",
+      "direction": "SELL",
+      "qty": 261,
+      "trigger_price": 292.47,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_BANKBARODA_131952_SL",
+      "timestamp": "2026-01-14T13:19:52.257656"
+    },
+    "ORD_1087BAB0": {
+      "order_id": "ORD_1087BAB0",
+      "symbol": "BANKINDIA",
+      "direction": "LONG",
+      "qty": 434,
+      "price": 151.85,
+      "status": "COMPLETE",
+      "tag": "V4_ENTRY",
+      "timestamp": "2026-01-14T13:19:52.259143"
+    },
+    "SL_C2EFA1C4": {
+      "order_id": "SL_C2EFA1C4",
+      "symbol": "BANKINDIA",
+      "direction": "SELL",
+      "qty": 434,
+      "trigger_price": 143.22,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_BANKINDIA_131952_SL",
+      "timestamp": "2026-01-14T13:19:52.259222"
+    }
+  },
+  "paper_positions": {
+    "HINDALCO": {
+      "qty": 59,
+      "avg_price": 944.0,
+      "pnl": 0.0,
+      "sector": "NIFTY METAL"
+    },
+    "HINDZINC": {
+      "qty": 73,
+      "avg_price": 646.15,
+      "pnl": 0.0,
+      "sector": "NIFTY METAL"
+    },
+    "SRF": {
+      "qty": 27,
+      "avg_price": 3052.2,
+      "pnl": 0.0,
+      "sector": "NIFTY CHEMICALS"
+    },
+    "BANKINDIA": {
+      "qty": 815,
+      "avg_price": 150.16238036809816,
+      "pnl": 0.0,
+      "sector": "NIFTY PSU BANK"
+    },
+    "CANBK": {
+      "qty": 416,
+      "avg_price": 151.78,
+      "pnl": 0.0,
+      "sector": "NIFTY PSU BANK"
+    },
+    "PERSISTENT": {
+      "qty": -9,
+      "avg_price": 6311.5,
+      "pnl": 0.0,
+      "sector": "NIFTY IT"
+    },
+    "BANKBARODA": {
+      "qty": 261,
+      "avg_price": 306.8,
+      "pnl": 0.0,
+      "sector": "NIFTY PSU BANK"
+    }
+  }
+}
