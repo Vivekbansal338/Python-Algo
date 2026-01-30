@@ -152,7 +152,7 @@ class DashboardUI:
         )
         self.layout["portfolio"].split_column(
             Layout(name="positions", ratio=1),
-            Layout(name="monitor", ratio=1),
+            # Layout(name="monitor", ratio=1),
             Layout(name="logs", ratio=1)
         )
 

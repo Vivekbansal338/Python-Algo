@@ -1,6 +1,32 @@
+## V6
+
+```bash
+cd TradingBot
+python -m v6.main
+```
+
+Or alternatively:
+
+```bash
+python v6/main.py
+```
+
+**Note:** Must run from the project root (TradingBot/), not from inside v6/.
+
+---
+
 ## V5
 
+```bash
+cd v5
 python main_v5.py
+```
+
+Or from project root:
+
+```bash
+python v5/main_v5.py
+```
 
 cd backtest_v5
 python sector_engine_v5.py --start 2026-01-05 --end 2026-01-10

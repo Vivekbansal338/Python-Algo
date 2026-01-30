@@ -15,6 +15,9 @@ prometheus_client>=0.17.0  # Monitoring
 # Terminal UI & Logging
 rich>=13.0.0
 
+# V7 Textual UI (NEW)
+textual>=0.45.0
+
 # API & Web (Future Dashboard)
 fastapi>=0.100.0
 uvicorn>=0.23.0
