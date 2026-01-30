@@ -232,7 +232,7 @@ class SectorBacktesterV5:
 
     def _get_vix_multiplier(self, vix_pctl: float) -> float:
         """Get VIX-based sizing multiplier."""
-        if vix_pctl >= config.VIX_PCTL_HALT_THRESHOLD:
+        if vix_pctl >= config.VIX_PCTL_EXTREME_THRESHOLD:
             return config.VIX_MULT_HIGH
         elif vix_pctl >= config.VIX_PCTL_HIGH_THRESHOLD:
             return config.VIX_MULT_HIGH
@@ -606,11 +606,11 @@ class SectorBacktesterV5:
             
             # D. Regime Detection
             vix_pctl = self._get_vix_percentile(ts)
-            if vix_pctl >= 90:
+            if vix_pctl >= config.VIX_PCTL_EXTREME_THRESHOLD:
                 regime = "EXTREME"
-            elif vix_pctl >= 75:
+            elif vix_pctl >= config.VIX_PCTL_HIGH_THRESHOLD:
                 regime = "MEAN_REVERT"
-            elif vix_pctl <= 20:
+            elif vix_pctl <= config.VIX_PCTL_LOW_THRESHOLD:
                 regime = "TRENDING"
             else:
                 regime = "NEUTRAL"

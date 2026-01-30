@@ -5,7 +5,7 @@ V5 RISK MANAGER
 The Gatekeeper. Enforces:
 - Position Sizing (Grade, VIX, DayState)
 - Portfolio Limits (Max 6, Max 2/Sector, Correlation)
-- Kill Switches (Daily/Weekly Drawdown, VIX Halt)
+- Kill Switches (Daily Drawdown)
 
 Author: Sector Analysis System
 Version: 5.0.0
@@ -79,12 +79,6 @@ class RiskManager:
         Check 5-Layer Risk Architecture (Layer 5: System).
         Returns (is_halted, reason).
         """
-        # 1. VIX Halt
-        if current_vix_pctl >= config.VIX_PCTL_HALT_THRESHOLD:
-            self.kill_switch_active = True
-            self.kill_switch_reason = f"VIX_HALT (Pctl: {current_vix_pctl:.1f}%)"
-            return True, self.kill_switch_reason
-
         # 3. Daily Drawdown (-2.0%)
         if self.state.daily_start_equity > 0:
             daily_dd = (self.state.equity - self.state.daily_start_equity) / self.state.daily_start_equity

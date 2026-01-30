@@ -86,7 +86,7 @@ class MarketRegimeDetector:
     @staticmethod
     def get_regime(vix_pctl: float) -> str:
         """Classify regime: TRENDING, NEUTRAL, MEAN_REVERT, EXTREME."""
-        if vix_pctl >= config.VIX_PCTL_HALT_THRESHOLD:
+        if vix_pctl >= config.VIX_PCTL_EXTREME_THRESHOLD:
             return "EXTREME"
         elif vix_pctl >= config.VIX_PCTL_HIGH_THRESHOLD:
             return "MEAN_REVERT"
@@ -98,7 +98,7 @@ class MarketRegimeDetector:
     @staticmethod
     def get_vix_multiplier(vix_pctl: float) -> float:
         """Get position size multiplier based on VIX."""
-        if vix_pctl >= config.VIX_PCTL_HALT_THRESHOLD:
+        if vix_pctl >= config.VIX_PCTL_EXTREME_THRESHOLD:
             return config.VIX_MULT_HIGH  # Return 0.75x instead of 0.00x
         elif vix_pctl >= config.VIX_PCTL_HIGH_THRESHOLD:
             return config.VIX_MULT_HIGH

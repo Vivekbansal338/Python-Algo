@@ -145,6 +145,38 @@ class TradingBotV5:
         
         self.log(f"✅ Loaded {len(self.stocks)} stocks in {len(self.sector_map)} sectors.")
 
+    def _filter_incomplete_candle(self, candles: List[Dict], interval_minutes: int = 5) -> List[Dict]:
+        """
+        Removes the last candle if it is incomplete (forming).
+        Logic: If (Now - LastCandleTime) < interval_minutes, it's likely incomplete.
+        """
+        if not candles:
+            return []
+
+        last_candle = candles[-1]
+        last_time = last_candle.get('date')
+
+        # Kite historical data usually returns naive datetime objects in IST.
+        # datetime.now() returns naive local time.
+        now = datetime.now()
+
+        # Calculate difference
+        if isinstance(last_time, datetime):
+             # Handle Timezone Mismatch
+             # Kite API returns timezone-aware datetimes (e.g., +05:30)
+             # datetime.now() returns naive datetime
+             # We must strip timezone from Kite data to compare safely
+             if last_time.tzinfo is not None:
+                 last_time = last_time.replace(tzinfo=None)
+             
+             # Check if the candle is too recent
+             time_diff = now - last_time
+             if time_diff.total_seconds() < interval_minutes * 60:
+                 # It's too recent, likely forming. Return all except last.
+                 return candles[:-1]
+
+        return candles
+
     def fetch_history(self):
         """Fetch historical data for Nifty and Sectors."""
         self.log("📉 Fetching Historical Data (Nifty + Sectors)...")
@@ -198,7 +230,8 @@ class TradingBotV5:
                 }
             
             # 5m History
-            m_data = data_manager.get_historical(token, from_date_5m, to_date, "5minute")
+            raw_m_data = data_manager.get_historical(token, from_date_5m, to_date, "5minute")
+            m_data = self._filter_incomplete_candle(raw_m_data)
             if m_data:
                 self.stock_history_5m[sym] = {
                     'close': np.array([d['close'] for d in m_data]),
@@ -224,7 +257,8 @@ class TradingBotV5:
                 continue
             
             # Re-fetch 5m History
-            m_data = data_manager.get_historical(token, from_date_5m, to_date, "5minute")
+            raw_m_data = data_manager.get_historical(token, from_date_5m, to_date, "5minute")
+            m_data = self._filter_incomplete_candle(raw_m_data)
             if m_data:
                 self.stock_history_5m[sym] = {
                     'close': np.array([d['close'] for d in m_data]),

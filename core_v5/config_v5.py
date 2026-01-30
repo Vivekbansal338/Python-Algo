@@ -104,14 +104,13 @@ GRADE_MULTIPLIERS = {
 # VIX Percentile Thresholds (20-day)
 VIX_PCTL_LOW_THRESHOLD = 20.0
 VIX_PCTL_HIGH_THRESHOLD = 75.0
-VIX_PCTL_HALT_THRESHOLD = 90.0
+VIX_PCTL_EXTREME_THRESHOLD = 90.0
 
 # VIX Sizing Multipliers
 VIX_MULT_LOW = 1.20      # 0-20th percentile
 VIX_MULT_NORMAL = 1.00   # 20-50th percentile
 VIX_MULT_ELEVATED = 0.80 # 50-75th percentile
-VIX_MULT_HIGH = 0.75     # 75-90th percentile
-VIX_MULT_HALT = 0.00     # >90th percentile
+VIX_MULT_HIGH = 0.75     # 75th percentile and above
 
 # RVOL Thresholds (ORB / MAIN)
 # Format: (VIX_PCTL_MAX, THRESHOLD)
