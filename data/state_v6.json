@@ -1,8 +1,275 @@
 {
-  "last_updated": "2026-01-30T14:50:55.209702",
+  "last_updated": "2026-02-06T14:42:00.814138",
   "daily_start_equity": 0.0,
   "daily_high_equity": 1000000.0,
-  "trades": {},
-  "paper_orders": {},
-  "paper_positions": {}
+  "trades": {
+    "TRD_WIPRO_093401": {
+      "id": "TRD_WIPRO_093401",
+      "symbol": "WIPRO",
+      "direction": "SHORT",
+      "entry_price": 231.55,
+      "qty": 227,
+      "initial_stop": 250.25560000000002,
+      "current_stop": 250.25560000000002,
+      "target_1": 203.4916,
+      "stage": "ACTIVE",
+      "entry_time": "2026-02-06T09:34:01.622388",
+      "atr_at_entry": 7.794000000000002,
+      "highest_price": 231.79,
+      "lowest_price": 228.64,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-02-06T09:34:01.622398",
+      "cached_lookback_extreme": 0.0
+    },
+    "TRD_AUROPHARMA_093401": {
+      "id": "TRD_AUROPHARMA_093401",
+      "symbol": "AUROPHARMA",
+      "direction": "SHORT",
+      "entry_price": 1173.5,
+      "qty": 48,
+      "initial_stop": 1277.084,
+      "current_stop": 1277.084,
+      "target_1": 1018.1239999999999,
+      "stage": "ACTIVE",
+      "entry_time": "2026-02-06T09:34:01.623914",
+      "atr_at_entry": 43.15999999999999,
+      "highest_price": 1189.5,
+      "lowest_price": 1166.0,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-02-06T09:34:01.623918",
+      "cached_lookback_extreme": 0.0
+    },
+    "TRD_DIVISLAB_093401": {
+      "id": "TRD_DIVISLAB_093401",
+      "symbol": "DIVISLAB",
+      "direction": "SHORT",
+      "entry_price": 6022.0,
+      "qty": 10,
+      "initial_stop": 6478.96,
+      "current_stop": 6478.96,
+      "target_1": 5336.5599999999995,
+      "stage": "ACTIVE",
+      "entry_time": "2026-02-06T09:34:01.628617",
+      "atr_at_entry": 190.4,
+      "highest_price": 6024.5,
+      "lowest_price": 5940.0,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-02-06T09:34:01.628622",
+      "cached_lookback_extreme": 0.0
+    },
+    "TRD_BHARATFORG_095049": {
+      "id": "TRD_BHARATFORG_095049",
+      "symbol": "BHARATFORG",
+      "direction": "SHORT",
+      "entry_price": 1545.4,
+      "qty": 30,
+      "initial_stop": 1708.192,
+      "current_stop": 1708.192,
+      "target_1": 1301.2120000000002,
+      "stage": "ACTIVE",
+      "entry_time": "2026-02-06T09:50:49.726786",
+      "atr_at_entry": 67.83,
+      "highest_price": 1567.5,
+      "lowest_price": 1541.6,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-02-06T09:50:49.726789",
+      "cached_lookback_extreme": 0.0
+    },
+    "TRD_ONGC_110702": {
+      "id": "TRD_ONGC_110702",
+      "symbol": "ONGC",
+      "direction": "LONG",
+      "entry_price": 269.35,
+      "qty": 227,
+      "initial_stop": 247.35000000000002,
+      "current_stop": 247.35000000000002,
+      "target_1": 302.35,
+      "stage": "ACTIVE",
+      "entry_time": "2026-02-06T11:07:02.788655",
+      "atr_at_entry": 11.000000000000004,
+      "highest_price": 269.35,
+      "lowest_price": 266.45,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-02-06T11:07:02.788663",
+      "cached_lookback_extreme": 0.0
+    },
+    "TRD_OIL_110702": {
+      "id": "TRD_OIL_110702",
+      "symbol": "OIL",
+      "direction": "LONG",
+      "entry_price": 501.25,
+      "qty": 97,
+      "initial_stop": 449.74,
+      "current_stop": 449.74,
+      "target_1": 578.515,
+      "stage": "ACTIVE",
+      "entry_time": "2026-02-06T11:07:02.792247",
+      "atr_at_entry": 25.75499999999999,
+      "highest_price": 503.15,
+      "lowest_price": 493.5,
+      "pnl": 0.0,
+      "last_anchor_update": "2026-02-06T11:07:02.792252",
+      "cached_lookback_extreme": 0.0
+    }
+  },
+  "paper_orders": {
+    "ORD_9681AF0F": {
+      "order_id": "ORD_9681AF0F",
+      "symbol": "WIPRO",
+      "direction": "SHORT",
+      "qty": 227,
+      "price": 231.55,
+      "status": "COMPLETE",
+      "tag": "V6_ENTRY",
+      "timestamp": "2026-02-06T09:34:01.622371"
+    },
+    "SL_239E9A0C": {
+      "order_id": "SL_239E9A0C",
+      "symbol": "WIPRO",
+      "direction": "BUY",
+      "qty": 227,
+      "trigger_price": 250.25560000000002,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_WIPRO_093401_SL",
+      "timestamp": "2026-02-06T09:34:01.622465"
+    },
+    "ORD_E749B806": {
+      "order_id": "ORD_E749B806",
+      "symbol": "AUROPHARMA",
+      "direction": "SHORT",
+      "qty": 48,
+      "price": 1173.5,
+      "status": "COMPLETE",
+      "tag": "V6_ENTRY",
+      "timestamp": "2026-02-06T09:34:01.623899"
+    },
+    "SL_CDB96897": {
+      "order_id": "SL_CDB96897",
+      "symbol": "AUROPHARMA",
+      "direction": "BUY",
+      "qty": 48,
+      "trigger_price": 1277.084,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_AUROPHARMA_093401_SL",
+      "timestamp": "2026-02-06T09:34:01.623978"
+    },
+    "ORD_46D151E2": {
+      "order_id": "ORD_46D151E2",
+      "symbol": "DIVISLAB",
+      "direction": "SHORT",
+      "qty": 10,
+      "price": 6022.0,
+      "status": "COMPLETE",
+      "tag": "V6_ENTRY",
+      "timestamp": "2026-02-06T09:34:01.628597"
+    },
+    "SL_DEE760B3": {
+      "order_id": "SL_DEE760B3",
+      "symbol": "DIVISLAB",
+      "direction": "BUY",
+      "qty": 10,
+      "trigger_price": 6478.96,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_DIVISLAB_093401_SL",
+      "timestamp": "2026-02-06T09:34:01.628725"
+    },
+    "ORD_64902B30": {
+      "order_id": "ORD_64902B30",
+      "symbol": "BHARATFORG",
+      "direction": "SHORT",
+      "qty": 30,
+      "price": 1545.4,
+      "status": "COMPLETE",
+      "tag": "V6_ENTRY",
+      "timestamp": "2026-02-06T09:50:49.726760"
+    },
+    "SL_2580FF45": {
+      "order_id": "SL_2580FF45",
+      "symbol": "BHARATFORG",
+      "direction": "BUY",
+      "qty": 30,
+      "trigger_price": 1708.192,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_BHARATFORG_095049_SL",
+      "timestamp": "2026-02-06T09:50:49.726848"
+    },
+    "ORD_21CAA5CE": {
+      "order_id": "ORD_21CAA5CE",
+      "symbol": "ONGC",
+      "direction": "LONG",
+      "qty": 227,
+      "price": 269.35,
+      "status": "COMPLETE",
+      "tag": "V6_ENTRY",
+      "timestamp": "2026-02-06T11:07:02.788627"
+    },
+    "SL_A723488E": {
+      "order_id": "SL_A723488E",
+      "symbol": "ONGC",
+      "direction": "SELL",
+      "qty": 227,
+      "trigger_price": 247.35000000000002,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_ONGC_110702_SL",
+      "timestamp": "2026-02-06T11:07:02.788770"
+    },
+    "ORD_F4A8425E": {
+      "order_id": "ORD_F4A8425E",
+      "symbol": "OIL",
+      "direction": "LONG",
+      "qty": 97,
+      "price": 501.25,
+      "status": "COMPLETE",
+      "tag": "V6_ENTRY",
+      "timestamp": "2026-02-06T11:07:02.792224"
+    },
+    "SL_C4D5B56D": {
+      "order_id": "SL_C4D5B56D",
+      "symbol": "OIL",
+      "direction": "SELL",
+      "qty": 97,
+      "trigger_price": 449.74,
+      "status": "TRIGGER PENDING",
+      "tag": "TRD_OIL_110702_SL",
+      "timestamp": "2026-02-06T11:07:02.792360"
+    }
+  },
+  "paper_positions": {
+    "WIPRO": {
+      "qty": -227,
+      "avg_price": 231.55000000000004,
+      "pnl": 0.0,
+      "sector": "NIFTY IT"
+    },
+    "AUROPHARMA": {
+      "qty": -48,
+      "avg_price": 1173.5,
+      "pnl": 0.0,
+      "sector": "NIFTY PHARMA"
+    },
+    "DIVISLAB": {
+      "qty": -10,
+      "avg_price": 6022.0,
+      "pnl": 0.0,
+      "sector": "NIFTY PHARMA"
+    },
+    "BHARATFORG": {
+      "qty": -30,
+      "avg_price": 1545.4,
+      "pnl": 0.0,
+      "sector": "NIFTY AUTO"
+    },
+    "ONGC": {
+      "qty": 227,
+      "avg_price": 269.35,
+      "pnl": 0.0,
+      "sector": "NIFTY OIL AND GAS"
+    },
+    "OIL": {
+      "qty": 97,
+      "avg_price": 501.25,
+      "pnl": 0.0,
+      "sector": "NIFTY OIL AND GAS"
+    }
+  }
 }
