@@ -9,12 +9,12 @@
 
 | Priority | Issue # | Issue Title                          | Severity | Location                        | Status |
 | -------- | ------- | ------------------------------------ | -------- | ------------------------------- | ------ |
-| 1        | #008    | Tick Staleness Detection             | Critical | data_engine.py, main.py         | Open   |
+| 1        | #008    | Tick Staleness Detection             | Critical | data_engine.py, main.py         | Completed   |
 | 2        | #007    | WebSocket Disconnect Fallback        | Critical | data_engine.py, main.py         | Completed   |
-| 3        | #015    | Drawdown Killswitch Not Invoked      | High     | main.py, brain.py               | Open   |
-| 4        | #010    | Equity Tracking (Paper PnL)          | High     | main.py, execution.py, brain.py | Open   |
-| 5        | #016    | Daily Start Equity Never Initialized | High     | main.py, brain.py, execution.py | Open   |
-| 6        | #004    | Daily High-Water Mark Unused         | High     | execution.py, brain.py          | Open   |
+| 3        | #015    | Drawdown Killswitch Not Invoked      | High     | main.py, brain.py               | Completed   |
+| 4        | #010    | Equity Tracking (Paper PnL)          | High     | main.py, execution.py, brain.py | Completed   |
+| 5        | #016    | Daily Start Equity Never Initialized | High     | main.py, brain.py, execution.py | Completed   |
+| 6        | #004    | Daily High-Water Mark Unused         | High     | execution.py, brain.py          | Completed   |
 
 ---
 
@@ -35,9 +35,9 @@
 | 10       | #001    | Missing Opening Range (OR) Logic | Medium   | main.py                 | Open   |
 | 11       | #002    | RVOL 5-Minute Candle Lag         | Medium   | main.py                 | Open   |
 | 12       | #014    | Thread Safety (live_ticks)       | Medium   | data_engine.py, main.py | Completed   |
-| 13       | #012    | Holiday/Weekend Detection        | Medium   | main.py                 | Open   |
-| 14       | #017    | Safety Window Cadence Mismatch   | Medium   | brain.py, main.py       | Open   |
-| 15       | #018    | Market Close Playbook Absent     | Medium   | main.py, config.py      | Open   |
+| 13       | #012    | Holiday/Weekend Detection        | Medium   | main.py                 | Completed   |
+| 14       | #017    | Safety Window Cadence Mismatch   | Medium   | brain.py, main.py       | Completed   |
+| 15       | #018    | Market Close Playbook Absent     | Medium   | main.py, config.py      | Completed   |
 
 ---
 

@@ -280,6 +280,9 @@ class DataManager:
         self._ticker_on_ticks: Any = None
         self._ticker_on_connect: Any = None
         self._ticker_mode: str = "full"
+        self.stale_tick_count = 0
+        self.missing_tick_count = 0
+        self.fresh_tick_count = 0
 
     # ══════════════════════════════════════════════════════════════════════════
     # CONNECTIVITY
@@ -524,14 +527,32 @@ class DataManager:
         """Return a tick only if present and younger than max_age_sec."""
         tick = self.get_tick(token)
         if not tick:
+            self.missing_tick_count += 1
             return None
 
         received_at = tick.get("_received_at")
         if not isinstance(received_at, (int, float)):
+            self.missing_tick_count += 1
             return None
-        if (time.monotonic() - received_at) > max_age_sec:
+        age_sec = time.monotonic() - received_at
+        if age_sec > max_age_sec:
+            self.stale_tick_count += 1
+            if config.STALE_TICK_LOG_EVERY > 0 and self.stale_tick_count % config.STALE_TICK_LOG_EVERY == 0:
+                logger.warning(
+                    f"Stale tick filtered token={token} age={age_sec:.1f}s "
+                    f"threshold={max_age_sec:.1f}s total_stale={self.stale_tick_count}"
+                )
             return None
+        self.fresh_tick_count += 1
         return tick
+
+    def get_tick_health_stats(self) -> Dict[str, int]:
+        """Lightweight counters for stale/missing/fresh tick filtering."""
+        return {
+            "fresh_ticks": int(self.fresh_tick_count),
+            "stale_ticks": int(self.stale_tick_count),
+            "missing_ticks": int(self.missing_tick_count),
+        }
 
     def get_ws_health(self, max_age_sec: float) -> Tuple[bool, str, float]:
         """

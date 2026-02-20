@@ -14,6 +14,11 @@ Extend current portfolio panel from PnL accounting to live trade-quality monitor
 
 Provide a per-position health score so operator can decide hold/tighten/exit using trend, breadth, momentum, and live-volume context.
 
+## Plain-English Explanation
+
+Right now open positions show PnL, but not trade quality.  
+This feature would add a health score so you can quickly see whether a trade is still structurally strong or starting to weaken.
+
 ## Proposed Metrics
 
 | Metric | Header | Formula | Notes |

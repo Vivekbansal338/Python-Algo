@@ -1,6 +1,6 @@
 # Issue: Paper Equity and Realized PnL Not Propagated into Risk Ledger
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: High
 
@@ -48,3 +48,15 @@ current_equity = max(self.risk.state.equity, config.DEFAULT_PAPER_EQUITY)
 - Closing a losing trade reduces risk equity immediately.
 - Subsequent position sizing uses reduced equity.
 - State restore resumes with same realized ledger values.
+
+---
+
+## Resolution Summary
+
+- Added realized PnL ledger to paper execution (`OrderManager.realized_pnl`) in `v6/execution.py`.
+- Realized PnL now updates on every partial/full close path.
+- Removed default-capital equity clamp from runtime and switched to ledger-backed account math in `v6/main.py`:
+  - `equity = starting_equity + realized_pnl + unrealized_pnl`
+  - `pnl = realized_pnl + unrealized_pnl`
+- Extended risk state with ledger fields (`starting_equity`, `realized_pnl`, `unrealized_pnl`) in `v6/brain.py`.
+- Persisted/restored `starting_equity` and `realized_pnl` in `StateManager` so restart continuity is preserved.

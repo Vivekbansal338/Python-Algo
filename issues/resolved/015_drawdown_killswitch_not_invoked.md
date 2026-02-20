@@ -1,6 +1,6 @@
 # Issue: Drawdown Kill-Switch Logic Not Invoked in Runtime Loop
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: High
 
@@ -43,3 +43,12 @@
 
 - `issues/016_daily_start_equity_never_initialized.md`
 - `issues/010_equity_tracking.md`
+
+---
+
+## Resolution Summary
+
+- Invoked `self.risk.check_kill_switches(...)` in the runtime 5-second refresh block (`v6/main.py`).
+- Kill-switch trigger now logs explicit reason and blocks fresh entries via risk gate.
+- Added kill-switch state visibility in UI header (`risk_status`).
+- Added optional config policy `FORCE_LIQUIDATE_ON_KILLSWITCH` for immediate forced liquidation behavior.

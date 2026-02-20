@@ -68,6 +68,7 @@ class OrderManager:
         self.is_paper = config.IS_PAPER_TRADING
         self.paper_orders: Dict[str, Dict] = {}
         self.paper_positions: Dict[str, Dict] = {}
+        self.realized_pnl: float = 0.0
         
         if not self.is_paper:
             logger.critical("V6 IS STRICTLY PAPER TRADING. LIVE MODE NOT SUPPORTED.")
@@ -262,6 +263,7 @@ class OrderManager:
                 trade_pnl = (pos["avg_price"] - price) * closed_qty
             
             pos["pnl"] += trade_pnl
+            self.realized_pnl += trade_pnl
             pos["qty"] += signed_qty
             
             if pos["qty"] == 0:
@@ -513,8 +515,10 @@ class StateManager:
         self.file_path = config.STATE_FILE
         self.state: Dict[str, Any] = {
             "last_updated": None,
+            "starting_equity": 0.0,
             "daily_start_equity": 0.0,
             "daily_high_equity": 0.0,
+            "realized_pnl": 0.0,
             "trades": {},
             "paper_orders": {},
             "paper_positions": {}
@@ -572,8 +576,10 @@ class StateManager:
 
             self.state = {
                 "last_updated": datetime.now().isoformat(),
+                "starting_equity": risk_manager.state.starting_equity,
                 "daily_start_equity": risk_manager.state.daily_start_equity,
-                "daily_high_equity": max(self.state.get("daily_high_equity", 0), current_equity),
+                "daily_high_equity": risk_manager.state.daily_high_equity,
+                "realized_pnl": order_manager.realized_pnl,
                 "trades": serialized_trades,
                 "paper_orders": serialized_orders,
                 "paper_positions": order_manager.paper_positions
@@ -587,17 +593,22 @@ class StateManager:
 
     def restore_system(self, risk_manager, lifecycle_manager, order_manager):
         """Restore system components from loaded state."""
-        if not self.state.get("trades"):
-            return
-
         # Restore Risk State
+        risk_manager.state.starting_equity = self.state.get("starting_equity", 0.0)
         risk_manager.state.daily_start_equity = self.state.get("daily_start_equity", 0.0)
+        risk_manager.state.daily_high_equity = self.state.get("daily_high_equity", 0.0)
         
         # Restore Orders/Positions
         order_manager.paper_positions = self.state.get("paper_positions", {})
+        order_manager.realized_pnl = float(self.state.get("realized_pnl", 0.0))
+        risk_manager.state.realized_pnl = order_manager.realized_pnl
+        risk_manager.state.unrealized_pnl = 0.0
+        risk_manager.state.current_pnl = order_manager.realized_pnl
+        if risk_manager.state.starting_equity > 0:
+            risk_manager.state.equity = risk_manager.state.starting_equity + order_manager.realized_pnl
         restored_orders = self.state.get("paper_orders", {})
         for oid, order in restored_orders.items():
-            if 'timestamp' in order:
+            if 'timestamp' in order and isinstance(order.get('timestamp'), str):
                 order['timestamp'] = datetime.fromisoformat(order['timestamp'])
         order_manager.paper_orders = restored_orders
         order_manager.prune_order_history()

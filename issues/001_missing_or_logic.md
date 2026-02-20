@@ -23,6 +23,11 @@ The runtime labels an `OR_FORMATION` phase and an `ORB` phase, but does not capt
 - ORB window can take trades inside the opening range (chop entries).
 - Strategy behavior is momentum-style, not true opening-range breakout behavior.
 
+## Plain-English Explanation
+
+The bot says it is in Opening Range Breakout mode, but it never actually remembers the opening range boundaries.  
+So during ORB time, it can still buy/sell while price is inside the first-range box, which defeats the purpose of breakout trading.
+
 ## Proposed Fix (Detailed)
 
 1. Add OR state container in `TradingBotV6`:

@@ -72,7 +72,11 @@ class AccountState:
     """Current account state for risk management."""
     equity: float
     daily_start_equity: float
+    daily_high_equity: float = 0.0
+    starting_equity: float = 0.0
     current_pnl: float = 0.0
+    realized_pnl: float = 0.0
+    unrealized_pnl: float = 0.0
     open_positions_count: int = 0
     sector_exposure: Dict[str, int] = field(default_factory=dict)
     symbol_exposure: Dict[str, int] = field(default_factory=dict)
@@ -103,29 +107,48 @@ class SafetyMonitor:
     """
     
     def __init__(self):
-        # Time-series buffers for spike detection (5-min windows @ 1 sec resolution)
-        self.nifty_history = deque(maxlen=300)
-        self.vix_history = deque(maxlen=300)
+        # Time-series buffers (time-pruned to safety window)
+        self.nifty_history = deque()
+        self.vix_history = deque()
+        self.update_intervals_sec = deque(maxlen=200)
+        self.last_update_ts = 0.0
+        self.last_cadence_log_ts = 0.0
         
         self.is_halted = False
         self.halt_reason = ""
 
+    @staticmethod
+    def _prune_window(points: deque, now: datetime):
+        cutoff = now.timestamp() - config.SAFETY_WINDOW_SEC
+        while points and points[0][0].timestamp() < cutoff:
+            points.popleft()
+
     def update(self, nifty_ltp: float, vix_ltp: float, red_stock_pct: float):
         """Feed current values into safety buffers and check triggers."""
         now = datetime.now()
+
+        if self.last_update_ts > 0:
+            interval = now.timestamp() - self.last_update_ts
+            if interval > 0:
+                self.update_intervals_sec.append(interval)
+        self.last_update_ts = now.timestamp()
+
         self.nifty_history.append((now, nifty_ltp))
         self.vix_history.append((now, vix_ltp))
-        
-        # 1. Flash Crash Detection (Nifty)
-        if len(self.nifty_history) > 10:
+
+        self._prune_window(self.nifty_history, now)
+        self._prune_window(self.vix_history, now)
+
+        # 1. Flash Crash Detection (Nifty) over true rolling safety window.
+        if len(self.nifty_history) >= 2:
             start_val = self.nifty_history[0][1]
             if start_val > 0:
                 drop = (nifty_ltp - start_val) / start_val
                 if drop <= -0.03:  # -3%
                     self._trigger_halt(f"FLASH_CRASH (Nifty drop {drop:.2%})")
 
-        # 2. VIX Spike Detection
-        if len(self.vix_history) > 10:
+        # 2. VIX Spike Detection over true rolling safety window.
+        if len(self.vix_history) >= 2:
             start_vix = self.vix_history[0][1]
             if start_vix > 0:
                 spike = (vix_ltp - start_vix) / start_vix
@@ -135,6 +158,18 @@ class SafetyMonitor:
         # 3. Breadth Collapse
         if red_stock_pct >= 0.70:  # 70% red
             self._trigger_halt(f"BREADTH_COLLAPSE ({red_stock_pct:.0%})")
+
+        now_ts = now.timestamp()
+        if (
+            self.update_intervals_sec and
+            (now_ts - self.last_cadence_log_ts) >= config.SAFETY_CADENCE_LOG_INTERVAL_SEC
+        ):
+            med = float(np.median(np.array(self.update_intervals_sec)))
+            logger.info(
+                f"Safety cadence median={med:.2f}s window={config.SAFETY_WINDOW_SEC}s "
+                f"samples={len(self.update_intervals_sec)}"
+            )
+            self.last_cadence_log_ts = now_ts
 
     def _trigger_halt(self, reason: str):
         """Trigger system halt."""
@@ -480,10 +515,24 @@ class RiskManager:
                        pnl: float,
                        positions: List[Dict],
                        symbol_exposure: Optional[Dict[str, int]] = None,
-                       sector_exposure: Optional[Dict[str, int]] = None):
+                       sector_exposure: Optional[Dict[str, int]] = None,
+                       realized_pnl: Optional[float] = None,
+                       unrealized_pnl: Optional[float] = None):
         """Update account state from Broker/Paper Broker."""
         self.state.equity = equity
         self.state.current_pnl = pnl
+
+        if realized_pnl is not None:
+            self.state.realized_pnl = realized_pnl
+        if unrealized_pnl is not None:
+            self.state.unrealized_pnl = unrealized_pnl
+
+        if self.state.starting_equity <= 0:
+            self.state.starting_equity = max(0.0, self.state.equity - self.state.current_pnl)
+        if self.state.daily_high_equity <= 0:
+            self.state.daily_high_equity = self.state.equity
+        else:
+            self.state.daily_high_equity = max(self.state.daily_high_equity, self.state.equity)
 
         self.state.symbol_exposure.clear()
         if symbol_exposure is not None:
@@ -519,15 +568,26 @@ class RiskManager:
         Check 5-Layer Risk Architecture (Layer 5: System).
         Returns (is_halted, reason).
         """
-        # Daily Drawdown (-2.0%)
+        trigger_candidates: List[Tuple[str, float]] = []
+
         if self.state.daily_start_equity > 0:
-            daily_dd = (self.state.equity - self.state.daily_start_equity) / self.state.daily_start_equity
-            if daily_dd <= config.DAILY_DRAWDOWN_HALT_PCT:
-                self.kill_switch_active = True
-                self.kill_switch_reason = f"DAILY_DD_HALT ({daily_dd:.2%})"
-                return True, self.kill_switch_reason
+            dd_from_start = (self.state.equity - self.state.daily_start_equity) / self.state.daily_start_equity
+            if dd_from_start <= config.DAILY_DRAWDOWN_HALT_PCT:
+                trigger_candidates.append(("DAILY_DD_START_HALT", dd_from_start))
+
+        if self.state.daily_high_equity > 0:
+            dd_from_high = (self.state.equity - self.state.daily_high_equity) / self.state.daily_high_equity
+            if dd_from_high <= config.DAILY_DRAWDOWN_HALT_PCT:
+                trigger_candidates.append(("DAILY_DD_PEAK_HALT", dd_from_high))
+
+        if trigger_candidates:
+            code, value = min(trigger_candidates, key=lambda x: x[1])
+            self.kill_switch_active = True
+            self.kill_switch_reason = f"{code} ({value:.2%})"
+            return True, self.kill_switch_reason
 
         self.kill_switch_active = False
+        self.kill_switch_reason = ""
         return False, "OK"
 
     def can_open_new_trade(self, symbol: str, sector: str) -> Tuple[bool, str]:
@@ -581,11 +641,18 @@ class RiskManager:
         # Lunch Lull (12:00 - 13:15) -> 70%
         if config.LUNCH_START_TIME <= current_time <= config.LUNCH_END_TIME:
             day_mult = config.RISK_MULT_LUNCH
-        # Daily DD Warning (-1%) -> 50%
+
+        dd_warning_triggered = False
         if self.state.daily_start_equity > 0:
-            daily_dd = (self.state.equity - self.state.daily_start_equity) / self.state.daily_start_equity
-            if daily_dd <= config.DAILY_DRAWDOWN_WARNING_PCT:
-                day_mult = config.RISK_MULT_WARNING
+            dd_from_start = (self.state.equity - self.state.daily_start_equity) / self.state.daily_start_equity
+            if dd_from_start <= config.DAILY_DRAWDOWN_WARNING_PCT:
+                dd_warning_triggered = True
+        if self.state.daily_high_equity > 0:
+            dd_from_high = (self.state.equity - self.state.daily_high_equity) / self.state.daily_high_equity
+            if dd_from_high <= config.DAILY_DRAWDOWN_WARNING_PCT:
+                dd_warning_triggered = True
+        if dd_warning_triggered:
+            day_mult = config.RISK_MULT_WARNING
 
         # 4. Total Multiplier
         total_mult = grade_mult * vix_multiplier * day_mult

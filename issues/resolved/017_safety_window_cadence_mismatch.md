@@ -1,6 +1,6 @@
 # Issue: Safety Monitor Window Assumption Mismatches Runtime Cadence
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: Medium
 
@@ -37,3 +37,12 @@ Safety monitor comments and deque sizing assume near 1-second sampling, but runt
 
 - Regardless of call frequency, monitor uses true last 5 minutes.
 - Trigger behavior is consistent under both 1-second and 5-second update cadence.
+
+---
+
+## Resolution Summary
+
+- Refactored `SafetyMonitor` (`v6/brain.py`) from fixed-length assumption to timestamp-pruned windows.
+- On each update, histories are pruned to true `SAFETY_WINDOW_SEC` age (default 300s).
+- Flash-crash and VIX-spike checks now compare against earliest point in current time window.
+- Added cadence observability log (median update interval + sample count) at periodic intervals.

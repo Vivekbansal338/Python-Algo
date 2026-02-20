@@ -22,6 +22,11 @@
 
 - System can continue entering trades during broad market deterioration.
 
+## Plain-English Explanation
+
+The safety monitor has logic for “too many stocks are red,” but runtime always sends `0.0` as input.  
+That means this safeguard can never trigger, even if the market is broadly collapsing.
+
 ## Proposed Fix (Detailed)
 
 1. Compute live red-stock percentage from tracked stock universe:

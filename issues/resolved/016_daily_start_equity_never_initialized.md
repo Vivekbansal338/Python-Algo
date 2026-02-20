@@ -1,6 +1,6 @@
 # Issue: `daily_start_equity` Baseline Never Initialized on Fresh Start
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: High
 
@@ -48,3 +48,15 @@ self.risk.state.daily_start_equity = self.risk.state.equity
 - New session has non-zero `daily_start_equity`.
 - Drawdown warning/halt branches become reachable in runtime.
 - Baseline persists and restores correctly.
+
+---
+
+## Resolution Summary
+
+- Added startup baseline normalization in `v6/main.py` via `_ensure_daily_baselines(...)`.
+- Fresh start now initializes:
+  - `starting_equity`
+  - `daily_start_equity`
+  - `daily_high_equity`
+- Restore path now backfills missing baselines safely from restored equity context.
+- Startup logs now include baseline source (`initialized` or `restored`) and values.

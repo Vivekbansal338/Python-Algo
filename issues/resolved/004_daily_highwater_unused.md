@@ -1,6 +1,6 @@
 # Issue: Daily High-Water Mark Stored But Not Used
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: High
 
@@ -56,3 +56,17 @@ daily_high_equity = max(daily_high_equity, equity)
 - Intraday peak drawdown breach triggers kill switch even if day-start drawdown is above threshold.
 - `daily_high_equity` increases intraday and survives restart.
 - Halt reason indicates whether start-based or peak-based condition fired.
+
+---
+
+## Resolution Summary
+
+- Added `daily_high_equity` to active risk state (`AccountState`) in `v6/brain.py`.
+- Updated `RiskManager.update_account()` to maintain intraday high-water mark.
+- Updated `RiskManager.check_kill_switches()` to evaluate both:
+  - drawdown from `daily_start_equity`
+  - drawdown from `daily_high_equity`
+- Added distinct halt reason codes:
+  - `DAILY_DD_START_HALT(...)`
+  - `DAILY_DD_PEAK_HALT(...)`
+- Persisted and restored `daily_high_equity` through `StateManager` in `v6/execution.py`.

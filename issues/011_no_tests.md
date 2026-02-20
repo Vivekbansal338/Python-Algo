@@ -22,6 +22,11 @@ There is no unit/integration test coverage for core V6 trading logic.
 - Silent behavioral regressions are likely during refactors.
 - Risk-control changes are hard to validate safely.
 
+## Plain-English Explanation
+
+There are almost no automated checks proving that critical logic still works after changes.  
+So even a small refactor can quietly break sizing, exits, or filters and nobody notices until runtime.
+
 ## Proposed Fix (Detailed)
 
 1. Add baseline test package structure:

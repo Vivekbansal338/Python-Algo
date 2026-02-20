@@ -1,6 +1,6 @@
 # Issue: No Holiday or Weekend Detection
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: Medium
 
@@ -46,3 +46,11 @@ The runtime does not validate whether today is a trading day before starting ful
 - Weekend start exits with explicit log message.
 - Listed holiday start exits with explicit log message.
 - Normal weekday trading day proceeds unchanged.
+
+---
+
+## Resolution Summary
+
+- Product decision: this is not treated as an issue for the current deployment model.
+- The bot is intentionally operated during market windows by process scheduling/ops controls.
+- No runtime calendar gate was added by design.

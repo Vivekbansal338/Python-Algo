@@ -22,6 +22,11 @@ RVOL is currently computed from the last completed 5-minute candle only. The cur
 - Breakout confirmation can be delayed by up to 5 minutes.
 - ORB entries may be late or missed.
 
+## Plain-English Explanation
+
+RVOL is meant to tell you if volume is strong right now.  
+Currently it only looks at the previous closed 5-minute candle, so a live surge happening in the current candle is invisible until that candle closes.
+
 ## Proposed Fix (Detailed)
 
 1. Track per-symbol intrabar volume snapshots in `TradingBotV6`:

@@ -174,6 +174,7 @@ class DashboardUI:
             "MAIN": (STYLES["session_main"], "MAIN SESSION"),
             "EXIT_ONLY": (STYLES["session_closing"], "EXIT ONLY"),
             "FORCE_EXIT": (STYLES["session_closing"], "FORCE EXIT"),
+            "AFTER_CLOSE": (STYLES["session_after"], "AFTER CLOSE"),
         }
         return styles.get(session, (STYLES["neutral"], session))
 
@@ -188,7 +189,8 @@ class DashboardUI:
 
     def generate_header(self, session_name: str, regime: str, vix: float,
                         nifty_val: float, nifty_pct: float, mode_str: str,
-                        feed_status: str = "WS_LIVE") -> Panel:
+                        feed_status: str = "WS_LIVE",
+                        risk_status: str = "RISK_OK") -> Panel:
         time_str = datetime.now().strftime("%H:%M:%S")
         regime_style, regime_emoji, regime_text = self.get_regime_style(regime)
         session_style, session_text = self.get_session_style(session_name)
@@ -210,6 +212,9 @@ class DashboardUI:
         header.append(" │ ", style="grey50")
         feed_style = "bright_red" if "DEGRADED" in feed_status else "bright_green"
         header.append(feed_status, style=feed_style)
+        header.append(" │ ", style="grey50")
+        risk_style = "bright_red" if risk_status != "RISK_OK" else "bright_green"
+        header.append(risk_status, style=risk_style)
         
         return Panel(
             Align.center(header),
@@ -405,7 +410,8 @@ class DashboardUI:
             state_data['nifty'], 
             state_data['nifty_pct'],
             mode_str,
-            state_data.get('feed_status', 'WS_LIVE')
+            state_data.get('feed_status', 'WS_LIVE'),
+            state_data.get('risk_status', 'RISK_OK')
         )
         self.layout["header"].update(header)
         
@@ -467,6 +473,10 @@ class TradingBotV6:
         self.ws_degraded_reason = ""
         self.last_ws_status_log_ts = 0.0
         self.ws_recovery_candidate_since = 0.0
+        self.last_tick_health_log_ts = 0.0
+        self.last_tick_health_stats = {"stale_ticks": 0, "missing_ticks": 0}
+        self.last_killswitch_reason = ""
+        self.after_close_processed = False
         
         # Historical Data Cache
         self.sector_history: Dict[str, List[float]] = {}
@@ -519,6 +529,54 @@ class TradingBotV6:
             sector_exposure[sector] = sector_exposure.get(sector, 0) + 1
 
         return symbol_exposure, sector_exposure
+
+    def _ensure_daily_baselines(self, source: str):
+        """Ensure daily baseline fields are initialized and coherent."""
+        reference_equity = self.risk.state.equity
+        if reference_equity <= 0:
+            reference_equity = self.risk.state.starting_equity
+        if reference_equity <= 0:
+            reference_equity = config.DEFAULT_PAPER_EQUITY
+
+        if self.risk.state.starting_equity <= 0:
+            self.risk.state.starting_equity = reference_equity
+
+        if self.risk.state.daily_start_equity <= 0:
+            self.risk.state.daily_start_equity = reference_equity
+
+        if self.risk.state.daily_high_equity <= 0:
+            self.risk.state.daily_high_equity = reference_equity
+        else:
+            self.risk.state.daily_high_equity = max(self.risk.state.daily_high_equity, reference_equity)
+
+        self.log(
+            f"⚓ Daily baseline ({source}): start=₹{self.risk.state.daily_start_equity:,.0f}, "
+            f"high=₹{self.risk.state.daily_high_equity:,.0f}, "
+            f"starting=₹{self.risk.state.starting_equity:,.0f}"
+        )
+
+    def _maybe_log_tick_health(self, now_monotonic: float):
+        """Periodic observability for stale/missing tick filtering."""
+        if (now_monotonic - self.last_tick_health_log_ts) < 60:
+            return
+
+        stats = data_manager.get_tick_health_stats()
+        stale_now = stats.get("stale_ticks", 0)
+        missing_now = stats.get("missing_ticks", 0)
+        stale_prev = self.last_tick_health_stats.get("stale_ticks", 0)
+        missing_prev = self.last_tick_health_stats.get("missing_ticks", 0)
+
+        if stale_now != stale_prev or missing_now != missing_prev:
+            self.log(
+                f"📡 Tick Health | fresh={stats.get('fresh_ticks', 0)} "
+                f"stale={stale_now} missing={missing_now}"
+            )
+
+        self.last_tick_health_stats = {
+            "stale_ticks": stale_now,
+            "missing_ticks": missing_now
+        }
+        self.last_tick_health_log_ts = now_monotonic
 
     def load_universe(self):
         self.log("📂 Loading Universe...")
@@ -711,12 +769,33 @@ class TradingBotV6:
 
         if self.state_mgr.load_state():
             self.state_mgr.restore_system(self.risk, self.lifecycle, self.orders)
-            if self.risk.state.equity <= 0:
-                self.risk.state.equity = config.DEFAULT_PAPER_EQUITY
-            self.log(f"✅ State Restored. Equity: ₹{self.risk.state.equity:,.0f}")
+            restored_starting = self.risk.state.starting_equity if self.risk.state.starting_equity > 0 else config.DEFAULT_PAPER_EQUITY
+            self.risk.state.starting_equity = restored_starting
+            restored_equity = restored_starting + self.orders.realized_pnl
+            self.risk.update_account(
+                restored_equity,
+                self.orders.realized_pnl,
+                self.orders.get_positions(),
+                realized_pnl=self.orders.realized_pnl,
+                unrealized_pnl=0.0
+            )
+            self._ensure_daily_baselines("restored")
+            self.log(
+                f"✅ State Restored. Equity: ₹{self.risk.state.equity:,.0f} "
+                f"(Realized: ₹{self.orders.realized_pnl:+,.0f})"
+            )
         else:
             self.log("🆕 Starting Fresh Session.")
-            self.risk.update_account(config.DEFAULT_PAPER_EQUITY, 0.0, [])
+            self.orders.realized_pnl = 0.0
+            self.risk.state.starting_equity = config.DEFAULT_PAPER_EQUITY
+            self.risk.update_account(
+                config.DEFAULT_PAPER_EQUITY,
+                0.0,
+                [],
+                realized_pnl=0.0,
+                unrealized_pnl=0.0
+            )
+            self._ensure_daily_baselines("initialized")
 
         self.log("📈 Fetching VIX history...")
         vix_token = 264969
@@ -752,7 +831,9 @@ class TradingBotV6:
             return "MAIN"
         if now < config.FORCE_EXIT_TIME:
             return "EXIT_ONLY"
-        return "FORCE_EXIT"
+        if now < config.MARKET_CLOSE_TIME:
+            return "FORCE_EXIT"
+        return "AFTER_CLOSE"
 
     def _update_sector_ranks(self, quotes: Dict, nifty_quote: Dict, regime: str):
         new_scores = []
@@ -760,7 +841,7 @@ class TradingBotV6:
         if len(self.nifty_history) < 20:
             return
         
-        nifty_tick = data_manager.get_tick(256265) or {}
+        nifty_tick = data_manager.get_fresh_tick(256265, config.TICK_MAX_AGE_SEC) or {}
         nifty_ltp = nifty_tick.get('last_price', nifty_quote.get('last_price', 0))
         
         nifty_prev_close = self.baselines.get('NIFTY 50', {}).get('prev_close', 0)
@@ -781,7 +862,7 @@ class TradingBotV6:
                 continue
             
             token = data_manager.get_token(f"NSE:{symbol}")
-            tick = data_manager.get_tick(token) or {}
+            tick = data_manager.get_fresh_tick(token, config.TICK_MAX_AGE_SEC) or {}
             q = quotes.get(f"NSE:{symbol}", {})
             
             curr = tick.get('last_price', q.get('last_price', 0))
@@ -811,7 +892,7 @@ class TradingBotV6:
             
             for sym in constituents:
                 stk_token = data_manager.get_token(f"NSE:{sym}")
-                stk_tick = data_manager.get_tick(stk_token)
+                stk_tick = data_manager.get_fresh_tick(stk_token, config.TICK_MAX_AGE_SEC)
                 
                 if stk_tick and stk_tick.get('average_price', 0) > 0:
                     valid_stocks += 1
@@ -1084,6 +1165,18 @@ class TradingBotV6:
                     now_dt = datetime.now()
                     self.current_playbook = self.get_playbook(now_dt.time())
 
+                    if self.current_playbook == "AFTER_CLOSE":
+                        if not self.after_close_processed:
+                            self.log("📪 AFTER_CLOSE reached. Executing final housekeeping.")
+                            self.lifecycle.force_exit_all()
+                            self.state_mgr.save_state(self.risk, self.lifecycle, self.orders)
+                            self.after_close_processed = True
+                        if config.AUTO_SHUTDOWN_AFTER_CLOSE:
+                            self.running = False
+                            break
+                        time.sleep(1)
+                        continue
+
                     # Periodic 5m history refresh
                     if now_monotonic - self.last_intraday_refresh >= config.INTRADAY_REFRESH_INTERVAL_SEC:
                         refresh_symbols = []
@@ -1137,10 +1230,21 @@ class TradingBotV6:
                         self.vix_percentile = self.regime_detector.calculate_percentile(self.vix_ltp, self.vix_history)
                         self.vix_multiplier = self.regime_detector.get_vix_multiplier(self.vix_percentile)
 
+                        kill_halt, kill_reason = self.risk.check_kill_switches(self.vix_percentile)
+                        if kill_halt and kill_reason != self.last_killswitch_reason:
+                            self.log(f"🛑 KILL SWITCH: {kill_reason}")
+                            self.last_killswitch_reason = kill_reason
+                            if config.FORCE_LIQUIDATE_ON_KILLSWITCH:
+                                self.lifecycle.force_exit_all()
+                        elif not kill_halt:
+                            self.last_killswitch_reason = ""
+
                         self.safety.update(self.nifty_ltp, self.vix_ltp, 0.0)
                         if self.safety.is_halted:
                             self.log(f"🛑 HALTED: {self.safety.halt_reason}")
                             self.lifecycle.force_exit_all()
+                        elif kill_halt:
+                            self.active_signals = []
                         elif self.ws_degraded:
                             self.active_signals = []
                         else:
@@ -1149,6 +1253,7 @@ class TradingBotV6:
                                 self.vix_ltp
                             )
 
+                        self._maybe_log_tick_health(now_monotonic)
                         self.last_ui_update = now_monotonic
 
                     # Update Lifecycle (Exits/Trailing)
@@ -1221,19 +1326,36 @@ class TradingBotV6:
 
                         positions_for_ui.append(pos)
 
-                    current_equity = max(self.risk.state.equity, config.DEFAULT_PAPER_EQUITY)
+                    starting_equity = self.risk.state.starting_equity if self.risk.state.starting_equity > 0 else config.DEFAULT_PAPER_EQUITY
+                    realized_pnl = float(self.orders.realized_pnl)
+                    current_pnl = realized_pnl + total_unrealized_pnl
+                    current_equity = starting_equity + current_pnl
+
                     symbol_exposure, sector_exposure = self._build_trade_exposure_maps()
                     self.risk.update_account(
                         current_equity,
-                        self.risk.state.current_pnl,
+                        current_pnl,
                         positions_for_ui,
                         symbol_exposure=symbol_exposure,
-                        sector_exposure=sector_exposure
+                        sector_exposure=sector_exposure,
+                        realized_pnl=realized_pnl,
+                        unrealized_pnl=total_unrealized_pnl
                     )
+                    kill_halt_post, kill_reason_post = self.risk.check_kill_switches(self.vix_percentile)
+                    if kill_halt_post and kill_reason_post != self.last_killswitch_reason:
+                        self.log(f"🛑 KILL SWITCH: {kill_reason_post}")
+                        self.last_killswitch_reason = kill_reason_post
+                        if config.FORCE_LIQUIDATE_ON_KILLSWITCH:
+                            self.lifecycle.force_exit_all()
+                    elif not kill_halt_post and not self.risk.kill_switch_active:
+                        self.last_killswitch_reason = ""
 
                     feed_status = "WS_LIVE"
                     if self.ws_degraded:
                         feed_status = f"WS_DEGRADED ({self.ws_degraded_reason})"
+                    risk_status = "RISK_OK"
+                    if self.risk.kill_switch_active:
+                        risk_status = f"KILL_SWITCH ({self.risk.kill_switch_reason})"
 
                     ui_state = {
                         "session": self.current_playbook,
@@ -1244,9 +1366,10 @@ class TradingBotV6:
                         "sectors": self.sector_scores,
                         "signals": self.active_signals,
                         "positions": positions_for_ui,
-                        "equity": self.risk.state.equity + total_unrealized_pnl,
-                        "pnl": self.risk.state.current_pnl + total_unrealized_pnl,
+                        "equity": current_equity,
+                        "pnl": current_pnl,
                         "feed_status": feed_status,
+                        "risk_status": risk_status,
                         "logs": self.logs
                     }
                     self.ui.update(ui_state)

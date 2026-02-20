@@ -90,6 +90,7 @@ MAX_POSITIONS_PER_STOCK = 1
 # Drawdown Limits (Kill Switches)
 DAILY_DRAWDOWN_WARNING_PCT = -0.01  # -1.0% (Reduce size)
 DAILY_DRAWDOWN_HALT_PCT = -0.02     # -2.0% (Stop new entries)
+FORCE_LIQUIDATE_ON_KILLSWITCH = False
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SIGNAL & GRADING CONSTANTS
@@ -226,6 +227,11 @@ WS_STALE_FEED_SEC = 15.0
 WS_RECOVERY_STABLE_SEC = 20.0
 TICK_MAX_AGE_SEC = 30.0
 WS_RECONNECT_BACKOFF_SEC = (1, 2, 5, 10, 30, 60)
+STALE_TICK_LOG_EVERY = 100
+
+# Safety monitor
+SAFETY_WINDOW_SEC = 300
+SAFETY_CADENCE_LOG_INTERVAL_SEC = 60
 
 # ══════════════════════════════════════════════════════════════════════════════
 # RISK & SIZING ADVANCED
@@ -251,3 +257,6 @@ CHANDELIER_LOOKBACK = 10
 # Paper order retention
 MAX_PAPER_ORDER_HISTORY = 1000
 MAX_PERSISTED_ORDER_HISTORY = 200
+
+# Session controls
+AUTO_SHUTDOWN_AFTER_CLOSE = True

@@ -1,6 +1,6 @@
 # Issue: No Distinct Post-Close Playbook State (`MARKET_CLOSE_TIME` Unused)
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: Medium
 
@@ -43,3 +43,14 @@ Alternative option:
 
 - Runtime behavior at/after 15:30 is explicit and deterministic.
 - Docs and config exactly match implemented playbook transitions.
+
+---
+
+## Resolution Summary
+
+- Added explicit `AFTER_CLOSE` playbook in `get_playbook()` (`v6/main.py`) for `>= MARKET_CLOSE_TIME`.
+- Updated session UI mapping to render `AFTER_CLOSE` explicitly.
+- Added after-close runtime behavior:
+  - final force-exit + state save once,
+  - optional clean shutdown controlled by `AUTO_SHUTDOWN_AFTER_CLOSE` (`v6/config.py`).
+- `FORCE_EXIT` is now limited to the 15:05–15:29:59 window only.
