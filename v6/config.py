@@ -86,7 +86,6 @@ BASE_RISK_PER_TRADE_PCT = 0.005  # 0.5% of account equity
 MAX_CONCURRENT_POSITIONS = 6
 MAX_POSITIONS_PER_SECTOR = 2
 MAX_POSITIONS_PER_STOCK = 1
-CORRELATION_THRESHOLD = 0.70
 
 # Drawdown Limits (Kill Switches)
 DAILY_DRAWDOWN_WARNING_PCT = -0.01  # -1.0% (Reduce size)
@@ -114,6 +113,7 @@ VIX_MULT_LOW = 1.20      # 0-20th percentile
 VIX_MULT_NORMAL = 1.00   # 20-50th percentile
 VIX_MULT_ELEVATED = 0.80 # 50-75th percentile
 VIX_MULT_HIGH = 0.75     # 75th percentile and above
+VIX_MULT_EXTREME = 0.50  # 90th percentile and above
 
 # RVOL Thresholds (ORB / MAIN)
 # Format: (VIX_PCTL_MAX, THRESHOLD)
@@ -189,6 +189,10 @@ RATE_LIMIT_ORDERS = 5.0  # Conservative
 CACHE_INSTRUMENTS_SEC = 3600 * 12  # 12 hours
 CACHE_HISTORICAL_SEC = 60 * 15     # 15 minutes
 
+# Logging
+LOG_MAX_BYTES = 10 * 1024 * 1024  # 10 MB
+LOG_BACKUP_COUNT = 5
+
 # ══════════════════════════════════════════════════════════════════════════════
 # MODE SETTINGS
 # ══════════════════════════════════════════════════════════════════════════════
@@ -214,6 +218,15 @@ LOOKBACK_DAYS_VIX = 45
 # UI refresh interval (WebSocket-driven metrics)
 UI_REFRESH_INTERVAL = 5  # Seconds between UI updates
 
+# State persistence cadence
+STATE_SAVE_INTERVAL_SEC = 60
+
+# Websocket health watchdog
+WS_STALE_FEED_SEC = 15.0
+WS_RECOVERY_STABLE_SEC = 20.0
+TICK_MAX_AGE_SEC = 30.0
+WS_RECONNECT_BACKOFF_SEC = (1, 2, 5, 10, 30, 60)
+
 # ══════════════════════════════════════════════════════════════════════════════
 # RISK & SIZING ADVANCED
 # ══════════════════════════════════════════════════════════════════════════════
@@ -234,3 +247,7 @@ TARGET_1_EXIT_PCT = 0.50
 
 CHANDELIER_ATR_MULT = 3.0
 CHANDELIER_LOOKBACK = 10
+
+# Paper order retention
+MAX_PAPER_ORDER_HISTORY = 1000
+MAX_PERSISTED_ORDER_HISTORY = 200

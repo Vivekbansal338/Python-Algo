@@ -1,6 +1,6 @@
 # Issue: Correlation Threshold Defined But Not Enforced
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: Medium
 
@@ -54,3 +54,12 @@ def check_correlation(candidate: str, active_symbols: List[str], history_5m: Dic
 - Candidate with |corr| > threshold against any active position is rejected.
 - Candidate below threshold passes this gate.
 - Gate reasons are visible in logs for rejected entries.
+
+---
+
+## Resolution Summary
+
+- Removed the correlation concept entirely per product decision.
+- Deleted `CORRELATION_THRESHOLD` from `v6/config.py`.
+- Removed correlation references from `v6/brain.py` risk documentation.
+- No correlation gate is present in runtime by design.

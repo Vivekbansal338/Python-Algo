@@ -1,6 +1,6 @@
 # Issue: State Save Can Fire Multiple Times Per Minute
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: Low
 
@@ -47,3 +47,11 @@ if time.monotonic() - self.last_state_save_ts >= 60:
 
 - At most one periodic save per 60-second interval.
 - Shutdown still performs immediate save.
+
+---
+
+## Resolution Summary
+
+- Replaced modulo-based save trigger in `v6/main.py` with monotonic elapsed-time gating.
+- Added `self.last_state_save_ts` and `config.STATE_SAVE_INTERVAL_SEC`.
+- Runtime now performs at most one periodic save per interval, with shutdown save preserved.

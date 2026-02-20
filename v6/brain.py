@@ -75,6 +75,7 @@ class AccountState:
     current_pnl: float = 0.0
     open_positions_count: int = 0
     sector_exposure: Dict[str, int] = field(default_factory=dict)
+    symbol_exposure: Dict[str, int] = field(default_factory=dict)
     active_symbols: List[str] = field(default_factory=list)
 
 
@@ -183,7 +184,7 @@ class MarketRegimeDetector:
     def get_vix_multiplier(vix_pctl: float) -> float:
         """Get position size multiplier based on VIX percentile."""
         if vix_pctl >= config.VIX_PCTL_EXTREME_THRESHOLD:
-            return config.VIX_MULT_HIGH
+            return config.VIX_MULT_EXTREME
         elif vix_pctl >= config.VIX_PCTL_HIGH_THRESHOLD:
             return config.VIX_MULT_HIGH
         elif vix_pctl > 50:
@@ -465,7 +466,7 @@ class RiskManager:
     """
     The Gatekeeper. Enforces:
     - Position Sizing (Grade, VIX, DayState)
-    - Portfolio Limits (Max 6, Max 2/Sector, Correlation)
+    - Portfolio Limits (Max 6, Max 2/Sector, Max/Symbol)
     - Kill Switches (Daily Drawdown)
     """
     
@@ -474,18 +475,44 @@ class RiskManager:
         self.kill_switch_active = False
         self.kill_switch_reason = ""
 
-    def update_account(self, equity: float, pnl: float, positions: List[Dict]):
+    def update_account(self,
+                       equity: float,
+                       pnl: float,
+                       positions: List[Dict],
+                       symbol_exposure: Optional[Dict[str, int]] = None,
+                       sector_exposure: Optional[Dict[str, int]] = None):
         """Update account state from Broker/Paper Broker."""
         self.state.equity = equity
         self.state.current_pnl = pnl
-        
-        self.state.open_positions_count = len(positions)
-        self.state.active_symbols = [p['symbol'] for p in positions]
-        
+
+        self.state.symbol_exposure.clear()
+        if symbol_exposure is not None:
+            for sym, count in symbol_exposure.items():
+                if count > 0:
+                    self.state.symbol_exposure[sym] = int(count)
+        else:
+            for p in positions:
+                sym = p.get('symbol')
+                if not sym:
+                    continue
+                self.state.symbol_exposure[sym] = self.state.symbol_exposure.get(sym, 0) + 1
+
+        if symbol_exposure is not None:
+            self.state.open_positions_count = sum(self.state.symbol_exposure.values())
+        else:
+            self.state.open_positions_count = len(positions)
+
+        self.state.active_symbols = list(self.state.symbol_exposure.keys())
+
         self.state.sector_exposure.clear()
-        for p in positions:
-            sector = p.get('sector', 'UNKNOWN')
-            self.state.sector_exposure[sector] = self.state.sector_exposure.get(sector, 0) + 1
+        if sector_exposure is not None:
+            for sec, count in sector_exposure.items():
+                if count > 0:
+                    self.state.sector_exposure[sec] = int(count)
+        else:
+            for p in positions:
+                sector = p.get('sector', 'UNKNOWN')
+                self.state.sector_exposure[sector] = self.state.sector_exposure.get(sector, 0) + 1
 
     def check_kill_switches(self, current_vix_pctl: float) -> Tuple[bool, str]:
         """
@@ -517,9 +544,10 @@ class RiskManager:
         if current_sector_count >= config.MAX_POSITIONS_PER_SECTOR:
             return False, f"MAX_SECTOR_LIMIT ({sector}: {current_sector_count})"
 
-        # Already Open
-        if symbol in self.state.active_symbols:
-            return False, f"ALREADY_OPEN ({symbol})"
+        # Max Per Symbol (configurable)
+        current_symbol_count = self.state.symbol_exposure.get(symbol, 0)
+        if current_symbol_count >= config.MAX_POSITIONS_PER_STOCK:
+            return False, f"MAX_STOCK_LIMIT ({symbol}: {current_symbol_count})"
 
         return True, "OK"
 

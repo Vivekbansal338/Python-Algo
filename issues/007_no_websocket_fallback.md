@@ -1,6 +1,6 @@
 # Issue: No WebSocket Disconnect Fallback
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: Critical
 
@@ -54,3 +54,18 @@ WebSocket connectivity state is tracked but not acted on. If websocket disconnec
 - Disconnect event triggers degraded mode and visible UI status.
 - Active trade exits continue via REST fallback path.
 - Reconnect succeeds automatically and system returns to normal mode without restart.
+
+---
+
+## Resolution Summary
+
+- Added websocket watchdog + reconnect state in `v6/data_engine.py`:
+  - `last_tick_received_at`, `reconnect_attempts`, `next_reconnect_ts`
+  - health API via `get_ws_health(...)`
+  - reconnect API via `attempt_reconnect()` with exponential backoff.
+- Added degraded mode flow in `v6/main.py`:
+  - disables new entries while degraded,
+  - continues active-trade exit management using REST quote fallback,
+  - uses REST fallback for major indices (`NIFTY 50`, `INDIA VIX`) during degraded metrics update.
+- Added visible UI header feed status (`WS_LIVE` / `WS_DEGRADED (...)`).
+- Added stable-recovery window logic before clearing degraded mode.

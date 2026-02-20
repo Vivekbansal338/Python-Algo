@@ -1,6 +1,6 @@
 # Issue: Thread Safety - WebSocket and Main Loop Share `live_ticks`
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: Medium
 
@@ -46,3 +46,15 @@ self._tick_lock = threading.RLock()
 - No direct `data_manager.live_ticks.get(...)` reads remain in runtime-critical paths.
 - Tick reads/writes are lock-protected.
 - Behavior remains functionally identical under normal load.
+
+---
+
+## Resolution Summary
+
+- Added `threading.RLock()` protection in `v6/data_engine.py` for tick writes and reads.
+- Wrapped websocket ingest writes under lock and stamped ticks with receive time.
+- Added thread-safe accessors:
+  - `get_tick(...)`
+  - `get_ticks(...)`
+  - `get_fresh_tick(...)`
+- Replaced runtime direct tick reads in `v6/main.py` with accessor usage.

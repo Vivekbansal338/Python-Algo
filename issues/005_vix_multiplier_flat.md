@@ -1,6 +1,6 @@
 # Issue: VIX Multiplier Identical for 75th and 90th+ Percentile
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: Low
 
@@ -44,3 +44,13 @@ VIX_MULT_EXTREME = 0.50
 
 - 90th+ percentile yields lower multiplier than 75-89 percentile.
 - Entry logs show correct percentile bucket and multiplier.
+
+---
+
+## Resolution Summary
+
+- Added `VIX_MULT_EXTREME = 0.50` in `v6/config.py`.
+- Updated `MarketRegimeDetector.get_vix_multiplier()` in `v6/brain.py`:
+  - `>= EXTREME_THRESHOLD` -> `VIX_MULT_EXTREME`
+  - `>= HIGH_THRESHOLD` -> `VIX_MULT_HIGH`
+- Entry logs in `v6/main.py` now include VIX percentile and applied multiplier.

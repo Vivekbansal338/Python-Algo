@@ -1,6 +1,6 @@
 # Issue: `MAX_POSITIONS_PER_STOCK` Constant Defined but Not Explicitly Enforced
 
-## Status: Open
+## Status: Completed (2026-02-20)
 
 ## Severity: Low
 
@@ -40,3 +40,13 @@ if symbol_exposure.get(symbol, 0) >= config.MAX_POSITIONS_PER_STOCK:
 
 - Runtime behavior changes when `MAX_POSITIONS_PER_STOCK` is changed.
 - With value `1`, current behavior is preserved.
+
+---
+
+## Resolution Summary
+
+- Added `symbol_exposure` to risk account state in `v6/brain.py`.
+- Updated `RiskManager.update_account(...)` to maintain symbol exposure counts.
+- Updated `RiskManager.can_open_new_trade(...)` to enforce:
+  - `symbol_exposure[symbol] < config.MAX_POSITIONS_PER_STOCK`
+- Main loop now passes lifecycle-derived symbol exposure into risk state updates.
