@@ -72,8 +72,7 @@ STYLES = {
     "regime_meanrevert": Style(color="bright_magenta", bold=True),
     "regime_halt": Style(color="bright_red", bold=True, blink=True),
     "session_premarket": Style(color="grey50"),
-    "session_or": Style(color="bright_yellow"),
-    "session_orb": Style(color="bright_green", bold=True),
+    "session_wait": Style(color="bright_yellow"),
     "session_main": Style(color="bright_cyan"),
     "session_closing": Style(color="bright_magenta"),
     "session_after": Style(color="grey50"),
@@ -169,8 +168,7 @@ class DashboardUI:
     def get_session_style(self, session: str) -> tuple:
         styles = {
             "PRE_MARKET": (STYLES["session_premarket"], "PRE-MARKET"),
-            "OR_FORMATION": (STYLES["session_or"], "OR FORMING"),
-            "ORB": (STYLES["session_orb"], "ORB ACTIVE 🎯"),
+            "WAIT": (STYLES["session_wait"], "WAIT"),
             "MAIN": (STYLES["session_main"], "MAIN SESSION"),
             "EXIT_ONLY": (STYLES["session_closing"], "EXIT ONLY"),
             "FORCE_EXIT": (STYLES["session_closing"], "FORCE EXIT"),
@@ -819,14 +817,8 @@ class TradingBotV6:
     def get_playbook(self, now: dt_time) -> str:
         if now < config.MARKET_OPEN_TIME:
             return "PRE_MARKET"
-        if now < config.OR_START_TIME:
+        if now < config.ENTRY_START_TIME:
             return "WAIT"
-        if now < config.OR_END_TIME:
-            return "OR_FORMATION"
-        if now < config.GAP_START_TIME:
-            return "ORB"
-        if now < config.GAP_END_TIME:
-            return "GAP"
         if now < config.ENTRY_CUTOFF_TIME:
             return "MAIN"
         if now < config.FORCE_EXIT_TIME:
@@ -938,7 +930,7 @@ class TradingBotV6:
         if missing_hist:
             self.fetch_stock_history(missing_hist)
             
-        can_enter = self.current_playbook in ["ORB", "MAIN"]
+        can_enter = self.current_playbook == "MAIN"
         
         self.active_signals = []
         for symbol in all_candidate_symbols:
@@ -959,7 +951,6 @@ class TradingBotV6:
                 continue
             
             passed, reason = ExecutionFilters.check_gate(
-                self.current_playbook, 
                 tick.get('depth', {}).get('buy', [{}])[0].get('price', 0),
                 tick.get('depth', {}).get('sell', [{}])[0].get('price', 0),
                 curr_p, atr, 
@@ -995,7 +986,6 @@ class TradingBotV6:
                 stoch_k=stoch_k,
                 sector_rank=sec_rank,
                 spread_atr=spread_atr,
-                playbook=self.current_playbook,
                 vix_pctl=self.vix_percentile
             )
             
@@ -1035,7 +1025,7 @@ class TradingBotV6:
         if not allowed:
             return
             
-        stop_mult = config.STOP_ATR_MULT_ORB if self.current_playbook == "ORB" else config.STOP_ATR_MULT_MAIN
+        stop_mult = config.STOP_ATR_MULT
         stop_dist = atr * stop_mult
         stop_price = ltp - stop_dist if signal.direction == "LONG" else ltp + stop_dist
         

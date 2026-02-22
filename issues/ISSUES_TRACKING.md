@@ -1,7 +1,7 @@
 # V6 Issue Tracking - Priority List
 
 > Last Updated: 2026-02-20  
-> Total Issues: 21
+> Total Issues: 22
 
 ---
 
@@ -32,8 +32,9 @@
 
 | Priority | Issue # | Issue Title                      | Severity | Location                | Status |
 | -------- | ------- | -------------------------------- | -------- | ----------------------- | ------ |
-| 10       | #001    | Missing Opening Range (OR) Logic | Medium   | main.py                 | Open   |
+| 10       | #001    | Missing Opening Range (OR) Logic | Medium   | main.py, config.py, brain.py | Completed   |
 | 11       | #002    | RVOL 5-Minute Candle Lag         | Medium   | main.py                 | Open   |
+| 22       | #022    | Terminal UI Jumping / Header Flicker | Medium   | main.py                 | Open   |
 | 12       | #014    | Thread Safety (live_ticks)       | Medium   | data_engine.py, main.py | Completed   |
 | 13       | #012    | Holiday/Weekend Detection        | Medium   | main.py                 | Completed   |
 | 14       | #017    | Safety Window Cadence Mismatch   | Medium   | brain.py, main.py       | Completed   |

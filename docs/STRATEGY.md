@@ -9,22 +9,20 @@
 
 Playbook dispatch is driven by `TradingBotV6.get_playbook()`.
 
-| Time (IST) | Playbook | New Entries |
-| --- | --- | --- |
-| Before 09:15 | `PRE_MARKET` | No |
-| 09:15-09:19:59 | `WAIT` | No |
-| 09:20-09:33:59 | `OR_FORMATION` | No |
-| 09:34-10:04:59 | `ORB` | Yes |
-| 10:05-10:09:59 | `GAP` | No |
-| 10:10-14:04:59 | `MAIN` | Yes |
-| 14:05-15:04:59 | `EXIT_ONLY` | No |
-| 15:05 onward | `FORCE_EXIT` | No |
+| Time (IST)     | Playbook      | New Entries |
+| -------------- | ------------- | ----------- |
+| Before 09:15   | `PRE_MARKET`  | No          |
+| 09:15-09:24:59 | `WAIT`        | No          |
+| 09:25-14:04:59 | `MAIN`        | Yes         |
+| 14:05-15:04:59 | `EXIT_ONLY`   | No          |
+| 15:05-15:29:59 | `FORCE_EXIT`  | No          |
+| 15:30 onward   | `AFTER_CLOSE` | No          |
 
 Notes:
 
-- In current code, `FORCE_EXIT` persists after 15:05 unless process stops.
-- `config.ORB_START_TIME` (09:35) is defined but not used by `get_playbook()`; ORB currently starts at 09:34 boundary (right after `OR_END_TIME`).
-- `ORB_END_TIME`, `MAIN_START_TIME`, `MAIN_END_TIME`, and `MARKET_CLOSE_TIME` are config constants but are not directly used by playbook routing.
+- The ORB/OR_FORMATION/GAP phases were removed (issue #001). The system runs a single unified momentum strategy.
+- `WAIT` period (09:15-09:25) allows the first two 5-minute candles to form before entries begin.
+- `AFTER_CLOSE` triggers final housekeeping and auto-shutdown.
 
 ---
 
@@ -82,7 +80,7 @@ Pipeline in `_scan_tradeable_stocks()`:
 
 Execution gate in current code:
 
-- Actual entries require `grade in ["A+", "A"]`, `gate_passed`, and playbook in `ORB` or `MAIN`.
+- Actual entries require `grade in ["A+", "A"]`, `gate_passed`, and playbook is `MAIN`.
 
 ---
 
@@ -156,7 +154,7 @@ Precision note:
 
 A new trade can execute only if all are true:
 
-1. Playbook is `ORB` or `MAIN`.
+1. Playbook is `MAIN`.
 2. Safety monitor is not halted.
 3. Symbol is in candidate set from selected sectors (or active set context).
 4. ADV threshold passes.

@@ -9,19 +9,18 @@
 
 This document is anchored to these runtime lines:
 
-- `v6/main.py:703` (`get_playbook`)
-- `v6/main.py:718` (`return "FORCE_EXIT"`)
-- `v6/main.py:1045` (5-second refresh gate)
-- `v6/main.py:1051` (`self.safety.update(..., 0.0)`)
-- `v6/main.py:1080` (modulo-based state save trigger)
-- `v6/main.py:1111` (equity clamp)
-- `v6/brain.py:473` (`daily_start_equity` initialized to `0.0`)
-- `v6/brain.py:490` (`check_kill_switches`)
-- `v6/execution.py:503` (state save field for `daily_start_equity`)
-- `v6/execution.py:522` (state restore into `daily_start_equity`)
-- `v6/config.py:54` (`ORB_START_TIME`)
-- `v6/config.py:76` (`MARKET_CLOSE_TIME`)
-- `v6/config.py:88` (`MAX_POSITIONS_PER_STOCK`)
+- `v6/main.py` (`get_playbook`)
+- `v6/main.py` (`return "FORCE_EXIT"`)
+- `v6/main.py` (5-second refresh gate)
+- `v6/main.py` (`self.safety.update(..., 0.0)`)
+- `v6/main.py` (state save trigger)
+- `v6/brain.py` (`daily_start_equity` initialized to `0.0`)
+- `v6/brain.py` (`check_kill_switches`)
+- `v6/execution.py` (state save field for `daily_start_equity`)
+- `v6/execution.py` (state restore into `daily_start_equity`)
+- `v6/config.py` (`ENTRY_START_TIME`)
+- `v6/config.py` (`MARKET_CLOSE_TIME`)
+- `v6/config.py` (`MAX_POSITIONS_PER_STOCK`)
 
 ---
 
@@ -29,13 +28,13 @@ This document is anchored to these runtime lines:
 
 V6 consolidates the prior multi-module stack into 5 runtime files:
 
-| File | Responsibility |
-| --- | --- |
-| `v6/config.py` | Constants, timing windows, thresholds, paths |
+| File                | Responsibility                                                                                        |
+| ------------------- | ----------------------------------------------------------------------------------------------------- |
+| `v6/config.py`      | Constants, timing windows, thresholds, paths                                                          |
 | `v6/data_engine.py` | Zerodha connectivity, instrument cache, historical/quote calls, websocket ticker, indicator functions |
-| `v6/brain.py` | Regime detection, sector scoring, stock grading, execution filters, risk logic, safety logic |
-| `v6/execution.py` | Paper order engine, lifecycle manager, state persistence |
-| `v6/main.py` | Orchestrator loop + Rich TUI |
+| `v6/brain.py`       | Regime detection, sector scoring, stock grading, execution filters, risk logic, safety logic          |
+| `v6/execution.py`   | Paper order engine, lifecycle manager, state persistence                                              |
+| `v6/main.py`        | Orchestrator loop + Rich TUI                                                                          |
 
 Dependency direction is one-way:
 
@@ -87,12 +86,12 @@ Important distinction:
 - Tick ingestion can be high-frequency (websocket callback thread).
 - Strategy recalculation cadence is gated by main loop timers.
 
-| Activity | Actual Cadence in Code | Where |
-| --- | --- | --- |
-| Main loop iteration | Every ~0.5s (`time.sleep(0.5)`) | `v6/main.py` |
-| Metrics recalculation + scanner + safety call | Every 5s (`UI_REFRESH_INTERVAL`) | `v6/main.py:1045` block |
-| Intraday 5m historical refresh | Every 300s | `v6/main.py` |
-| State persistence | `if int(time.time()) % 60 == 0` (can write multiple times in same second) | `v6/main.py:1080` |
+| Activity                                      | Actual Cadence in Code                                                    | Where                   |
+| --------------------------------------------- | ------------------------------------------------------------------------- | ----------------------- |
+| Main loop iteration                           | Every ~0.5s (`time.sleep(0.5)`)                                           | `v6/main.py`            |
+| Metrics recalculation + scanner + safety call | Every 5s (`UI_REFRESH_INTERVAL`)                                          | `v6/main.py:1045` block |
+| Intraday 5m historical refresh                | Every 300s                                                                | `v6/main.py`            |
+| State persistence                             | `if int(time.time()) % 60 == 0` (can write multiple times in same second) | `v6/main.py:1080`       |
 
 So UI/strategy is not strictly tick-by-tick. It is snapshot-driven at the configured refresh gate.
 
@@ -103,15 +102,13 @@ So UI/strategy is not strictly tick-by-tick. It is snapshot-driven at the config
 `TradingBotV6.get_playbook()` returns:
 
 - `< 09:15` -> `PRE_MARKET`
-- `09:15-09:19:59` -> `WAIT`
-- `09:20-09:33:59` -> `OR_FORMATION`
-- `09:34-10:04:59` -> `ORB`
-- `10:05-10:09:59` -> `GAP`
-- `10:10-14:04:59` -> `MAIN`
+- `09:15-09:24:59` -> `WAIT`
+- `09:25-14:04:59` -> `MAIN`
 - `14:05-15:04:59` -> `EXIT_ONLY`
-- `>= 15:05` -> `FORCE_EXIT`
+- `15:05-15:29:59` -> `FORCE_EXIT`
+- `>= 15:30` -> `AFTER_CLOSE`
 
-There is no separate playbook return for `MARKET_CLOSE_TIME` (`15:30`), even though that constant exists in config.
+The ORB/OR_FORMATION/GAP phases were removed in issue #001 resolution. The system now runs a single unified momentum strategy.
 
 ---
 
@@ -134,12 +131,12 @@ Important precision:
 
 ## 6. Key Supporting Files
 
-| File | Purpose |
-| --- | --- |
-| `config/universe.json` | Sector indices + stock universe |
-| `data/state_v6.json` | Persistent runtime snapshot |
-| `data/cache/instruments.pkl` | Cached instrument master |
-| `.env` | `KITE_API_KEY`, `KITE_ACCESS_TOKEN` |
+| File                         | Purpose                             |
+| ---------------------------- | ----------------------------------- |
+| `config/universe.json`       | Sector indices + stock universe     |
+| `data/state_v6.json`         | Persistent runtime snapshot         |
+| `data/cache/instruments.pkl` | Cached instrument master            |
+| `.env`                       | `KITE_API_KEY`, `KITE_ACCESS_TOKEN` |
 
 ---
 

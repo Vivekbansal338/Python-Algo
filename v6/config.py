@@ -44,23 +44,8 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 # 09:15 - Market Open (Wait period starts)
 MARKET_OPEN_TIME = time(9, 15)
 
-# 09:20 - Opening Range Formation Starts
-OR_START_TIME = time(9, 20)
-
-# 09:34 - Opening Range Ends
-OR_END_TIME = time(9, 34)
-
-# 09:35 - ORB Playbook Starts (Strict Entry)
-ORB_START_TIME = time(9, 35)
-ORB_END_TIME = time(10, 5)
-
-# 10:05 - Gap Period (No New Entries)
-GAP_START_TIME = time(10, 5)
-GAP_END_TIME = time(10, 10)
-
-# 10:10 - Main Playbook Starts (Normal Entry)
-MAIN_START_TIME = time(10, 10)
-MAIN_END_TIME = time(14, 5)
+# 09:25 - Unified Main Strategy entry starts
+ENTRY_START_TIME = time(9, 25)
 
 # 12:00 - Lunch Lull (Reduced Sizing)
 LUNCH_START_TIME = time(12, 0)
@@ -116,16 +101,9 @@ VIX_MULT_ELEVATED = 0.80 # 50-75th percentile
 VIX_MULT_HIGH = 0.75     # 75th percentile and above
 VIX_MULT_EXTREME = 0.50  # 90th percentile and above
 
-# RVOL Thresholds (ORB / MAIN)
+# RVOL Thresholds (Unified Main Strategy)
 # Format: (VIX_PCTL_MAX, THRESHOLD)
-RVOL_THRESHOLDS_ORB = [
-    (25, 1.8),
-    (50, 1.5),
-    (75, 1.3),
-    (100, 1.2)
-]
-
-RVOL_THRESHOLDS_MAIN = [
+RVOL_THRESHOLDS = [
     (25, 1.5),
     (50, 1.3),
     (75, 1.1),
@@ -167,13 +145,9 @@ THRESHOLD_B = 4
 # Liquidity Filter
 MIN_ADV_CRORES = 75.0
 
-# Strict Mode (ORB)
-STRICT_SPREAD_ATR_LIMIT = 0.15
-STRICT_CIRCUIT_BUFFER = 0.03
-
-# Normal Mode (Main)
-NORMAL_SPREAD_ATR_LIMIT = 0.25
-NORMAL_CIRCUIT_BUFFER = 0.02
+# Unified Mode (Main)
+SPREAD_ATR_LIMIT = 0.25
+CIRCUIT_BUFFER = 0.02
 
 # ══════════════════════════════════════════════════════════════════════════════
 # API SETTINGS
@@ -245,8 +219,7 @@ RISK_MULT_WARNING = 0.50
 # LIFECYCLE & STOPS
 # ══════════════════════════════════════════════════════════════════════════════
 
-STOP_ATR_MULT_ORB = 2.4
-STOP_ATR_MULT_MAIN = 2.0
+STOP_ATR_MULT = 2.0
 
 TARGET_1_MULT = 1.5
 TARGET_1_EXIT_PCT = 0.50

@@ -325,7 +325,6 @@ class StockGrader:
                         stoch_k: float, 
                         sector_rank: int, 
                         spread_atr: float,
-                        playbook: str,
                         vix_pctl: float) -> StockSignal:
         """Comprehensive signal grading."""
         reasons = []
@@ -333,7 +332,7 @@ class StockGrader:
         
         # 1. Immediate Disqualifiers (Grade C)
         # RVOL Check
-        rvol_threshold = self._get_rvol_threshold(playbook, vix_pctl)
+        rvol_threshold = self._get_rvol_threshold(vix_pctl)
         if rvol < rvol_threshold:
             return StockSignal(
                 symbol="", sector="", grade="C", direction=direction, 
@@ -394,7 +393,7 @@ class StockGrader:
             reasons.append(f"Top 5 Sector (Rank {sector_rank})")
             
         # Spread Quality (1 pt)
-        gate_limit = config.STRICT_SPREAD_ATR_LIMIT if playbook == "ORB" else config.NORMAL_SPREAD_ATR_LIMIT
+        gate_limit = config.SPREAD_ATR_LIMIT
         if spread_atr < gate_limit * 0.5:
             score += config.POINTS_SPREAD
             reasons.append("Superior Spread Quality")
@@ -424,9 +423,9 @@ class StockGrader:
             spread_atr=spread_atr
         )
 
-    def _get_rvol_threshold(self, playbook: str, vix_pctl: float) -> float:
-        """Get RVOL threshold based on playbook and VIX percentile."""
-        thresholds = config.RVOL_THRESHOLDS_ORB if playbook == "ORB" else config.RVOL_THRESHOLDS_MAIN
+    def _get_rvol_threshold(self, vix_pctl: float) -> float:
+        """Get RVOL threshold based on VIX percentile."""
+        thresholds = config.RVOL_THRESHOLDS
         for max_pctl, val in thresholds:
             if vix_pctl <= max_pctl:
                 return val
@@ -441,8 +440,7 @@ class ExecutionFilters:
     """Microstructure gate and liquidity checks."""
     
     @staticmethod
-    def check_gate(playbook: str, 
-                   bid: float, 
+    def check_gate(bid: float, 
                    ask: float, 
                    price: float, 
                    atr: float, 
@@ -459,7 +457,7 @@ class ExecutionFilters:
         # 1. Spread/ATR Ratio
         spread = ask - bid
         ratio = spread / atr
-        limit = config.STRICT_SPREAD_ATR_LIMIT if playbook == "ORB" else config.NORMAL_SPREAD_ATR_LIMIT
+        limit = config.SPREAD_ATR_LIMIT
         
         if ratio > limit:
             return False, f"SPREAD_ATR_{ratio:.2%}_>_{limit:.0%}"
@@ -469,7 +467,7 @@ class ExecutionFilters:
             dist_u = (u_circuit - price) / price
             dist_l = (price - l_circuit) / price
             buffer = min(dist_u, dist_l)
-            min_buffer = config.STRICT_CIRCUIT_BUFFER if playbook == "ORB" else config.NORMAL_CIRCUIT_BUFFER
+            min_buffer = config.CIRCUIT_BUFFER
             
             if buffer < min_buffer:
                 return False, f"CIRCUIT_BUFFER_{buffer:.2%}_<_{min_buffer:.0%}"
