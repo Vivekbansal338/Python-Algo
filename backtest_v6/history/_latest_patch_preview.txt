@@ -1,0 +1,81 @@
+diff --git a/backtest_v6/sector_engine_v6.py b/backtest_v6/sector_engine_v6.py
+index caaf074..7806a0b 100644
+--- a/backtest_v6/sector_engine_v6.py
++++ b/backtest_v6/sector_engine_v6.py
+@@ -167,6 +167,7 @@ class SectorBacktesterV6:
+         self.all_signal_records: List[Dict[str, Any]] = []
+         self.all_position_records: List[Dict[str, Any]] = []
+         self.all_trade_records: List[Dict[str, Any]] = []
++        self.all_trade_index_by_trade_id: Dict[str, int] = {}
+         self.history_output_path: Optional[Path] = None
+ 
+         self.initialized = False
+@@ -191,6 +192,7 @@ class SectorBacktesterV6:
+         self.all_signal_records.clear()
+         self.all_position_records.clear()
+         self.all_trade_records.clear()
++        self.all_trade_index_by_trade_id.clear()
+         self.history_output_path = None
+         self._log(
+             f"Run tracking started | run_id={self.run_id} | range={start_date} -> {end_date}"
+@@ -1039,33 +1041,29 @@ class SectorBacktesterV6:
+             "executed_within_max_positions": bool(executed_trade and max_positions_slot_available),
+         }
+ 
++        all_trade_id = executed_trade_id if executed_trade else f"POT_{signal_id}"
+         all_trade_row = {
+-            "signal_id": signal_id,
+-            "timestamp": ts.isoformat(),
++            "trade_id": all_trade_id,
+             "symbol": signal.symbol,
+             "sector": signal.sector,
+             "direction": signal.direction,
++            "entry_time": ts.isoformat(),
+             "entry_price": float(ltp),
+-            "stop_price": float(stop_price) if stop_price is not None else None,
+-            "target_1": float(target_1) if target_1 is not None else None,
+-            "planned_qty": int(sizing.shares) if sizing is not None else 0,
+-            "planned_risk_amount": float(sizing.risk_amount) if sizing is not None else 0.0,
+-            "planned_effective_risk_pct": float(sizing.effective_risk_pct) if sizing is not None else 0.0,
+-            "entry_decision": entry_decision,
+-            "risk_reason": risk_reason,
+-            "sizing_reason": sizing.reason if sizing is not None else "SIZING_NOT_COMPUTED",
+-            "max_positions_slot_available": bool(max_positions_slot_available),
+-            "blocked_by_max_positions": bool(blocked_by_max_positions),
+-            "blocked_by_sector_limit": bool(blocked_by_sector_limit),
+-            "blocked_by_stock_limit": bool(blocked_by_stock_limit),
+-            "executed_trade": bool(executed_trade),
+-            "executed_trade_id": executed_trade_id,
++            "initial_qty": int(sizing.shares) if sizing is not None else 0,
++            "exit_time": None,
++            "exit_price": 0.0,
++            "exit_reason": "" if executed_trade else entry_decision,
++            "realized_pnl": 0.0,
++            "stage": "ACTIVE" if executed_trade else "NOT_EXECUTED",
+         }
+ 
+         # Full opportunity universe: all A/A+ signals and their potential position/trade data.
+         self.all_signal_records.append(signal_row)
+         self.all_position_records.append(position_row)
++        all_trade_idx = len(self.all_trade_records)
+         self.all_trade_records.append(all_trade_row)
++        if executed_trade and executed_trade_id:
++            self.all_trade_index_by_trade_id[executed_trade_id] = all_trade_idx
+ 
+         # Config-constrained dataset: only actual executed path.
+         if executed_trade:
+@@ -1091,6 +1089,13 @@ class SectorBacktesterV6:
+         trade.exit_reason = reason
+         trade.stage = "CLOSED"
+ 
++        # Keep all_trade_records schema identical to trade_records by updating
++        # executed candidates with final close-state fields.
++        all_idx = self.all_trade_index_by_trade_id.get(trade_id)
++        if all_idx is not None and 0 <= all_idx < len(self.all_trade_records):
++            self.all_trade_records[all_idx] = self._serialize_trade(trade)
++            self.all_trade_index_by_trade_id.pop(trade_id, None)
++
+         self.trade_history.append(copy.deepcopy(trade))
+         self.active_trades.pop(trade_id, None)
+ 
+

@@ -167,7 +167,10 @@ class SectorBacktesterV6:
         self.all_signal_records: List[Dict[str, Any]] = []
         self.all_position_records: List[Dict[str, Any]] = []
         self.all_trade_records: List[Dict[str, Any]] = []
+        self.all_trade_index_by_trade_id: Dict[str, int] = {}
         self.history_output_path: Optional[Path] = None
+        self.history_file_date_label = ""
+        self.history_file_time_label = ""
 
         self.initialized = False
 
@@ -191,7 +194,10 @@ class SectorBacktesterV6:
         self.all_signal_records.clear()
         self.all_position_records.clear()
         self.all_trade_records.clear()
+        self.all_trade_index_by_trade_id.clear()
         self.history_output_path = None
+        self.history_file_date_label = ""
+        self.history_file_time_label = ""
         self._log(
             f"Run tracking started | run_id={self.run_id} | range={start_date} -> {end_date}"
         )
@@ -305,7 +311,10 @@ class SectorBacktesterV6:
             "risk_reason_counts": dict(risk_reason_counter),
         }
 
-    def _write_run_history_file(self, start_date: date, end_date: date, trading_days: List[date]):
+    def _ensure_history_output_path(self, start_date: date, end_date: date) -> Path:
+        if self.history_output_path is not None:
+            return self.history_output_path
+
         self.history_dir.mkdir(parents=True, exist_ok=True)
         stamp_dt = datetime.now()
         date_part = stamp_dt.strftime("%d-%m-%Y")
@@ -320,23 +329,41 @@ class SectorBacktesterV6:
             out_path = self.history_dir / f"{base_name}_{seq}.json"
             seq += 1
 
+        self.history_output_path = out_path
+        self.history_file_date_label = date_part
+        self.history_file_time_label = time_display
+        return out_path
+
+    def _write_run_history_file(
+        self,
+        start_date: date,
+        end_date: date,
+        trading_days: List[date],
+        is_checkpoint: bool = False,
+    ):
+        out_path = self._ensure_history_output_path(start_date, end_date)
+        payload_finished_at = self.run_finished_at
+        if is_checkpoint and payload_finished_at is None:
+            payload_finished_at = datetime.now()
+
         payload: Dict[str, Any] = {
             "run": {
                 "run_id": self.run_id,
                 "status": self.run_status,
                 "error": self.run_error,
+                "is_checkpoint": bool(is_checkpoint),
                 "started_at": self._json_safe(self.run_started_at),
-                "finished_at": self._json_safe(self.run_finished_at),
+                "finished_at": self._json_safe(payload_finished_at),
                 "duration_seconds": (
-                    (self.run_finished_at - self.run_started_at).total_seconds()
-                    if self.run_started_at and self.run_finished_at
+                    (payload_finished_at - self.run_started_at).total_seconds()
+                    if self.run_started_at and payload_finished_at
                     else None
                 ),
                 "start_date": start_date.isoformat(),
                 "end_date": end_date.isoformat(),
                 "trading_days": [d.isoformat() for d in trading_days],
-                "history_file_date_label": date_part,
-                "history_file_time_label": time_display,
+                "history_file_date_label": self.history_file_date_label,
+                "history_file_time_label": self.history_file_time_label,
                 "data_root": str(self.data_root),
                 "history_file": str(out_path),
             },
@@ -371,8 +398,10 @@ class SectorBacktesterV6:
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2, ensure_ascii=False)
 
-        self.history_output_path = out_path
-        self._log(f"History output saved: {out_path}")
+        if is_checkpoint:
+            self._log(f"History checkpoint saved: {out_path}")
+        else:
+            self._log(f"History output saved: {out_path}")
 
     def initialize(self) -> bool:
         """Load universe and parquet data into memory."""
@@ -1039,33 +1068,29 @@ class SectorBacktesterV6:
             "executed_within_max_positions": bool(executed_trade and max_positions_slot_available),
         }
 
+        all_trade_id = executed_trade_id if executed_trade else f"POT_{signal_id}"
         all_trade_row = {
-            "signal_id": signal_id,
-            "timestamp": ts.isoformat(),
+            "trade_id": all_trade_id,
             "symbol": signal.symbol,
             "sector": signal.sector,
             "direction": signal.direction,
+            "entry_time": ts.isoformat(),
             "entry_price": float(ltp),
-            "stop_price": float(stop_price) if stop_price is not None else None,
-            "target_1": float(target_1) if target_1 is not None else None,
-            "planned_qty": int(sizing.shares) if sizing is not None else 0,
-            "planned_risk_amount": float(sizing.risk_amount) if sizing is not None else 0.0,
-            "planned_effective_risk_pct": float(sizing.effective_risk_pct) if sizing is not None else 0.0,
-            "entry_decision": entry_decision,
-            "risk_reason": risk_reason,
-            "sizing_reason": sizing.reason if sizing is not None else "SIZING_NOT_COMPUTED",
-            "max_positions_slot_available": bool(max_positions_slot_available),
-            "blocked_by_max_positions": bool(blocked_by_max_positions),
-            "blocked_by_sector_limit": bool(blocked_by_sector_limit),
-            "blocked_by_stock_limit": bool(blocked_by_stock_limit),
-            "executed_trade": bool(executed_trade),
-            "executed_trade_id": executed_trade_id,
+            "initial_qty": int(sizing.shares) if sizing is not None else 0,
+            "exit_time": None,
+            "exit_price": 0.0,
+            "exit_reason": "" if executed_trade else entry_decision,
+            "realized_pnl": 0.0,
+            "stage": "ACTIVE" if executed_trade else "NOT_EXECUTED",
         }
 
         # Full opportunity universe: all A/A+ signals and their potential position/trade data.
         self.all_signal_records.append(signal_row)
         self.all_position_records.append(position_row)
+        all_trade_idx = len(self.all_trade_records)
         self.all_trade_records.append(all_trade_row)
+        if executed_trade and executed_trade_id:
+            self.all_trade_index_by_trade_id[executed_trade_id] = all_trade_idx
 
         # Config-constrained dataset: only actual executed path.
         if executed_trade:
@@ -1090,6 +1115,13 @@ class SectorBacktesterV6:
         trade.exit_price = float(exit_price)
         trade.exit_reason = reason
         trade.stage = "CLOSED"
+
+        # Keep all_trade_records schema identical to trade_records by updating
+        # executed candidates with final close-state fields.
+        all_idx = self.all_trade_index_by_trade_id.get(trade_id)
+        if all_idx is not None and 0 <= all_idx < len(self.all_trade_records):
+            self.all_trade_records[all_idx] = self._serialize_trade(trade)
+            self.all_trade_index_by_trade_id.pop(trade_id, None)
 
         self.trade_history.append(copy.deepcopy(trade))
         self.active_trades.pop(trade_id, None)
@@ -1320,7 +1352,7 @@ class SectorBacktesterV6:
             print("=" * 150)
 
             self.day_results.clear()
-            for day in trading_days:
+            for idx, day in enumerate(trading_days, start=1):
                 result = self._run_day(day)
                 self.day_results.append(result)
 
@@ -1328,6 +1360,14 @@ class SectorBacktesterV6:
                 print(
                     f"{day} | {result.start_equity:>14,.0f} | {result.end_equity:>14,.0f} | "
                     f"{result.pnl:>+12,.0f} | {result.trades:>6} | {trade_str}"
+                )
+
+                # Incremental persistence: update the same history JSON daily.
+                self._write_run_history_file(
+                    start_date,
+                    end_date,
+                    trading_days[:idx],
+                    is_checkpoint=True,
                 )
 
             self.run_status = "COMPLETED"

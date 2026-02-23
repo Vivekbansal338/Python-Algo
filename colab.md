@@ -108,7 +108,86 @@ TradingBot/
 
 ## Step-by-Step Colab Setup
 
-### Option 1: Upload Minimal Folder (Recommended)
+### Option 0: Upload Directly from Desktop (Simplest)
+
+**Best for:** Quick testing, one-time backtests, no Google Drive needed
+
+#### Step 1: Create Colab notebook
+
+1. Go to [colab.research.google.com](https://colab.research.google.com)
+2. Click **File → New notebook**
+
+#### Step 2: Upload your folder to Colab
+
+```python
+# In first cell of Colab, run this:
+from google.colab import files
+uploaded = files.upload()
+
+# A file picker will appear
+# Select your TradingBot folder (or a zip of it)
+```
+
+#### Step 3: Extract and navigate
+
+```python
+import os
+import shutil
+
+# If you uploaded a zip file:
+!unzip -q "TradingBot.zip"
+
+# Navigate to project
+os.chdir('/content/TradingBot')
+!ls -la
+```
+
+#### Step 4: Install dependencies
+
+```python
+!pip install pandas numpy -q
+```
+
+#### Step 5: Run backtest
+
+```python
+!python backtest_v6/sector_engine_v6.py \
+  --start 2026-02-01 \
+  --end 2026-02-23 \
+  --export
+```
+
+#### Step 6: Download results back to desktop
+
+```python
+from google.colab import files
+
+# Download backtest results
+files.download('backtest_v6/data/backtest_trades_v6.csv')
+
+# Or download entire results folder
+!zip -r results.zip backtest_v6/data/
+files.download('results.zip')
+```
+
+---
+
+**Pros:**
+
+- ✅ No Google Drive login needed
+- ✅ Fastest setup (5 minutes)
+- ✅ Upload/download via browser
+- ✅ Isolated work (won't clutter Drive)
+
+**Cons:**
+
+- ❌ Files deleted when Colab session ends
+- ❌ Can't reuse between sessions
+- ❌ Slower for repeated runs
+
+---
+
+### Option 1: Upload Minimal Folder (Recommended for repeated use)
 
 ```python
 # 1. Mount Google Drive
