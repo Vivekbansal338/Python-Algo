@@ -22,6 +22,7 @@ Version: 6.0.0
 import time
 import logging
 import pickle
+import threading
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Tuple, Union
 
@@ -261,6 +262,7 @@ class DataManager:
         self.token_map: Dict[str, int] = {}  # Symbol -> Token
         self.symbol_map: Dict[int, str] = {}  # Token -> Symbol
         self.live_ticks: Dict[int, Dict] = {}  # Token -> Latest Tick
+        self._tick_lock = threading.RLock()
         
         # Cache paths
         self.cache_dir = config.DATA_DIR / "cache"
@@ -270,6 +272,17 @@ class DataManager:
         # Connection Status
         self.is_connected = False
         self.is_ws_connected = False
+        self.last_tick_received_at = 0.0
+        self.ws_connected_at = 0.0
+        self.reconnect_attempts = 0
+        self.next_reconnect_ts = 0.0
+        self._subscribed_tokens: List[int] = []
+        self._ticker_on_ticks: Any = None
+        self._ticker_on_connect: Any = None
+        self._ticker_mode: str = "full"
+        self.stale_tick_count = 0
+        self.missing_tick_count = 0
+        self.fresh_tick_count = 0
 
     # ══════════════════════════════════════════════════════════════════════════
     # CONNECTIVITY
@@ -429,13 +442,23 @@ class DataManager:
         if not self.api_key or not self.access_token:
             return False
 
+        self._subscribed_tokens = list(tokens or [])
+        self._ticker_on_ticks = on_ticks
+        self._ticker_on_connect = on_connect
+        self._ticker_mode = mode
+
         try:
             self.ticker = KiteTicker(self.api_key, self.access_token)
             
             # Wrapper to handle ticks and update buffer
             def _on_ticks(ws, ticks):
-                for tick in ticks:
-                    self.live_ticks[tick['instrument_token']] = tick
+                received_at = time.monotonic()
+                with self._tick_lock:
+                    for tick in ticks:
+                        tick_copy = dict(tick)
+                        tick_copy["_received_at"] = received_at
+                        self.live_ticks[tick['instrument_token']] = tick_copy
+                self.last_tick_received_at = received_at
                 if on_ticks:
                     on_ticks(ws, ticks)
 
@@ -443,6 +466,7 @@ class DataManager:
             def _on_connect(ws, response):
                 logger.info("WebSocket Connected.")
                 self.is_ws_connected = True
+                self.ws_connected_at = time.monotonic()
                 
                 if tokens:
                     ws.subscribe(tokens)
@@ -463,6 +487,7 @@ class DataManager:
 
             def _on_error(ws, code, reason):
                 logger.error(f"WebSocket Error: {code} - {reason}")
+                self.is_ws_connected = False
 
             # Assign callbacks
             self.ticker.on_ticks = _on_ticks
@@ -476,6 +501,132 @@ class DataManager:
 
         except Exception as e:
             logger.error(f"Failed to start Ticker: {e}")
+            return False
+
+    def get_tick(self, token: Optional[int]) -> Optional[Dict[str, Any]]:
+        """Thread-safe read for one tick."""
+        if not token:
+            return None
+        with self._tick_lock:
+            tick = self.live_ticks.get(token)
+            return dict(tick) if tick else None
+
+    def get_ticks(self, tokens: List[int]) -> Dict[int, Dict[str, Any]]:
+        """Thread-safe batch tick read under a single lock."""
+        if not tokens:
+            return {}
+        out: Dict[int, Dict[str, Any]] = {}
+        with self._tick_lock:
+            for token in tokens:
+                tick = self.live_ticks.get(token)
+                if tick:
+                    out[token] = dict(tick)
+        return out
+
+    def get_fresh_tick(self, token: Optional[int], max_age_sec: float = 30.0) -> Optional[Dict[str, Any]]:
+        """Return a tick only if present and younger than max_age_sec."""
+        tick = self.get_tick(token)
+        if not tick:
+            self.missing_tick_count += 1
+            return None
+
+        received_at = tick.get("_received_at")
+        if not isinstance(received_at, (int, float)):
+            self.missing_tick_count += 1
+            return None
+        age_sec = time.monotonic() - received_at
+        if age_sec > max_age_sec:
+            self.stale_tick_count += 1
+            if config.STALE_TICK_LOG_EVERY > 0 and self.stale_tick_count % config.STALE_TICK_LOG_EVERY == 0:
+                logger.warning(
+                    f"Stale tick filtered token={token} age={age_sec:.1f}s "
+                    f"threshold={max_age_sec:.1f}s total_stale={self.stale_tick_count}"
+                )
+            return None
+        self.fresh_tick_count += 1
+        return tick
+
+    def get_tick_health_stats(self) -> Dict[str, int]:
+        """Lightweight counters for stale/missing/fresh tick filtering."""
+        return {
+            "fresh_ticks": int(self.fresh_tick_count),
+            "stale_ticks": int(self.stale_tick_count),
+            "missing_ticks": int(self.missing_tick_count),
+        }
+
+    def get_ws_health(self, max_age_sec: float) -> Tuple[bool, str, float]:
+        """
+        Returns:
+            degraded: bool
+            reason: health reason code
+            tick_age_sec: age of latest received tick (inf if unknown)
+        """
+        now = time.monotonic()
+        tick_age = float("inf")
+        if self.last_tick_received_at > 0:
+            tick_age = now - self.last_tick_received_at
+
+        if not self.is_ws_connected:
+            return True, "WS_DISCONNECTED", tick_age
+
+        if tick_age > max_age_sec:
+            age_str = f"{tick_age:.1f}s" if np.isfinite(tick_age) else "INF"
+            return True, f"WS_STALE_{age_str}", tick_age
+
+        return False, "WS_HEALTHY", tick_age
+
+    def is_recovery_stable(self, stable_sec: float, max_age_sec: float) -> bool:
+        """Connection must be healthy for stable_sec after connect before clearing degraded mode."""
+        degraded, _, _ = self.get_ws_health(max_age_sec)
+        if degraded:
+            return False
+        if self.ws_connected_at <= 0:
+            return False
+        if self.last_tick_received_at < self.ws_connected_at:
+            return False
+        return (time.monotonic() - self.ws_connected_at) >= stable_sec
+
+    def mark_recovered(self):
+        """Reset reconnect backoff after stable recovery."""
+        self.reconnect_attempts = 0
+        self.next_reconnect_ts = 0.0
+
+    def attempt_reconnect(self) -> bool:
+        """Try reconnecting the ticker using exponential backoff."""
+        if not self._subscribed_tokens:
+            return False
+
+        now = time.monotonic()
+        if now < self.next_reconnect_ts:
+            return False
+
+        backoff = list(config.WS_RECONNECT_BACKOFF_SEC) if config.WS_RECONNECT_BACKOFF_SEC else [1.0]
+        idx = min(self.reconnect_attempts, len(backoff) - 1)
+        delay_sec = float(backoff[idx])
+        self.reconnect_attempts += 1
+        self.next_reconnect_ts = now + delay_sec
+
+        logger.warning(
+            f"WebSocket reconnect attempt #{self.reconnect_attempts} "
+            f"(next backoff {delay_sec:.1f}s)."
+        )
+
+        try:
+            if self.ticker:
+                try:
+                    self.ticker.close()
+                except Exception:
+                    pass
+            self.ticker = None
+
+            return self.start_ticker(
+                tokens=self._subscribed_tokens,
+                on_ticks=self._ticker_on_ticks,
+                on_connect=self._ticker_on_connect,
+                mode=self._ticker_mode
+            )
+        except Exception as e:
+            logger.error(f"Reconnect attempt failed: {e}")
             return False
 
     def stop_ticker(self):

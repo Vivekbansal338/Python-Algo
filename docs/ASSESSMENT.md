@@ -37,7 +37,7 @@ Overall readiness:
 
 ### Medium
 
-- `issues/001_missing_or_logic.md`: ORB label exists but true opening-range breakout logic is missing.
+- `issues/001_missing_or_logic.md`: ORB removed; unified to single MAIN strategy (Completed).
 - `issues/003_correlation_not_enforced.md`: correlation threshold constant is not enforced.
 - `issues/006_safety_breadth_unwired.md`: safety breadth collapse input is hardcoded to 0.0.
 - `issues/014_thread_safety.md`: shared `live_ticks` access is unsynchronized across threads.

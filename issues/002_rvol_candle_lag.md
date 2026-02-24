@@ -20,7 +20,12 @@ RVOL is currently computed from the last completed 5-minute candle only. The cur
 ## Impact
 
 - Breakout confirmation can be delayed by up to 5 minutes.
-- ORB entries may be late or missed.
+- Entries may be late or missed due to stale RVOL data.
+
+## Plain-English Explanation
+
+RVOL is meant to tell you if volume is strong right now.  
+Currently it only looks at the previous closed 5-minute candle, so a live surge happening in the current candle is invisible until that candle closes.
 
 ## Proposed Fix (Detailed)
 
@@ -59,3 +64,31 @@ projected_5m_vol = current_bar_vol * (300 / elapsed_sec)
 - During a forming candle, RVOL changes as live volume changes.
 - Projected RVOL is available before candle close for symbols with live volume data.
 - If live volume field missing, old closed-candle behavior still works safely.
+
+---
+
+## Final Analysis (Consolidated, 2026-02-20)
+
+This issue is valid and materially affects signal freshness.
+
+Current behavior in `v6/main.py`:
+
+- 5-minute history refresh is driven by elapsed monotonic interval (`INTRADAY_REFRESH_INTERVAL_SEC`) from runtime start, not candle-boundary alignment.
+- Scanner RVOL uses `hist_5m['volume'][-1]` (last closed candle volume).
+- Incomplete-candle filtering correctly avoids partial candles, but combined with offset refresh timing this creates avoidable lag.
+
+Consolidated conclusion:
+
+- Your slot-sync idea is correct and should be Phase 1.
+- Live intrabar RVOL projection is still useful as Phase 2.
+
+Recommended implementation order:
+
+1. Align refresh trigger to next 5-minute boundary + 2 to 3 second buffer (clock-synced scheduling).
+2. Refresh active-position symbols first, then candidates.
+3. Add intrabar projected RVOL from cumulative tick volume with guardrails:
+   - clamp negative delta to zero,
+   - avoid aggressive projection in first few seconds,
+   - fallback to closed-candle RVOL when live volume is unavailable.
+
+This yields immediate improvement without destabilizing current logic.
