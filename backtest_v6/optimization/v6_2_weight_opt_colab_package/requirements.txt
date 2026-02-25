@@ -3,3 +3,5 @@ pandas>=2.0.0
 pyarrow>=14.0.0
 optuna>=3.6.0
 scipy>=1.10.0
+# GPU acceleration (optional — install cupy-cuda12x on Colab T4)
+# cupy-cuda12x>=13.0.0

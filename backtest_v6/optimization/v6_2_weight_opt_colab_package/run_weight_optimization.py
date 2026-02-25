@@ -8,6 +8,7 @@ import argparse
 import json
 import math
 import random
+import time as _time
 from collections import Counter
 from dataclasses import dataclass
 from datetime import date, datetime, time as dt_time, timedelta
@@ -19,6 +20,12 @@ import optuna
 import pandas as pd
 
 from engine.sector_engine_v6_2_opt import SectorBacktesterV6
+
+try:
+    from engine.gpu_precompute import precompute_all, HAS_CUPY
+except ImportError:
+    precompute_all = None  # type: ignore[assignment]
+    HAS_CUPY = False
 
 try:
     from scipy.stats import qmc
@@ -46,6 +53,35 @@ GRID = {
     "nifty": (0, 10, 30, 60, 120, 180, 240),
     "threshold": (0, 5, 10, 15, 20, 25, 30, 35),
 }
+
+def _fmt_duration(secs: float) -> str:
+    """Format seconds into human-readable HH:MM:SS or MM:SS."""
+    secs = max(0.0, secs)
+    h = int(secs // 3600)
+    m = int((secs % 3600) // 60)
+    s = int(secs % 60)
+    if h > 0:
+        return f"{h}h {m:02d}m {s:02d}s"
+    if m > 0:
+        return f"{m}m {s:02d}s"
+    return f"{secs:.1f}s"
+
+
+def _progress_line(label: str, i: int, total: int, t0: float, best_obj: Optional[float] = None) -> str:
+    """Build a progress line with elapsed, ETA, speed, and best score."""
+    elapsed = _time.time() - t0
+    speed = i / elapsed if elapsed > 0 else 0.0
+    remaining = (total - i) / speed if speed > 0 else 0.0
+    parts = [
+        f"[{label}] {i}/{total}",
+        f"elapsed {_fmt_duration(elapsed)}",
+        f"ETA {_fmt_duration(remaining)}",
+        f"{speed:.1f} trial/s" if speed >= 0.1 else f"{1/speed:.1f} s/trial" if speed > 0 else "",
+    ]
+    if best_obj is not None:
+        parts.append(f"best={best_obj:.4f}")
+    return "  |  ".join(p for p in parts if p)
+
 
 DEFAULT_HURDLES = {
     "return_pct": 15.32,
@@ -368,6 +404,9 @@ class Optimizer:
         conc_limit: float,
         spread_bps: float,
         circuit_pct: float,
+        precompute: bool = True,
+        global_start: Optional[date] = None,
+        global_end: Optional[date] = None,
     ):
         self.folds = list(folds)
         self.min_trades = int(min_trades)
@@ -382,6 +421,14 @@ class Optimizer:
         if not self.engine.initialize():
             raise RuntimeError("Engine initialization failed.")
         self.cache: Dict[Tuple[Any, ...], Metrics] = {}
+
+        # ── GPU / CPU indicator pre-computation ──
+        if precompute and precompute_all is not None:
+            gs = global_start or min(f.train_start for f in self.folds)
+            ge = global_end or max(f.test_end for f in self.folds)
+            precompute_all(self.engine, gs, ge, verbose=True)
+        elif precompute:
+            print("[warn] gpu_precompute module not available — running without pre-computation")
 
     def _key(self, cfg: Optional[Config], s: date, e: date, default_mode: bool) -> Tuple[Any, ...]:
         prefix = ("DEFAULT_BEHAVIOR",) if default_mode else cfg.key()
@@ -458,10 +505,18 @@ def grid_configs(n: int, seed: int) -> List[Config]:
 def eval_phase(name: str, cfgs: Sequence[Config], opt: Optimizer) -> List[Eval]:
     out = []
     total = len(cfgs)
+    best_obj = -1e18
+    t0 = _time.time()
+    log_every = max(1, total // 20)  # ~5% increments
     for i, cfg in enumerate(cfgs, start=1):
-        out.append(opt.evaluate(cfg, name))
-        if i % 10 == 0 or i == total:
-            print(f"[{name}] {i}/{total}")
+        e = opt.evaluate(cfg, name)
+        out.append(e)
+        if e.obj > best_obj:
+            best_obj = e.obj
+        if i % log_every == 0 or i == total:
+            print(_progress_line(name, i, total, t0, best_obj))
+    elapsed = _time.time() - t0
+    print(f"[{name}] completed {total} trials in {_fmt_duration(elapsed)}")
     return out
 
 
@@ -485,11 +540,15 @@ def tpe_phase(opt: Optimizer, trials: int, seed: int, warm_start: Sequence[Confi
     if trials <= 0:
         return []
     rows: List[Eval] = []
+    t0 = _time.time()
+    best_obj = -1e18
+    log_every = max(1, trials // 20)
     study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=seed))
     for cfg in warm_start:
         study.enqueue_trial(cfg.as_dict())
 
     def objective(trial: optuna.Trial) -> float:
+        nonlocal best_obj
         cfg = Config.from_dict(
             {
                 "structural": trial.suggest_float("structural", *BOUNDS["structural"]),
@@ -502,9 +561,16 @@ def tpe_phase(opt: Optimizer, trials: int, seed: int, warm_start: Sequence[Confi
         )
         e = opt.evaluate(cfg, "tpe")
         rows.append(e)
+        if e.obj > best_obj:
+            best_obj = e.obj
+        i = len(rows)
+        if i % log_every == 0 or i == trials:
+            print(_progress_line("tpe", i, trials, t0, best_obj))
         return e.obj
 
     study.optimize(objective, n_trials=trials, show_progress_bar=False)
+    elapsed = _time.time() - t0
+    print(f"[tpe] completed {trials} trials in {_fmt_duration(elapsed)}")
     return rows
 
 
@@ -512,6 +578,8 @@ def nsga_phase(opt: Optimizer, trials: int, seed: int) -> List[Eval]:
     if trials <= 0:
         return []
     rows: List[Eval] = []
+    t0 = _time.time()
+    log_every = max(1, trials // 20)
     study = optuna.create_study(
         directions=["maximize", "minimize", "maximize", "maximize"],
         sampler=optuna.samplers.NSGAIISampler(seed=seed),
@@ -530,9 +598,14 @@ def nsga_phase(opt: Optimizer, trials: int, seed: int) -> List[Eval]:
         )
         e = opt.evaluate(cfg, "nsga2")
         rows.append(e)
+        i = len(rows)
+        if i % log_every == 0 or i == trials:
+            print(_progress_line("nsga2", i, trials, t0))
         return e.test.return_pct, e.test.drawdown_pct, min(e.test.profit_factor, 5.0), e.test.expectancy
 
     study.optimize(objective, n_trials=trials, show_progress_bar=False)
+    elapsed = _time.time() - t0
+    print(f"[nsga2] completed {trials} trials in {_fmt_duration(elapsed)}")
     return rows
 
 
@@ -585,7 +658,9 @@ def nested_selection(opt: Optimizer, cands: Sequence[Eval]) -> Dict[str, Any]:
     rows = []
     selected: List[Metrics] = []
     counts = Counter()
-    for f in opt.folds:
+    total_folds = len(opt.folds)
+    t0 = _time.time()
+    for fi, f in enumerate(opt.folds, 1):
         best_cfg = None
         best_score = -1e18
         for c in cands:
@@ -611,6 +686,8 @@ def nested_selection(opt: Optimizer, cands: Sequence[Eval]) -> Dict[str, Any]:
                 "test_metrics": te_m.__dict__,
             }
         )
+        print(f"  [nested WF] fold {fi}/{total_folds} done ({_fmt_duration(_time.time() - t0)} elapsed)")
+    print(f"  [nested WF] completed in {_fmt_duration(_time.time() - t0)}")
     return {
         "fold_rows": rows,
         "selected_config_frequency": dict(counts),
@@ -641,6 +718,10 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--circuit-pct", type=float, default=0.10)
     p.add_argument("--baseline-analysis-json", type=str, default=None)
     p.add_argument("--results-dir", type=str, default="results")
+    p.add_argument("--no-precompute", action="store_true",
+                   help="Disable indicator pre-computation (slower, uses lazy cache)")
+    p.add_argument("--workers", type=int, default=1,
+                   help="Parallel workers for trial evaluation (default=1, single-process)")
     return p.parse_args()
 
 
@@ -674,7 +755,16 @@ def main() -> int:
         out_root = (cwd / out_root).resolve()
     run_dir = out_root / f"weight_opt_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
     run_dir.mkdir(parents=True, exist_ok=True)
+    total_trials = args.discrete_trials + args.coarse_trials + args.tpe_trials + args.nsga_trials
+    gpu_tag = "CuPy GPU" if HAS_CUPY else "CPU"
+    precomp_tag = "ON" if not args.no_precompute else "OFF"
     print(f"Results: {run_dir}")
+    print(f"Folds: {len(folds)}  |  Total trials planned: {total_trials}")
+    print(f"Acceleration: precompute={precomp_tag}  |  backend={gpu_tag}  |  workers={args.workers}")
+    print("=" * 70)
+
+    pipeline_t0 = _time.time()
+    phase_times: List[Tuple[str, float]] = []
 
     opt = Optimizer(
         data_root=data_root,
@@ -683,30 +773,53 @@ def main() -> int:
         conc_limit=args.conc_limit,
         spread_bps=args.spread_bps,
         circuit_pct=args.circuit_pct,
+        precompute=not args.no_precompute,
+        global_start=start,
+        global_end=end,
     )
 
-    print("Baseline evaluation...")
+    # ── Baseline ──
+    print("\n[1/6] Baseline evaluation...")
+    t0 = _time.time()
     _, base_fold_test, _, base_test_agg = opt.evaluate_default()
     pd.DataFrame([m.__dict__ for m in base_fold_test]).to_csv(run_dir / "baseline_fold_test.csv", index=False)
+    phase_times.append(("Baseline", _time.time() - t0))
+    print(f"  Baseline done in {_fmt_duration(phase_times[-1][1])}  |  "
+          f"OOS Return={base_test_agg.return_pct:+.2f}%  DD={base_test_agg.drawdown_pct:.2f}%")
 
-    print("Discrete phase...")
+    # ── Discrete ──
+    print(f"\n[2/6] Discrete phase ({args.discrete_trials} trials)...")
+    t0 = _time.time()
     discrete = eval_phase("discrete", grid_configs(args.discrete_trials, args.seed), opt)
     evals_df(discrete).to_csv(run_dir / "phase_discrete.csv", index=False)
+    phase_times.append(("Discrete", _time.time() - t0))
 
-    print("Coarse LHS phase...")
+    # ── Coarse LHS ──
+    print(f"\n[3/6] Coarse LHS phase ({args.coarse_trials} trials)...")
+    t0 = _time.time()
     coarse = eval_phase("coarse_lhs", lhs_configs(args.coarse_trials, args.seed + 11), opt)
     evals_df(coarse).to_csv(run_dir / "phase_coarse_lhs.csv", index=False)
+    phase_times.append(("Coarse LHS", _time.time() - t0))
 
     warm = [e.cfg for e in sorted(dedupe_evals(discrete + coarse), key=lambda x: x.obj, reverse=True)[:30]]
 
-    print("TPE phase...")
+    # ── TPE ──
+    print(f"\n[4/6] TPE Bayesian phase ({args.tpe_trials} trials)...")
+    t0 = _time.time()
     tpe = tpe_phase(opt, args.tpe_trials, args.seed + 29, warm)
     evals_df(tpe).to_csv(run_dir / "phase_tpe.csv", index=False)
+    phase_times.append(("TPE", _time.time() - t0))
 
-    print("NSGA-II phase...")
+    # ── NSGA-II ──
+    print(f"\n[5/6] NSGA-II multi-objective phase ({args.nsga_trials} trials)...")
+    t0 = _time.time()
     nsga = nsga_phase(opt, args.nsga_trials, args.seed + 47)
     evals_df(nsga).to_csv(run_dir / "phase_nsga2.csv", index=False)
+    phase_times.append(("NSGA-II", _time.time() - t0))
 
+    # ── Shortlist + Ranking ──
+    print(f"\n[6/6] Shortlisting & deployment ranking...")
+    t0 = _time.time()
     merged = []
     for group in (discrete, coarse, tpe, nsga):
         merged.extend(sorted(group, key=lambda x: x.obj, reverse=True)[: args.shortlist_from_each])
@@ -801,8 +914,26 @@ def main() -> int:
         encoding="utf-8",
     )
 
-    print("Done.")
-    print(f"Top params: {top_cfg.as_dict()}")
+    phase_times.append(("Ranking & Nested WF", _time.time() - t0))
+
+    # ── Final Summary ──
+    total_elapsed = _time.time() - pipeline_t0
+    print("\n" + "=" * 70)
+    print("OPTIMIZATION COMPLETE")
+    print("=" * 70)
+    print(f"\nTotal wall time: {_fmt_duration(total_elapsed)}")
+    print(f"Range-level cache: {len(opt.cache)} unique (config, date-range) evaluations")
+    ind_cache_size = len(opt.engine._ind_cache)
+    trail_cache_size = len(opt.engine._trail_cache)
+    if ind_cache_size:
+        print(f"Indicator cache: {ind_cache_size:,} entries  |  Trail cache: {trail_cache_size:,} entries")
+    print(f"\nPhase Timing Breakdown:")
+    for name, dur in phase_times:
+        pct = dur / total_elapsed * 100 if total_elapsed > 0 else 0
+        print(f"  {name:<22s}  {_fmt_duration(dur):>12s}  ({pct:5.1f}%)")
+    print(f"  {'─' * 22}  {'─' * 12}  {'─' * 7}")
+    print(f"  {'TOTAL':<22s}  {_fmt_duration(total_elapsed):>12s}")
+    print(f"\nTop params: {top_cfg.as_dict()}")
     print(
         f"OOS return={top['oos_return_pct']:.2f}% "
         f"DD={top['oos_drawdown_pct']:.2f}% "
@@ -810,6 +941,7 @@ def main() -> int:
         f"Expectancy={top['oos_expectancy']:.2f} "
         f"Eligible={bool(top['eligible_for_deploy'])}"
     )
+    print(f"\nResults saved to: {run_dir}")
     return 0
 
 

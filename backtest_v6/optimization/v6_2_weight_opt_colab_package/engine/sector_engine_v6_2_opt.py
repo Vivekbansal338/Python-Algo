@@ -255,6 +255,13 @@ class SectorBacktesterV6:
         self.history_file_date_label = ""
         self.history_file_time_label = ""
 
+        # ── Indicator caches (persist across run_backtest calls) ──
+        # Populated by gpu_precompute.precompute_all() or lazily on first encounter.
+        # Key: (symbol, pd.Timestamp) → dict of indicators, or None for invalid.
+        self._ind_cache: Dict[tuple, Any] = {}
+        # Key: (symbol, intra_pos) → (trail_atr, high_anchor, low_anchor)
+        self._trail_cache: Dict[tuple, tuple] = {}
+
         self.initialized = False
 
     @staticmethod
@@ -1003,41 +1010,61 @@ class SectorBacktesterV6:
             if row is None:
                 continue
 
-            daily_hist = self._get_daily_before(symbol, ts.date())
-            if daily_hist is None or len(daily_hist) < 20:
-                continue
+            # ── Cache-accelerated indicator lookup ──
+            _cache_key = (symbol, ts)
+            _cached_ind = self._ind_cache.get(_cache_key)
+            if _cached_ind is None and _cache_key not in self._ind_cache:
+                # First encounter: compute and cache
+                daily_hist = self._get_daily_before(symbol, ts.date())
+                if daily_hist is None or len(daily_hist) < 20:
+                    self._ind_cache[_cache_key] = None
+                    continue
+                closes = daily_hist["close"].to_numpy(dtype=float)
+                highs = daily_hist["high"].to_numpy(dtype=float)
+                lows = daily_hist["low"].to_numpy(dtype=float)
+                vols = daily_hist["volume"].to_numpy(dtype=float)
+                _cached_ind = {
+                    "intra_pos": intra_pos,
+                    "curr_price": float(row["close"]),
+                    "adv": ExecutionFilters.calculate_adv_crores(closes, vols),
+                    "atr": calculate_atr(highs, lows, closes, period=10),
+                    "atr_5m": self._compute_5m_atr(symbol, intra_pos, period=14),
+                }
+                bid, ask, u_c, l_c = self._synthetic_microstructure(
+                    symbol, _cached_ind["curr_price"], baselines)
+                _p, _gr = ExecutionFilters.check_gate(
+                    bid=bid, ask=ask, price=_cached_ind["curr_price"],
+                    atr=_cached_ind["atr"], u_circuit=u_c, l_circuit=l_c)
+                _cached_ind["gate_passed"] = _p
+                _cached_ind["gate_reason"] = _gr
+                _cached_ind["spread_atr"] = (
+                    (ask - bid) / _cached_ind["atr"]
+                    if _cached_ind["atr"] > 0 else 1.0)
+                _cached_ind["hma_align"] = self._get_hma_alignment(
+                    symbol, _cached_ind["curr_price"], intra_pos, daily_hist)
+                _sk, _ = calculate_stoch_rsi(
+                    np.append(closes, _cached_ind["curr_price"]))
+                _cached_ind["stoch_k"] = _sk
+                _cached_ind["rvol"] = self._get_recent_rvol(symbol, intra_pos)
+                self._ind_cache[_cache_key] = _cached_ind
 
-            closes = daily_hist["close"].to_numpy(dtype=float)
-            highs = daily_hist["high"].to_numpy(dtype=float)
-            lows = daily_hist["low"].to_numpy(dtype=float)
-            vols = daily_hist["volume"].to_numpy(dtype=float)
+            if _cached_ind is None:
+                continue  # previously determined as invalid
 
-            adv = ExecutionFilters.calculate_adv_crores(closes, vols)
+            adv = _cached_ind["adv"]
             if adv < config.MIN_ADV_CRORES:
                 continue
-
-            curr_price = float(row["close"])
-            atr = calculate_atr(highs, lows, closes, period=10)
+            curr_price = _cached_ind["curr_price"]
+            atr = _cached_ind["atr"]
             if atr <= 0:
                 continue
-
-            # V6.1: compute 5-minute ATR for intraday-native stops
-            atr_5m = self._compute_5m_atr(symbol, intra_pos, period=14)
-
-            bid, ask, u_circuit, l_circuit = self._synthetic_microstructure(symbol, curr_price, baselines)
-            passed, gate_reason = ExecutionFilters.check_gate(
-                bid=bid,
-                ask=ask,
-                price=curr_price,
-                atr=atr,
-                u_circuit=u_circuit,
-                l_circuit=l_circuit,
-            )
-            spread_atr = (ask - bid) / atr if atr > 0 else 1.0
-
-            hma_align = self._get_hma_alignment(symbol, curr_price, intra_pos, daily_hist)
-            stoch_k, _ = calculate_stoch_rsi(np.append(closes, curr_price))
-            rvol = self._get_recent_rvol(symbol, intra_pos)
+            atr_5m = _cached_ind["atr_5m"]
+            passed = _cached_ind["gate_passed"]
+            gate_reason = _cached_ind["gate_reason"]
+            spread_atr = _cached_ind["spread_atr"]
+            hma_align = _cached_ind["hma_align"]
+            stoch_k = _cached_ind["stoch_k"]
+            rvol = _cached_ind["rvol"]
 
             stock_sector_name = self.symbol_to_sector_name.get(symbol, "UNKNOWN")
             stock_sector_symbol = self.index_symbol_by_name.get(stock_sector_name, "")
@@ -1371,19 +1398,33 @@ class SectorBacktesterV6:
     def _calculate_chandelier(self, trade: BacktestTrade, intra_pos: int) -> float:
         """Compute chandelier trail stop using rolling 5-minute ATR and
         an adaptive trail multiplier that tightens as MFE grows."""
-        df = self.intra_data.get(trade.symbol)
-        if df is None or intra_pos < 0:
-            return trade.current_stop
+        # ── Try trail cache first (populated by gpu_precompute or lazily) ──
+        trail_key = (trade.symbol, intra_pos)
+        trail_data = self._trail_cache.get(trail_key)
 
-        upto = df.iloc[: intra_pos + 1]
-        if len(upto) < TRAIL_LOOKBACK_BARS + 1:
-            return trade.current_stop
+        if trail_data is None:
+            df = self.intra_data.get(trade.symbol)
+            if df is None or intra_pos < 0:
+                return trade.current_stop
 
-        # Rolling 5-minute ATR over TRAIL_LOOKBACK_BARS
-        highs_arr = upto["high"].to_numpy(dtype=float)
-        lows_arr = upto["low"].to_numpy(dtype=float)
-        closes_arr = upto["close"].to_numpy(dtype=float)
-        atr_5m = calculate_atr(highs_arr, lows_arr, closes_arr, period=TRAIL_LOOKBACK_BARS)
+            upto = df.iloc[: intra_pos + 1]
+            if len(upto) < TRAIL_LOOKBACK_BARS + 1:
+                return trade.current_stop
+
+            highs_arr = upto["high"].to_numpy(dtype=float)
+            lows_arr = upto["low"].to_numpy(dtype=float)
+            closes_arr = upto["close"].to_numpy(dtype=float)
+            atr_5m = calculate_atr(highs_arr, lows_arr, closes_arr, period=TRAIL_LOOKBACK_BARS)
+            if atr_5m <= 0:
+                return trade.current_stop
+
+            lookback = upto.tail(TRAIL_LOOKBACK_BARS)
+            high_anchor = float(lookback["high"].max())
+            low_anchor = float(lookback["low"].min())
+            trail_data = (atr_5m, high_anchor, low_anchor)
+            self._trail_cache[trail_key] = trail_data
+
+        atr_5m, high_anchor, low_anchor = trail_data
         if atr_5m <= 0:
             return trade.current_stop
 
@@ -1397,14 +1438,10 @@ class SectorBacktesterV6:
 
         atr_buffer = atr_5m * trail_mult
 
-        # Swing anchor from lookback window
-        lookback = upto.tail(TRAIL_LOOKBACK_BARS)
         if trade.direction == "LONG":
-            anchor = float(lookback["high"].max())
-            return anchor - atr_buffer
+            return high_anchor - atr_buffer
         else:
-            anchor = float(lookback["low"].min())
-            return anchor + atr_buffer
+            return low_anchor + atr_buffer
 
     # ═══════════════════════════════════════════════════════════════════════════
     # V6.1 — Active trade management loop
