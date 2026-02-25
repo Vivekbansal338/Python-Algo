@@ -26,8 +26,13 @@ import pandas as pd
 
 try:
     import cupy as cp          # type: ignore[import-untyped]
+    # Verify GPU is actually usable (not just importable)
+    cp.cuda.runtime.getDeviceCount()
+    _test = cp.array([1.0])
+    cp.cuda.Stream.null.synchronize()
+    del _test
     HAS_CUPY = True
-except ImportError:
+except Exception:
     cp = None
     HAS_CUPY = False
 
