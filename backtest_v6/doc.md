@@ -1,24 +1,22 @@
 python backtest_v6/analysis/analyze_backtest.py backtest_v6/history/backtest_history_23-02-2026_09-35_am.json --export
 
-python backtest_v6/analysis/analyze_backtest.py backtest_v6/history_v6.1/backtest_history_23-02-2026_07-09_pm.json --export
-
-python backtest_v6/analysis/analyze_backtest.py backtest_v6/history_v6.3/backtest_history_24-02-2026_01-31_pm.json --export
-
-python backtest_v6/analysis/analyze_backtest.py backtest_v6/history_v6.2/backtest_history_25-02-2026_07-30_am.json --export
-
-python backtest_v6/analysis/analyze_backtest.py backtest_v6/history_v6.2/backtest_history_25-02-2026_09-11_am.json --export
-
-python backtest_v6/analysis/analyze_backtest.py backtest_v6/history_v6.2/backtest_history_25-02-2026_10-58_am.json --export
-
-python backtest_v6/analysis/analyze_backtest.py backtest_v6/history_v6.2/backtest_history_25-02-2026_12-58_pm.json --export
-
-python backtest_v6/analysis/analyze_backtest.py backtest_v6/history_v6.4/backtest_history_25-02-2026_03-24_pm.json --export
-
-python backtest_v6/analysis/analyze_backtest.py backtest_v6/history_v6.4/backtest_history_26-02-2026_01-21_am.json --export
-
 python backtest_v6/analysis/analyze_backtest.py backtest_v6/history_v6.4/backtest_history_26-02-2026_01-22_am.json --export
 
+python backtest_v6/analysis/analyze_backtest.py backtest_v6/history_v6.5/backtest_history_26-02-2026_02-19_pm.json --export
+
+python backtest_v6/analysis/analyze_backtest.py backtest_v6/history_v6.5/backtest_history_26-02-2026_02-26_pm.json --export
+
+python backtest_v6/analysis/analyze_backtest.py backtest_v6/history_v6.5/backtest_history_26-02-2026_04-26_pm.json --export
+
+python backtest_v6/analysis/brokerage.py backtest_v6/history_v6.5/backtest_history_26-02-2026_02-19_pm.json --summary-only
+
+python backtest_v6/analysis/brokerage.py backtest_v6/history_v6.5/backtest_history_26-02-2026_02-26_pm.json --summary-only
+
+python backtest_v6/analysis/brokerage.py backtest_v6/history_v6.5/backtest_history_26-02-2026_04-26_pm.json --summary-only
+
 python backtest_v6/sector_engine_v6.4.py --start 2025-03-01 --end 2025-12-31
+
+python backtest_v6/analysis/brokerage.py backtest_v6/history_v6.2/backtest_history_24-02-2026_08-33_am.json --summary-only
 
 python backtest_v6/analysis/analyze_backtest_graphs.py
 

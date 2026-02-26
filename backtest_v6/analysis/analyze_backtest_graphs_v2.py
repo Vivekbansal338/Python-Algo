@@ -59,9 +59,9 @@ DEFAULT_HISTORY_SOURCES: List[Dict[str, Any]] = [
     # {"path": ROOT / "history_v6.2" / "backtest_history_25-02-2026_07-30_am.json", "label": "v6.2_run2"},
     # {"path": ROOT / "history_v6.2" / "backtest_history_25-02-2026_09-11_am.json", "label": "v6.2_run3"},
     # {"path": ROOT / "history_v6.2" / "backtest_history_25-02-2026_10-58_am.json", "label": "v6.2_run4"},
-    {"path": ROOT / "history_v6.4" / "backtest_history_25-02-2026_03-24_pm.json", "label": "v6.4_run4"},
-    {"path": ROOT / "history_v6.4" / "backtest_history_26-02-2026_01-21_am.json", "label": "v6.4_run5"},
-    {"path": ROOT / "history_v6.4" / "backtest_history_26-02-2026_01-22_am.json", "label": "v6.4_run6"},
+    {"path": ROOT / "history_v6.5" / "backtest_history_26-02-2026_02-19_pm.json", "label": "2025"},
+    {"path": ROOT / "history_v6.5" / "backtest_history_26-02-2026_02-26_pm.json", "label": "2024"},
+    {"path": ROOT / "history_v6.5" / "backtest_history_26-02-2026_04-26_pm.json", "label": "2023"},
     # {"path": ROOT / "history_v6.3", "label": "v6.3"},
     # {"path": ROOT / "history_v6.4", "label": "v6.4"},
 ]
@@ -1194,20 +1194,19 @@ class ProGraphAnalyzer:
         # Sector rank vs performance
         if not merged.empty and "sector_rank" in merged.columns:
             m = merged.dropna(subset=["sector_rank"]).copy()
-            m["rank_bucket"] = pd.cut(m["sector_rank"], bins=[0, 3, 5, 8, 15],
-                                       labels=["Top 3", "4-5", "6-8", "9-15"],
-                                       include_lowest=True)
-            srp = m.groupby(["label", "rank_bucket"], as_index=False).agg(
+            m["sector_rank"] = m["sector_rank"].astype(int)
+            srp = m.groupby(["label", "sector_rank"], as_index=False).agg(
                 trades=("realized_pnl", "size"),
                 avg_pnl=("realized_pnl", "mean"),
                 win_rate=("win", lambda s: round(s.mean() * 100, 1)),
                 net_pnl=("realized_pnl", "sum"),
             )
+            srp = srp.sort_values("sector_rank")
             fig5 = make_subplots(rows=1, cols=2, subplot_titles=("Net P&L by Sector Rank", "Win Rate %"))
             for lbl in srp["label"].unique():
                 sub = srp[srp["label"] == lbl]
-                fig5.add_trace(go.Bar(x=sub["rank_bucket"].astype(str), y=sub["net_pnl"], name=lbl), row=1, col=1)
-                fig5.add_trace(go.Bar(x=sub["rank_bucket"].astype(str), y=sub["win_rate"], name=lbl, showlegend=False), row=1, col=2)
+                fig5.add_trace(go.Bar(x=sub["sector_rank"].astype(str), y=sub["net_pnl"], name=lbl), row=1, col=1)
+                fig5.add_trace(go.Bar(x=sub["sector_rank"].astype(str), y=sub["win_rate"], name=lbl, showlegend=False), row=1, col=2)
             fig5.update_layout(title="Sector Rank Performance", barmode="group", height=400)
             blocks.append(self._fig_html(fig5))
 
