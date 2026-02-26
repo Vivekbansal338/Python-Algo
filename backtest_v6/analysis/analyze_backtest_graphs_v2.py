@@ -54,12 +54,14 @@ DEFAULT_HISTORY_SOURCES: List[Dict[str, Any]] = [
     #   - a direct JSON file path
     # {"path": ROOT / "history", "label": "v6.0"},
     # {"path": ROOT / "history_v6.1", "label": "v6.1"},
-    {"path": ROOT / "history_v6.2" / "backtest_history_24-02-2026_08-33_am.json", "label": "v6.2_run1"},
-    {"path": ROOT / "history_v6.4" / "backtest_history_24-02-2026_04-09_pm.json", "label": "v6.4_run1"},
+    # {"path": ROOT / "history_v6.2" / "backtest_history_24-02-2026_08-33_am.json", "label": "v6.2_run1"},
+    # {"path": ROOT / "history_v6.4" / "backtest_history_24-02-2026_04-09_pm.json", "label": "v6.4_run1"},
     # {"path": ROOT / "history_v6.2" / "backtest_history_25-02-2026_07-30_am.json", "label": "v6.2_run2"},
     # {"path": ROOT / "history_v6.2" / "backtest_history_25-02-2026_09-11_am.json", "label": "v6.2_run3"},
-    {"path": ROOT / "history_v6.2" / "backtest_history_25-02-2026_10-58_am.json", "label": "v6.2_run4"},
+    # {"path": ROOT / "history_v6.2" / "backtest_history_25-02-2026_10-58_am.json", "label": "v6.2_run4"},
     {"path": ROOT / "history_v6.4" / "backtest_history_25-02-2026_03-24_pm.json", "label": "v6.4_run4"},
+    {"path": ROOT / "history_v6.4" / "backtest_history_26-02-2026_01-21_am.json", "label": "v6.4_run5"},
+    {"path": ROOT / "history_v6.4" / "backtest_history_26-02-2026_01-22_am.json", "label": "v6.4_run6"},
     # {"path": ROOT / "history_v6.3", "label": "v6.3"},
     # {"path": ROOT / "history_v6.4", "label": "v6.4"},
 ]
