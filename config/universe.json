@@ -96,1792 +96,1309 @@
       "name": "ASHOKLEY",
       "symbol": "ASHOKLEY",
       "token": "54273",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "BAJAJ-AUTO",
       "symbol": "BAJAJ-AUTO",
       "token": "4267265",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "BHARATFORG",
       "symbol": "BHARATFORG",
       "token": "108033",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "BOSCHLTD",
       "symbol": "BOSCHLTD",
       "token": "558337",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "EICHERMOT",
       "symbol": "EICHERMOT",
       "token": "232961",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "EXIDEIND",
       "symbol": "EXIDEIND",
       "token": "173057",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "HEROMOTOCO",
       "symbol": "HEROMOTOCO",
       "token": "345089",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "M&M",
       "symbol": "M&M",
       "token": "519937",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "MARUTI",
       "symbol": "MARUTI",
       "token": "2815745",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "MOTHERSON",
       "symbol": "MOTHERSON",
       "token": "1076225",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "SONACOMS",
       "symbol": "SONACOMS",
       "token": "1199105",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "TVSMOTOR",
       "symbol": "TVSMOTOR",
       "token": "2170625",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "TMPV",
       "symbol": "TMPV",
       "token": "884737",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "TIINDIA",
       "symbol": "TIINDIA",
       "token": "79873",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "UNOMINDA",
       "symbol": "UNOMINDA",
       "token": "3623425",
-      "indices": [
-        "NIFTY AUTO"
-      ]
+      "indices": ["NIFTY AUTO"]
     },
     {
       "name": "BRITANNIA",
       "symbol": "BRITANNIA",
       "token": "140033",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "indices": ["NIFTY FMCG"]
     },
     {
       "name": "COLPAL",
       "symbol": "COLPAL",
       "token": "3876097",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "indices": ["NIFTY FMCG"]
     },
     {
       "name": "DABUR",
       "symbol": "DABUR",
       "token": "197633",
-      "indices": [
-        "NIFTY FMCG"
-      ]
-    },
-    {
-      "name": "DUMMYHDI",
-      "symbol": "DUMMYHDI",
-      "token": "",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "indices": ["NIFTY FMCG"]
     },
     {
       "name": "EMAMILTD",
       "symbol": "EMAMILTD",
       "token": "3460353",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "indices": ["NIFTY FMCG"]
     },
     {
       "name": "GODREJCP",
       "symbol": "GODREJCP",
       "token": "2585345",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "indices": ["NIFTY FMCG"]
     },
     {
-      "name": "HINDUNILV",
-      "symbol": "HINDUNILV",
-      "token": "",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "name": "HINDUNILVR",
+      "symbol": "HINDUNILVR",
+      "token": "356865",
+      "indices": ["NIFTY FMCG"]
     },
     {
       "name": "ITC",
       "symbol": "ITC",
       "token": "424961",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "indices": ["NIFTY FMCG"]
     },
     {
       "name": "MARICO",
       "symbol": "MARICO",
       "token": "1041153",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "indices": ["NIFTY FMCG"]
     },
     {
       "name": "NESTLEIND",
       "symbol": "NESTLEIND",
       "token": "4598529",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "indices": ["NIFTY FMCG"]
     },
     {
       "name": "PATANJALI",
       "symbol": "PATANJALI",
       "token": "4359425",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "indices": ["NIFTY FMCG"]
     },
     {
       "name": "RADICO",
       "symbol": "RADICO",
       "token": "2813441",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "indices": ["NIFTY FMCG"]
     },
     {
-      "name": "TATACONSU",
-      "symbol": "TATACONSU",
-      "token": "",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "name": "TATACONSUM",
+      "symbol": "TATACONSUM",
+      "token": "878593",
+      "indices": ["NIFTY FMCG"]
     },
     {
       "name": "UBL",
       "symbol": "UBL",
       "token": "4278529",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "indices": ["NIFTY FMCG"]
     },
     {
       "name": "UNITDSPR",
       "symbol": "UNITDSPR",
       "token": "2674433",
-      "indices": [
-        "NIFTY FMCG"
-      ]
+      "indices": ["NIFTY FMCG"]
     },
     {
       "name": "COFORGE",
       "symbol": "COFORGE",
       "token": "2955009",
-      "indices": [
-        "NIFTY IT",
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY IT", "NIFTY MS IT TELCM"]
     },
     {
       "name": "HCLTECH",
       "symbol": "HCLTECH",
       "token": "1850625",
-      "indices": [
-        "NIFTY IT"
-      ]
+      "indices": ["NIFTY IT"]
     },
     {
       "name": "INFY",
       "symbol": "INFY",
       "token": "408065",
-      "indices": [
-        "NIFTY IT"
-      ]
+      "indices": ["NIFTY IT"]
     },
     {
       "name": "LTIM",
       "symbol": "LTIM",
       "token": "4561409",
-      "indices": [
-        "NIFTY IT"
-      ]
+      "indices": ["NIFTY IT"]
     },
     {
       "name": "MPHASIS",
       "symbol": "MPHASIS",
       "token": "1152769",
-      "indices": [
-        "NIFTY IT",
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY IT", "NIFTY MS IT TELCM"]
     },
     {
       "name": "OFSS",
       "symbol": "OFSS",
       "token": "2748929",
-      "indices": [
-        "NIFTY IT",
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY IT", "NIFTY MS IT TELCM"]
     },
     {
       "name": "PERSISTENT",
       "symbol": "PERSISTENT",
       "token": "4701441",
-      "indices": [
-        "NIFTY IT",
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY IT", "NIFTY MS IT TELCM"]
     },
     {
       "name": "TCS",
       "symbol": "TCS",
       "token": "2953217",
-      "indices": [
-        "NIFTY IT"
-      ]
+      "indices": ["NIFTY IT"]
     },
     {
       "name": "TECHM",
       "symbol": "TECHM",
       "token": "3465729",
-      "indices": [
-        "NIFTY IT"
-      ]
+      "indices": ["NIFTY IT"]
     },
     {
       "name": "WIPRO",
       "symbol": "WIPRO",
       "token": "969473",
-      "indices": [
-        "NIFTY IT"
-      ]
+      "indices": ["NIFTY IT"]
     },
     {
       "name": "DBCORP",
       "symbol": "DBCORP",
       "token": "4577537",
-      "indices": [
-        "NIFTY MEDIA"
-      ]
+      "indices": ["NIFTY MEDIA"]
     },
     {
       "name": "HATHWAY",
       "symbol": "HATHWAY",
       "token": "4647425",
-      "indices": [
-        "NIFTY MEDIA"
-      ]
+      "indices": ["NIFTY MEDIA"]
     },
     {
       "name": "NAZARA",
       "symbol": "NAZARA",
       "token": "764673",
-      "indices": [
-        "NIFTY MEDIA"
-      ]
+      "indices": ["NIFTY MEDIA"]
     },
     {
-      "name": "NETWORK1",
-      "symbol": "NETWORK1",
-      "token": "",
-      "indices": [
-        "NIFTY MEDIA"
-      ]
+      "name": "NETWORK18",
+      "symbol": "NETWORK18",
+      "token": "3612417",
+      "indices": ["NIFTY MEDIA"]
     },
     {
       "name": "PVRINOX",
       "symbol": "PVRINOX",
       "token": "3365633",
-      "indices": [
-        "NIFTY MEDIA"
-      ]
+      "indices": ["NIFTY MEDIA"]
     },
     {
       "name": "PFOCUS",
       "symbol": "PFOCUS",
       "token": "3454977",
-      "indices": [
-        "NIFTY MEDIA"
-      ]
+      "indices": ["NIFTY MEDIA"]
     },
     {
       "name": "SAREGAMA",
       "symbol": "SAREGAMA",
       "token": "1252353",
-      "indices": [
-        "NIFTY MEDIA"
-      ]
+      "indices": ["NIFTY MEDIA"]
     },
     {
       "name": "SUNTV",
       "symbol": "SUNTV",
       "token": "3431425",
-      "indices": [
-        "NIFTY MEDIA"
-      ]
+      "indices": ["NIFTY MEDIA"]
     },
     {
       "name": "TIPSMUSIC",
       "symbol": "TIPSMUSIC",
       "token": "2333953",
-      "indices": [
-        "NIFTY MEDIA"
-      ]
+      "indices": ["NIFTY MEDIA"]
     },
     {
       "name": "ZEEL",
       "symbol": "ZEEL",
       "token": "975873",
-      "indices": [
-        "NIFTY MEDIA"
-      ]
+      "indices": ["NIFTY MEDIA"]
     },
     {
       "name": "APLAPOLLO",
       "symbol": "APLAPOLLO",
       "token": "6599681",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
       "name": "ADANIENT",
       "symbol": "ADANIENT",
       "token": "6401",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
       "name": "HINDALCO",
       "symbol": "HINDALCO",
       "token": "348929",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
-      "name": "HINDCOPPE",
-      "symbol": "HINDCOPPE",
-      "token": "",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "name": "HINDCOPPER",
+      "symbol": "HINDCOPPER",
+      "token": "4592385",
+      "indices": ["NIFTY METAL"]
     },
     {
       "name": "HINDZINC",
       "symbol": "HINDZINC",
       "token": "364545",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
       "name": "JSWSTEEL",
       "symbol": "JSWSTEEL",
       "token": "3001089",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
       "name": "JSL",
       "symbol": "JSL",
       "token": "2876417",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
       "name": "JINDALSTEL",
       "symbol": "JINDALSTEL",
       "token": "1723649",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
       "name": "LLOYDSME",
       "symbol": "LLOYDSME",
       "token": "4432129",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
       "name": "NMDC",
       "symbol": "NMDC",
       "token": "3924993",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
-      "name": "NATIONALU",
-      "symbol": "NATIONALU",
-      "token": "",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "name": "NATIONALUM",
+      "symbol": "NATIONALUM",
+      "token": "1629185",
+      "indices": ["NIFTY METAL"]
     },
     {
       "name": "SAIL",
       "symbol": "SAIL",
       "token": "758529",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
       "name": "TATASTEEL",
       "symbol": "TATASTEEL",
       "token": "895745",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
       "name": "VEDL",
       "symbol": "VEDL",
       "token": "784129",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
       "name": "WELCORP",
       "symbol": "WELCORP",
       "token": "3026177",
-      "indices": [
-        "NIFTY METAL"
-      ]
+      "indices": ["NIFTY METAL"]
     },
     {
-      "name": "ABBOTINDL",
-      "symbol": "ABBOTINDL",
-      "token": "",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "name": "ABBOTINDIA",
+      "symbol": "ABBOTINDIA",
+      "token": "4583169",
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
-      "name": "AJANTPHAR",
-      "symbol": "AJANTPHAR",
-      "token": "",
-      "indices": [
-        "NIFTY PHARMA"
-      ]
+      "name": "AJANTPHARM",
+      "symbol": "AJANTPHARM",
+      "token": "2079745",
+      "indices": ["NIFTY PHARMA"]
     },
     {
       "name": "ALKEM",
       "symbol": "ALKEM",
       "token": "2995969",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
       "name": "AUROPHARMA",
       "symbol": "AUROPHARMA",
       "token": "70401",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
       "name": "BIOCON",
       "symbol": "BIOCON",
       "token": "2911489",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
       "name": "CIPLA",
       "symbol": "CIPLA",
       "token": "177665",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
       "name": "DIVISLAB",
       "symbol": "DIVISLAB",
       "token": "2800641",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
       "name": "DRREDDY",
       "symbol": "DRREDDY",
       "token": "225537",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
       "name": "GLAND",
       "symbol": "GLAND",
       "token": "303617",
-      "indices": [
-        "NIFTY PHARMA"
-      ]
+      "indices": ["NIFTY PHARMA"]
     },
     {
       "name": "GLENMARK",
       "symbol": "GLENMARK",
       "token": "1895937",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
       "name": "IPCALAB",
       "symbol": "IPCALAB",
       "token": "418049",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
-      "name": "JBCHEPHAR",
-      "symbol": "JBCHEPHAR",
-      "token": "",
-      "indices": [
-        "NIFTY PHARMA"
-      ]
+      "name": "JBCHEPHARM",
+      "symbol": "JBCHEPHARM",
+      "token": "441857",
+      "indices": ["NIFTY PHARMA"]
     },
     {
-      "name": "LAURUSLAB",
-      "symbol": "LAURUSLAB",
-      "token": "",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "name": "LAURUSLABS",
+      "symbol": "LAURUSLABS",
+      "token": "4923905",
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
       "name": "LUPIN",
       "symbol": "LUPIN",
       "token": "2672641",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
       "name": "MANKIND",
       "symbol": "MANKIND",
       "token": "3937281",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
       "name": "PPLPHARMA",
       "symbol": "PPLPHARMA",
       "token": "2962177",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
-      "name": "SUNPHARM",
-      "symbol": "SUNPHARM",
-      "token": "",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "name": "SUNPHARMA",
+      "symbol": "SUNPHARMA",
+      "token": "857857",
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
-      "name": "TORNTPHAR",
-      "symbol": "TORNTPHAR",
-      "token": "",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "name": "TORNTPHARM",
+      "symbol": "TORNTPHARM",
+      "token": "900609",
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
-      "name": "WOCKPHAR",
-      "symbol": "WOCKPHAR",
-      "token": "",
-      "indices": [
-        "NIFTY PHARMA"
-      ]
+      "name": "WOCKPHARMA",
+      "symbol": "WOCKPHARMA",
+      "token": "1921537",
+      "indices": ["NIFTY PHARMA"]
     },
     {
       "name": "ZYDUSLIFE",
       "symbol": "ZYDUSLIFE",
       "token": "2029825",
-      "indices": [
-        "NIFTY PHARMA",
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY PHARMA", "NIFTY HEALTHCARE"]
     },
     {
       "name": "BANKBARODA",
       "symbol": "BANKBARODA",
       "token": "1195009",
-      "indices": [
-        "NIFTY PSU BANK"
-      ]
+      "indices": ["NIFTY PSU BANK"]
     },
     {
       "name": "BANKINDIA",
       "symbol": "BANKINDIA",
       "token": "1214721",
-      "indices": [
-        "NIFTY PSU BANK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY PSU BANK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "MAHABANK",
       "symbol": "MAHABANK",
       "token": "2912513",
-      "indices": [
-        "NIFTY PSU BANK"
-      ]
+      "indices": ["NIFTY PSU BANK"]
     },
     {
       "name": "CANBK",
       "symbol": "CANBK",
       "token": "2763265",
-      "indices": [
-        "NIFTY PSU BANK"
-      ]
+      "indices": ["NIFTY PSU BANK"]
     },
     {
       "name": "CENTRALBK",
       "symbol": "CENTRALBK",
       "token": "3812865",
-      "indices": [
-        "NIFTY PSU BANK"
-      ]
+      "indices": ["NIFTY PSU BANK"]
     },
     {
       "name": "INDIANB",
       "symbol": "INDIANB",
       "token": "3663105",
-      "indices": [
-        "NIFTY PSU BANK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY PSU BANK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "IOB",
       "symbol": "IOB",
       "token": "2393089",
-      "indices": [
-        "NIFTY PSU BANK"
-      ]
+      "indices": ["NIFTY PSU BANK"]
     },
     {
       "name": "PSB",
       "symbol": "PSB",
       "token": "5376257",
-      "indices": [
-        "NIFTY PSU BANK"
-      ]
+      "indices": ["NIFTY PSU BANK"]
     },
     {
       "name": "PNB",
       "symbol": "PNB",
       "token": "2730497",
-      "indices": [
-        "NIFTY PSU BANK"
-      ]
+      "indices": ["NIFTY PSU BANK"]
     },
     {
       "name": "SBIN",
       "symbol": "SBIN",
       "token": "779521",
-      "indices": [
-        "NIFTY PSU BANK"
-      ]
+      "indices": ["NIFTY PSU BANK"]
     },
     {
       "name": "UCOBANK",
       "symbol": "UCOBANK",
       "token": "2873089",
-      "indices": [
-        "NIFTY PSU BANK"
-      ]
+      "indices": ["NIFTY PSU BANK"]
     },
     {
-      "name": "UNIONBAN",
-      "symbol": "UNIONBAN",
-      "token": "",
-      "indices": [
-        "NIFTY PSU BANK",
-        "NIFTY MS FIN SERV"
-      ]
+      "name": "UNIONBANK",
+      "symbol": "UNIONBANK",
+      "token": "2752769",
+      "indices": ["NIFTY PSU BANK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "AXISBANK",
       "symbol": "AXISBANK",
       "token": "1510401",
-      "indices": [
-        "NIFTY PVT BANK"
-      ]
+      "indices": ["NIFTY PVT BANK"]
     },
     {
-      "name": "BANDHANB",
-      "symbol": "BANDHANB",
-      "token": "",
-      "indices": [
-        "NIFTY PVT BANK",
-        "NIFTY MS FIN SERV"
-      ]
+      "name": "BANDHANBNK",
+      "symbol": "BANDHANBNK",
+      "token": "579329",
+      "indices": ["NIFTY PVT BANK", "NIFTY MS FIN SERV"]
     },
     {
-      "name": "FEDERALBN",
-      "symbol": "FEDERALBN",
-      "token": "",
-      "indices": [
-        "NIFTY PVT BANK",
-        "NIFTY MS FIN SERV"
-      ]
+      "name": "FEDERALBNK",
+      "symbol": "FEDERALBNK",
+      "token": "261889",
+      "indices": ["NIFTY PVT BANK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "HDFCBANK",
       "symbol": "HDFCBANK",
       "token": "341249",
-      "indices": [
-        "NIFTY PVT BANK"
-      ]
+      "indices": ["NIFTY PVT BANK"]
     },
     {
       "name": "ICICIBANK",
       "symbol": "ICICIBANK",
       "token": "1270529",
-      "indices": [
-        "NIFTY PVT BANK"
-      ]
+      "indices": ["NIFTY PVT BANK"]
     },
     {
       "name": "IDFCFIRSTB",
       "symbol": "IDFCFIRSTB",
       "token": "2863105",
-      "indices": [
-        "NIFTY PVT BANK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY PVT BANK", "NIFTY MS FIN SERV"]
     },
     {
-      "name": "INDUSINDB",
-      "symbol": "INDUSINDB",
-      "token": "",
-      "indices": [
-        "NIFTY PVT BANK",
-        "NIFTY MS FIN SERV"
-      ]
+      "name": "INDUSINDBK",
+      "symbol": "INDUSINDBK",
+      "token": "1346049",
+      "indices": ["NIFTY PVT BANK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "KOTAKBANK",
       "symbol": "KOTAKBANK",
       "token": "492033",
-      "indices": [
-        "NIFTY PVT BANK"
-      ]
+      "indices": ["NIFTY PVT BANK"]
     },
     {
       "name": "RBLBANK",
       "symbol": "RBLBANK",
       "token": "4708097",
-      "indices": [
-        "NIFTY PVT BANK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY PVT BANK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "YESBANK",
       "symbol": "YESBANK",
       "token": "3050241",
-      "indices": [
-        "NIFTY PVT BANK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY PVT BANK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "ANANTRAJ",
       "symbol": "ANANTRAJ",
       "token": "3486721",
-      "indices": [
-        "NIFTY REALTY"
-      ]
+      "indices": ["NIFTY REALTY"]
     },
     {
       "name": "BRIGADE",
       "symbol": "BRIGADE",
       "token": "3887105",
-      "indices": [
-        "NIFTY REALTY"
-      ]
+      "indices": ["NIFTY REALTY"]
     },
     {
       "name": "DLF",
       "symbol": "DLF",
       "token": "3771393",
-      "indices": [
-        "NIFTY REALTY"
-      ]
+      "indices": ["NIFTY REALTY"]
     },
     {
-      "name": "GODREJPRO",
-      "symbol": "GODREJPRO",
-      "token": "",
-      "indices": [
-        "NIFTY REALTY"
-      ]
+      "name": "GODREJPROP",
+      "symbol": "GODREJPROP",
+      "token": "4576001",
+      "indices": ["NIFTY REALTY"]
     },
     {
       "name": "LODHA",
       "symbol": "LODHA",
       "token": "824321",
-      "indices": [
-        "NIFTY REALTY"
-      ]
+      "indices": ["NIFTY REALTY"]
     },
     {
-      "name": "OBEROIRLT",
-      "symbol": "OBEROIRLT",
-      "token": "",
-      "indices": [
-        "NIFTY REALTY"
-      ]
+      "name": "OBEROIRLTY",
+      "symbol": "OBEROIRLTY",
+      "token": "5181953",
+      "indices": ["NIFTY REALTY"]
     },
     {
       "name": "PHOENIXLTD",
       "symbol": "PHOENIXLTD",
       "token": "3725313",
-      "indices": [
-        "NIFTY REALTY"
-      ]
+      "indices": ["NIFTY REALTY"]
     },
     {
       "name": "PRESTIGE",
       "symbol": "PRESTIGE",
       "token": "5197313",
-      "indices": [
-        "NIFTY REALTY"
-      ]
+      "indices": ["NIFTY REALTY"]
     },
     {
       "name": "SIGNATURE",
       "symbol": "SIGNATURE",
       "token": "4798209",
-      "indices": [
-        "NIFTY REALTY"
-      ]
+      "indices": ["NIFTY REALTY"]
     },
     {
       "name": "SOBHA",
       "symbol": "SOBHA",
       "token": "3539457",
-      "indices": [
-        "NIFTY REALTY"
-      ]
+      "indices": ["NIFTY REALTY"]
     },
     {
       "name": "APOLLOHOSP",
       "symbol": "APOLLOHOSP",
       "token": "40193",
-      "indices": [
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY HEALTHCARE"]
     },
     {
       "name": "FORTIS",
       "symbol": "FORTIS",
       "token": "3735553",
-      "indices": [
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY HEALTHCARE"]
     },
     {
       "name": "MAXHEALTH",
       "symbol": "MAXHEALTH",
       "token": "5728513",
-      "indices": [
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY HEALTHCARE"]
     },
     {
       "name": "SYNGENE",
       "symbol": "SYNGENE",
       "token": "2622209",
-      "indices": [
-        "NIFTY HEALTHCARE"
-      ]
+      "indices": ["NIFTY HEALTHCARE"]
     },
     {
       "name": "AMBER",
       "symbol": "AMBER",
       "token": "303361",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "BATAINDIA",
       "symbol": "BATAINDIA",
       "token": "94977",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
-      "name": "BLUESTARC",
-      "symbol": "BLUESTARC",
-      "token": "",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "name": "BLUESTARCO",
+      "symbol": "BLUESTARCO",
+      "token": "2127617",
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
-      "name": "CENTURYPL",
-      "symbol": "CENTURYPL",
-      "token": "",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "name": "CENTURYPLY",
+      "symbol": "CENTURYPLY",
+      "token": "3406081",
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "CERA",
       "symbol": "CERA",
       "token": "3849985",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "CROMPTON",
       "symbol": "CROMPTON",
       "token": "4376065",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "DIXON",
       "symbol": "DIXON",
       "token": "5552641",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "HAVELLS",
       "symbol": "HAVELLS",
       "token": "2513665",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "KAJARIACER",
       "symbol": "KAJARIACER",
       "token": "462849",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "KALYANKJIL",
       "symbol": "KALYANKJIL",
       "token": "756481",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "PGEL",
       "symbol": "PGEL",
       "token": "6491649",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "TITAN",
       "symbol": "TITAN",
       "token": "897537",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "VGUARD",
       "symbol": "VGUARD",
       "token": "3932673",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "VOLTAS",
       "symbol": "VOLTAS",
       "token": "951809",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "WHIRLPOOL",
       "symbol": "WHIRLPOOL",
       "token": "4610817",
-      "indices": [
-        "NIFTY CONSR DURBL"
-      ]
+      "indices": ["NIFTY CONSR DURBL"]
     },
     {
       "name": "ATGL",
       "symbol": "ATGL",
       "token": "1552897",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "AEGISLOG",
       "symbol": "AEGISLOG",
       "token": "10241",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "BPCL",
       "symbol": "BPCL",
       "token": "134657",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "CASTROLIND",
       "symbol": "CASTROLIND",
       "token": "320001",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "GAIL",
       "symbol": "GAIL",
       "token": "1207553",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "GUJGASLTD",
       "symbol": "GUJGASLTD",
       "token": "2713345",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "GSPL",
       "symbol": "GSPL",
       "token": "3378433",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "HINDPETRO",
       "symbol": "HINDPETRO",
       "token": "359937",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "IOC",
       "symbol": "IOC",
       "token": "415745",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "IGL",
       "symbol": "IGL",
       "token": "2883073",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "MGL",
       "symbol": "MGL",
       "token": "4488705",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "ONGC",
       "symbol": "ONGC",
       "token": "633601",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "OIL",
       "symbol": "OIL",
       "token": "4464129",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "PETRONET",
       "symbol": "PETRONET",
       "token": "2905857",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "RELIANCE",
       "symbol": "RELIANCE",
       "token": "738561",
-      "indices": [
-        "NIFTY OIL AND GAS"
-      ]
+      "indices": ["NIFTY OIL AND GAS"]
     },
     {
       "name": "360ONE",
       "symbol": "360ONE",
       "token": "3343617",
-      "indices": [
-        "NIFTY FINSEREXBNK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY FINSEREXBNK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "ABCAPITAL",
       "symbol": "ABCAPITAL",
       "token": "5533185",
-      "indices": [
-        "NIFTY FINSEREXBNK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY FINSEREXBNK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "ANGELONE",
       "symbol": "ANGELONE",
       "token": "82945",
-      "indices": [
-        "NIFTY FINSEREXBNK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY FINSEREXBNK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "BSE",
       "symbol": "BSE",
       "token": "5013761",
-      "indices": [
-        "NIFTY FINSEREXBNK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY FINSEREXBNK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "BAJFINANCE",
       "symbol": "BAJFINANCE",
       "token": "81153",
-      "indices": [
-        "NIFTY FINSEREXBNK"
-      ]
+      "indices": ["NIFTY FINSEREXBNK"]
     },
     {
       "name": "BAJAJFINSV",
       "symbol": "BAJAJFINSV",
       "token": "4268801",
-      "indices": [
-        "NIFTY FINSEREXBNK"
-      ]
+      "indices": ["NIFTY FINSEREXBNK"]
     },
     {
       "name": "CDSL",
       "symbol": "CDSL",
       "token": "5420545",
-      "indices": [
-        "NIFTY FINSEREXBNK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY FINSEREXBNK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "CHOLAFIN",
       "symbol": "CHOLAFIN",
       "token": "175361",
-      "indices": [
-        "NIFTY FINSEREXBNK"
-      ]
+      "indices": ["NIFTY FINSEREXBNK"]
     },
     {
       "name": "CAMS",
       "symbol": "CAMS",
       "token": "87553",
-      "indices": [
-        "NIFTY FINSEREXBNK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY FINSEREXBNK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "HDFCAMC",
       "symbol": "HDFCAMC",
       "token": "1086465",
-      "indices": [
-        "NIFTY FINSEREXBNK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY FINSEREXBNK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "HDFCLIFE",
       "symbol": "HDFCLIFE",
       "token": "119553",
-      "indices": [
-        "NIFTY FINSEREXBNK"
-      ]
+      "indices": ["NIFTY FINSEREXBNK"]
     },
     {
       "name": "ICICIGI",
       "symbol": "ICICIGI",
       "token": "5573121",
-      "indices": [
-        "NIFTY FINSEREXBNK"
-      ]
+      "indices": ["NIFTY FINSEREXBNK"]
     },
     {
       "name": "ICICIPRULI",
       "symbol": "ICICIPRULI",
       "token": "4774913",
-      "indices": [
-        "NIFTY FINSEREXBNK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY FINSEREXBNK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "IRFC",
       "symbol": "IRFC",
       "token": "519425",
-      "indices": [
-        "NIFTY FINSEREXBNK"
-      ]
+      "indices": ["NIFTY FINSEREXBNK"]
     },
     {
       "name": "JIOFIN",
       "symbol": "JIOFIN",
       "token": "4644609",
-      "indices": [
-        "NIFTY FINSEREXBNK"
-      ]
+      "indices": ["NIFTY FINSEREXBNK"]
     },
     {
       "name": "LTF",
       "symbol": "LTF",
       "token": "6386689",
-      "indices": [
-        "NIFTY FINSEREXBNK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY FINSEREXBNK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "PFC",
       "symbol": "PFC",
       "token": "3660545",
-      "indices": [
-        "NIFTY FINSEREXBNK"
-      ]
+      "indices": ["NIFTY FINSEREXBNK"]
     },
     {
       "name": "RECLTD",
       "symbol": "RECLTD",
       "token": "3930881",
-      "indices": [
-        "NIFTY FINSEREXBNK"
-      ]
+      "indices": ["NIFTY FINSEREXBNK"]
     },
     {
       "name": "SBICARD",
       "symbol": "SBICARD",
       "token": "4600577",
-      "indices": [
-        "NIFTY FINSEREXBNK",
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY FINSEREXBNK", "NIFTY MS FIN SERV"]
     },
     {
       "name": "SBILIFE",
       "symbol": "SBILIFE",
       "token": "5582849",
-      "indices": [
-        "NIFTY FINSEREXBNK"
-      ]
+      "indices": ["NIFTY FINSEREXBNK"]
     },
     {
       "name": "SHRIRAMFIN",
       "symbol": "SHRIRAMFIN",
       "token": "1102337",
-      "indices": [
-        "NIFTY FINSEREXBNK"
-      ]
+      "indices": ["NIFTY FINSEREXBNK"]
     },
     {
       "name": "AUBANK",
       "symbol": "AUBANK",
       "token": "5436929",
-      "indices": [
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY MS FIN SERV"]
     },
     {
       "name": "HUDCO",
       "symbol": "HUDCO",
       "token": "5331201",
-      "indices": [
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY MS FIN SERV"]
     },
     {
       "name": "IEX",
       "symbol": "IEX",
       "token": "56321",
-      "indices": [
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY MS FIN SERV"]
     },
     {
       "name": "LICHSGFIN",
       "symbol": "LICHSGFIN",
       "token": "511233",
-      "indices": [
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY MS FIN SERV"]
     },
     {
-      "name": "MANAPPUR",
-      "symbol": "MANAPPUR",
-      "token": "",
-      "indices": [
-        "NIFTY MS FIN SERV"
-      ]
+      "name": "MANAPPURAM",
+      "symbol": "MANAPPURAM",
+      "token": "4879617",
+      "indices": ["NIFTY MS FIN SERV"]
     },
     {
       "name": "MFSL",
       "symbol": "MFSL",
       "token": "548353",
-      "indices": [
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY MS FIN SERV"]
     },
     {
       "name": "MCX",
       "symbol": "MCX",
       "token": "7982337",
-      "indices": [
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY MS FIN SERV"]
     },
     {
-      "name": "MUTHOOTFN",
-      "symbol": "MUTHOOTFN",
-      "token": "",
-      "indices": [
-        "NIFTY MS FIN SERV"
-      ]
+      "name": "MUTHOOTFIN",
+      "symbol": "MUTHOOTFIN",
+      "token": "6054401",
+      "indices": ["NIFTY MS FIN SERV"]
     },
     {
       "name": "PAYTM",
       "symbol": "PAYTM",
       "token": "1716481",
-      "indices": [
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY MS FIN SERV"]
     },
     {
       "name": "POLICYBZR",
       "symbol": "POLICYBZR",
       "token": "1703937",
-      "indices": [
-        "NIFTY MS FIN SERV"
-      ]
+      "indices": ["NIFTY MS FIN SERV"]
     },
     {
-      "name": "PNBHOUSIN",
-      "symbol": "PNBHOUSIN",
-      "token": "",
-      "indices": [
-        "NIFTY MS FIN SERV"
-      ]
+      "name": "PNBHOUSING",
+      "symbol": "PNBHOUSING",
+      "token": "4840449",
+      "indices": ["NIFTY MS FIN SERV"]
     },
     {
       "name": "AFFLE",
       "symbol": "AFFLE",
       "token": "2903809",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
-      "name": "BHARTIHEX",
-      "symbol": "BHARTIHEX",
-      "token": "",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "name": "BHARTIHEXA",
+      "symbol": "BHARTIHEXA",
+      "token": "6013185",
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
       "name": "BSOFT",
       "symbol": "BSOFT",
       "token": "1790465",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
       "name": "CYIENT",
       "symbol": "CYIENT",
       "token": "1471489",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
       "name": "HFCL",
       "symbol": "HFCL",
       "token": "5619457",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
       "name": "HEXT",
       "symbol": "HEXT",
       "token": "7594497",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
-      "name": "INDUSTOW",
-      "symbol": "INDUSTOW",
-      "token": "",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "name": "INDUSTOWER",
+      "symbol": "INDUSTOWER",
+      "token": "7458561",
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
       "name": "INTELLECT",
       "symbol": "INTELLECT",
       "token": "1517057",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
       "name": "KPITTECH",
       "symbol": "KPITTECH",
       "token": "2478849",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
       "name": "LTTS",
       "symbol": "LTTS",
       "token": "4752385",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
-      "name": "SONATSOFT",
-      "symbol": "SONATSOFT",
-      "token": "",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "name": "SONATSOFTW",
+      "symbol": "SONATSOFTW",
+      "token": "1688577",
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
       "name": "TATACOMM",
       "symbol": "TATACOMM",
       "token": "952577",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
       "name": "TATAELXSI",
       "symbol": "TATAELXSI",
       "token": "873217",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
       "name": "TATATECH",
       "symbol": "TATATECH",
       "token": "5195009",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
       "name": "IDEA",
       "symbol": "IDEA",
       "token": "3677697",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
-      "name": "ZENSARTEC",
-      "symbol": "ZENSARTEC",
-      "token": "",
-      "indices": [
-        "NIFTY MS IT TELCM"
-      ]
+      "name": "ZENSARTECH",
+      "symbol": "ZENSARTECH",
+      "token": "275457",
+      "indices": ["NIFTY MS IT TELCM"]
     },
     {
       "name": "AARTIIND",
       "symbol": "AARTIIND",
       "token": "1793",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "ATUL",
       "symbol": "ATUL",
       "token": "67329",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
-      "name": "BAYERCR",
-      "symbol": "BAYERCR",
-      "token": "",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "name": "BAYERCROP",
+      "symbol": "BAYERCROP",
+      "token": "4589313",
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "CHAMBLFERT",
       "symbol": "CHAMBLFERT",
       "token": "163073",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "COROMANDEL",
       "symbol": "COROMANDEL",
       "token": "189185",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "DEEPAKNTR",
       "symbol": "DEEPAKNTR",
       "token": "5105409",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "EIDPARRY",
       "symbol": "EIDPARRY",
       "token": "234497",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "FLUOROCHEM",
       "symbol": "FLUOROCHEM",
       "token": "3520001",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "GNFC",
       "symbol": "GNFC",
       "token": "300545",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "HSCL",
       "symbol": "HSCL",
       "token": "3669505",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "LINDEINDIA",
       "symbol": "LINDEINDIA",
       "token": "416513",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "NAVINFLUOR",
       "symbol": "NAVINFLUOR",
       "token": "3756033",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "PCBL",
       "symbol": "PCBL",
       "token": "678145",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "PIIND",
       "symbol": "PIIND",
       "token": "6191105",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "PIDILITIND",
       "symbol": "PIDILITIND",
       "token": "681985",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "SRF",
       "symbol": "SRF",
       "token": "837889",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "SOLARINDS",
       "symbol": "SOLARINDS",
       "token": "3412993",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "SUMICHEM",
       "symbol": "SUMICHEM",
       "token": "4378881",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "TATACHEM",
       "symbol": "TATACHEM",
       "token": "871681",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     },
     {
       "name": "UPL",
       "symbol": "UPL",
       "token": "2889473",
-      "indices": [
-        "NIFTY CHEMICALS"
-      ]
+      "indices": ["NIFTY CHEMICALS"]
     }
   ]
 }

@@ -45,7 +45,7 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 MARKET_OPEN_TIME = time(9, 15)
 
 # 09:25 - Unified Main Strategy entry starts
-ENTRY_START_TIME = time(9, 25)
+ENTRY_START_TIME = time(9, 15)
 
 # 12:00 - Lunch Lull (Reduced Sizing)
 LUNCH_START_TIME = time(12, 0)
@@ -95,11 +95,11 @@ VIX_PCTL_HIGH_THRESHOLD = 75.0
 VIX_PCTL_EXTREME_THRESHOLD = 90.0
 
 # VIX Sizing Multipliers
-VIX_MULT_LOW = 1.20      # 0-20th percentile
+VIX_MULT_LOW = 1.00      # 0-20th percentile
 VIX_MULT_NORMAL = 1.00   # 20-50th percentile
-VIX_MULT_ELEVATED = 0.80 # 50-75th percentile
-VIX_MULT_HIGH = 0.75     # 75th percentile and above
-VIX_MULT_EXTREME = 0.50  # 90th percentile and above
+VIX_MULT_ELEVATED = 1.00 # 50-75th percentile
+VIX_MULT_HIGH = 1.00     # 75th percentile and above
+VIX_MULT_EXTREME = 1.00  # 90th percentile and above
 
 # RVOL Thresholds (Unified Main Strategy)
 # Format: (VIX_PCTL_MAX, THRESHOLD)
@@ -116,8 +116,8 @@ RVOL_THRESHOLDS = [
 
 # Sector Scoring Weights
 SECTOR_WEIGHTS = {
-    "structural": 3.0,
-    "shortterm": 10.0,
+    "structural": 0.0,
+    "shortterm": 0.0,
     "intraday": 20.0,
     "breadth": 40.0,
     "nifty": 30.0

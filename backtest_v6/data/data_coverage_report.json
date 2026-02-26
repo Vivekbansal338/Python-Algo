@@ -1,0 +1,3740 @@
+{
+  "generated_at": "2026-02-26T16:19:57.112184",
+  "summary": {
+    "total_indices": 18,
+    "total_stocks": 190,
+    "indices_with_5min_data": 18,
+    "indices_with_daily_data": 18,
+    "indices_with_both_data": 18,
+    "stocks_with_5min_data": 190,
+    "stocks_with_daily_data": 190,
+    "stocks_with_both_data": 190,
+    "indices_missing_data": [],
+    "stocks_missing_data": []
+  },
+  "indices": [
+    {
+      "name": "NIFTY 50",
+      "symbol": "NIFTY 50",
+      "token": "256265",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46060
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "INDIA VIX",
+      "symbol": "INDIA VIX",
+      "token": "264969",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46060
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY AUTO",
+      "symbol": "NIFTY AUTO",
+      "token": "263433",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY FMCG",
+      "symbol": "NIFTY FMCG",
+      "token": "261897",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY IT",
+      "symbol": "NIFTY IT",
+      "token": "259849",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY MEDIA",
+      "symbol": "NIFTY MEDIA",
+      "token": "263945",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY METAL",
+      "symbol": "NIFTY METAL",
+      "token": "263689",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY PHARMA",
+      "symbol": "NIFTY PHARMA",
+      "token": "262409",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY PSU BANK",
+      "symbol": "NIFTY PSU BANK",
+      "token": "262921",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY PRIVATE BANK",
+      "symbol": "NIFTY PVT BANK",
+      "token": "271113",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY REALTY",
+      "symbol": "NIFTY REALTY",
+      "token": "261129",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY HEALTHCARE INDEX",
+      "symbol": "NIFTY HEALTHCARE",
+      "token": "288521",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY CONSUMER DURABLES",
+      "symbol": "NIFTY CONSR DURBL",
+      "token": "288777",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY OIL AND GAS",
+      "symbol": "NIFTY OIL AND GAS",
+      "token": "289033",
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY FINANCIAL SERVICES EX-BANK",
+      "symbol": "NIFTY FINSEREXBNK",
+      "token": "410633",
+      "5minute": {
+        "first_date": "2025-04-01 09:15:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 16811
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY MIDSMALL FINANCIAL SERVICES",
+      "symbol": "NIFTY MS FIN SERV",
+      "token": "411401",
+      "5minute": {
+        "first_date": "2025-04-01 09:15:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 16811
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY MIDSMALL IT & TELECOM",
+      "symbol": "NIFTY MS IT TELCM",
+      "token": "411913",
+      "5minute": {
+        "first_date": "2025-04-01 09:15:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 16811
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NIFTY CHEMICALS",
+      "symbol": "NIFTY CHEMICALS",
+      "token": "420105",
+      "5minute": {
+        "first_date": "2025-11-24 09:15:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 5024
+      },
+      "daily": {
+        "first_date": "2025-11-24 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 67
+      }
+    }
+  ],
+  "stocks": [
+    {
+      "name": "ASHOKLEY",
+      "symbol": "ASHOKLEY",
+      "token": "54273",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BAJAJ-AUTO",
+      "symbol": "BAJAJ-AUTO",
+      "token": "4267265",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BHARATFORG",
+      "symbol": "BHARATFORG",
+      "token": "108033",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BOSCHLTD",
+      "symbol": "BOSCHLTD",
+      "token": "558337",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "EICHERMOT",
+      "symbol": "EICHERMOT",
+      "token": "232961",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "EXIDEIND",
+      "symbol": "EXIDEIND",
+      "token": "173057",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HEROMOTOCO",
+      "symbol": "HEROMOTOCO",
+      "token": "345089",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "M&M",
+      "symbol": "M&M",
+      "token": "519937",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46133
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "MARUTI",
+      "symbol": "MARUTI",
+      "token": "2815745",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "MOTHERSON",
+      "symbol": "MOTHERSON",
+      "token": "1076225",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SONACOMS",
+      "symbol": "SONACOMS",
+      "token": "1199105",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "TVSMOTOR",
+      "symbol": "TVSMOTOR",
+      "token": "2170625",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "TMPV",
+      "symbol": "TMPV",
+      "token": "884737",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46055
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "TIINDIA",
+      "symbol": "TIINDIA",
+      "token": "79873",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "UNOMINDA",
+      "symbol": "UNOMINDA",
+      "token": "3623425",
+      "indices": [
+        "NIFTY AUTO"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BRITANNIA",
+      "symbol": "BRITANNIA",
+      "token": "140033",
+      "indices": [
+        "NIFTY FMCG"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "COLPAL",
+      "symbol": "COLPAL",
+      "token": "3876097",
+      "indices": [
+        "NIFTY FMCG"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "DABUR",
+      "symbol": "DABUR",
+      "token": "197633",
+      "indices": [
+        "NIFTY FMCG"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "EMAMILTD",
+      "symbol": "EMAMILTD",
+      "token": "3460353",
+      "indices": [
+        "NIFTY FMCG"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "GODREJCP",
+      "symbol": "GODREJCP",
+      "token": "2585345",
+      "indices": [
+        "NIFTY FMCG"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ITC",
+      "symbol": "ITC",
+      "token": "424961",
+      "indices": [
+        "NIFTY FMCG"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46056
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "MARICO",
+      "symbol": "MARICO",
+      "token": "1041153",
+      "indices": [
+        "NIFTY FMCG"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NESTLEIND",
+      "symbol": "NESTLEIND",
+      "token": "4598529",
+      "indices": [
+        "NIFTY FMCG"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PATANJALI",
+      "symbol": "PATANJALI",
+      "token": "4359425",
+      "indices": [
+        "NIFTY FMCG"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "RADICO",
+      "symbol": "RADICO",
+      "token": "2813441",
+      "indices": [
+        "NIFTY FMCG"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "UBL",
+      "symbol": "UBL",
+      "token": "4278529",
+      "indices": [
+        "NIFTY FMCG"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "UNITDSPR",
+      "symbol": "UNITDSPR",
+      "token": "2674433",
+      "indices": [
+        "NIFTY FMCG"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "COFORGE",
+      "symbol": "COFORGE",
+      "token": "2955009",
+      "indices": [
+        "NIFTY IT",
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HCLTECH",
+      "symbol": "HCLTECH",
+      "token": "1850625",
+      "indices": [
+        "NIFTY IT"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "INFY",
+      "symbol": "INFY",
+      "token": "408065",
+      "indices": [
+        "NIFTY IT"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "LTIM",
+      "symbol": "LTIM",
+      "token": "4561409",
+      "indices": [
+        "NIFTY IT"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "MPHASIS",
+      "symbol": "MPHASIS",
+      "token": "1152769",
+      "indices": [
+        "NIFTY IT",
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "OFSS",
+      "symbol": "OFSS",
+      "token": "2748929",
+      "indices": [
+        "NIFTY IT",
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PERSISTENT",
+      "symbol": "PERSISTENT",
+      "token": "4701441",
+      "indices": [
+        "NIFTY IT",
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "TCS",
+      "symbol": "TCS",
+      "token": "2953217",
+      "indices": [
+        "NIFTY IT"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "TECHM",
+      "symbol": "TECHM",
+      "token": "3465729",
+      "indices": [
+        "NIFTY IT"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "WIPRO",
+      "symbol": "WIPRO",
+      "token": "969473",
+      "indices": [
+        "NIFTY IT"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "DBCORP",
+      "symbol": "DBCORP",
+      "token": "4577537",
+      "indices": [
+        "NIFTY MEDIA"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46054
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HATHWAY",
+      "symbol": "HATHWAY",
+      "token": "4647425",
+      "indices": [
+        "NIFTY MEDIA"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NAZARA",
+      "symbol": "NAZARA",
+      "token": "764673",
+      "indices": [
+        "NIFTY MEDIA"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PVRINOX",
+      "symbol": "PVRINOX",
+      "token": "3365633",
+      "indices": [
+        "NIFTY MEDIA"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PFOCUS",
+      "symbol": "PFOCUS",
+      "token": "3454977",
+      "indices": [
+        "NIFTY MEDIA"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 45703
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SAREGAMA",
+      "symbol": "SAREGAMA",
+      "token": "1252353",
+      "indices": [
+        "NIFTY MEDIA"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SUNTV",
+      "symbol": "SUNTV",
+      "token": "3431425",
+      "indices": [
+        "NIFTY MEDIA"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "TIPSMUSIC",
+      "symbol": "TIPSMUSIC",
+      "token": "2333953",
+      "indices": [
+        "NIFTY MEDIA"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ZEEL",
+      "symbol": "ZEEL",
+      "token": "975873",
+      "indices": [
+        "NIFTY MEDIA"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "APLAPOLLO",
+      "symbol": "APLAPOLLO",
+      "token": "6599681",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ADANIENT",
+      "symbol": "ADANIENT",
+      "token": "6401",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HINDALCO",
+      "symbol": "HINDALCO",
+      "token": "348929",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HINDZINC",
+      "symbol": "HINDZINC",
+      "token": "364545",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "JSWSTEEL",
+      "symbol": "JSWSTEEL",
+      "token": "3001089",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "JSL",
+      "symbol": "JSL",
+      "token": "2876417",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "JINDALSTEL",
+      "symbol": "JINDALSTEL",
+      "token": "1723649",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "LLOYDSME",
+      "symbol": "LLOYDSME",
+      "token": "4432129",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NMDC",
+      "symbol": "NMDC",
+      "token": "3924993",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SAIL",
+      "symbol": "SAIL",
+      "token": "758529",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "TATASTEEL",
+      "symbol": "TATASTEEL",
+      "token": "895745",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "VEDL",
+      "symbol": "VEDL",
+      "token": "784129",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "WELCORP",
+      "symbol": "WELCORP",
+      "token": "3026177",
+      "indices": [
+        "NIFTY METAL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ALKEM",
+      "symbol": "ALKEM",
+      "token": "2995969",
+      "indices": [
+        "NIFTY PHARMA",
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "AUROPHARMA",
+      "symbol": "AUROPHARMA",
+      "token": "70401",
+      "indices": [
+        "NIFTY PHARMA",
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BIOCON",
+      "symbol": "BIOCON",
+      "token": "2911489",
+      "indices": [
+        "NIFTY PHARMA",
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:11:00",
+        "total_records": 46132
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "CIPLA",
+      "symbol": "CIPLA",
+      "token": "177665",
+      "indices": [
+        "NIFTY PHARMA",
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "DIVISLAB",
+      "symbol": "DIVISLAB",
+      "token": "2800641",
+      "indices": [
+        "NIFTY PHARMA",
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "DRREDDY",
+      "symbol": "DRREDDY",
+      "token": "225537",
+      "indices": [
+        "NIFTY PHARMA",
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "GLAND",
+      "symbol": "GLAND",
+      "token": "303617",
+      "indices": [
+        "NIFTY PHARMA"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "GLENMARK",
+      "symbol": "GLENMARK",
+      "token": "1895937",
+      "indices": [
+        "NIFTY PHARMA",
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "IPCALAB",
+      "symbol": "IPCALAB",
+      "token": "418049",
+      "indices": [
+        "NIFTY PHARMA",
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "LUPIN",
+      "symbol": "LUPIN",
+      "token": "2672641",
+      "indices": [
+        "NIFTY PHARMA",
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "MANKIND",
+      "symbol": "MANKIND",
+      "token": "3937281",
+      "indices": [
+        "NIFTY PHARMA",
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PPLPHARMA",
+      "symbol": "PPLPHARMA",
+      "token": "2962177",
+      "indices": [
+        "NIFTY PHARMA",
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ZYDUSLIFE",
+      "symbol": "ZYDUSLIFE",
+      "token": "2029825",
+      "indices": [
+        "NIFTY PHARMA",
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BANKBARODA",
+      "symbol": "BANKBARODA",
+      "token": "1195009",
+      "indices": [
+        "NIFTY PSU BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BANKINDIA",
+      "symbol": "BANKINDIA",
+      "token": "1214721",
+      "indices": [
+        "NIFTY PSU BANK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "MAHABANK",
+      "symbol": "MAHABANK",
+      "token": "2912513",
+      "indices": [
+        "NIFTY PSU BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "CANBK",
+      "symbol": "CANBK",
+      "token": "2763265",
+      "indices": [
+        "NIFTY PSU BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "CENTRALBK",
+      "symbol": "CENTRALBK",
+      "token": "3812865",
+      "indices": [
+        "NIFTY PSU BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "INDIANB",
+      "symbol": "INDIANB",
+      "token": "3663105",
+      "indices": [
+        "NIFTY PSU BANK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "IOB",
+      "symbol": "IOB",
+      "token": "2393089",
+      "indices": [
+        "NIFTY PSU BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PSB",
+      "symbol": "PSB",
+      "token": "5376257",
+      "indices": [
+        "NIFTY PSU BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PNB",
+      "symbol": "PNB",
+      "token": "2730497",
+      "indices": [
+        "NIFTY PSU BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SBIN",
+      "symbol": "SBIN",
+      "token": "779521",
+      "indices": [
+        "NIFTY PSU BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "UCOBANK",
+      "symbol": "UCOBANK",
+      "token": "2873089",
+      "indices": [
+        "NIFTY PSU BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "AXISBANK",
+      "symbol": "AXISBANK",
+      "token": "1510401",
+      "indices": [
+        "NIFTY PVT BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HDFCBANK",
+      "symbol": "HDFCBANK",
+      "token": "341249",
+      "indices": [
+        "NIFTY PVT BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ICICIBANK",
+      "symbol": "ICICIBANK",
+      "token": "1270529",
+      "indices": [
+        "NIFTY PVT BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "IDFCFIRSTB",
+      "symbol": "IDFCFIRSTB",
+      "token": "2863105",
+      "indices": [
+        "NIFTY PVT BANK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "KOTAKBANK",
+      "symbol": "KOTAKBANK",
+      "token": "492033",
+      "indices": [
+        "NIFTY PVT BANK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "RBLBANK",
+      "symbol": "RBLBANK",
+      "token": "4708097",
+      "indices": [
+        "NIFTY PVT BANK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "YESBANK",
+      "symbol": "YESBANK",
+      "token": "3050241",
+      "indices": [
+        "NIFTY PVT BANK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ANANTRAJ",
+      "symbol": "ANANTRAJ",
+      "token": "3486721",
+      "indices": [
+        "NIFTY REALTY"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BRIGADE",
+      "symbol": "BRIGADE",
+      "token": "3887105",
+      "indices": [
+        "NIFTY REALTY"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "DLF",
+      "symbol": "DLF",
+      "token": "3771393",
+      "indices": [
+        "NIFTY REALTY"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "LODHA",
+      "symbol": "LODHA",
+      "token": "824321",
+      "indices": [
+        "NIFTY REALTY"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PHOENIXLTD",
+      "symbol": "PHOENIXLTD",
+      "token": "3725313",
+      "indices": [
+        "NIFTY REALTY"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PRESTIGE",
+      "symbol": "PRESTIGE",
+      "token": "5197313",
+      "indices": [
+        "NIFTY REALTY"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SIGNATURE",
+      "symbol": "SIGNATURE",
+      "token": "4798209",
+      "indices": [
+        "NIFTY REALTY"
+      ],
+      "5minute": {
+        "first_date": "2023-09-27 09:15:00",
+        "last_date": "2026-02-26 15:11:00",
+        "total_records": 44248
+      },
+      "daily": {
+        "first_date": "2023-09-27 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 602
+      }
+    },
+    {
+      "name": "SOBHA",
+      "symbol": "SOBHA",
+      "token": "3539457",
+      "indices": [
+        "NIFTY REALTY"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "APOLLOHOSP",
+      "symbol": "APOLLOHOSP",
+      "token": "40193",
+      "indices": [
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "FORTIS",
+      "symbol": "FORTIS",
+      "token": "3735553",
+      "indices": [
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "MAXHEALTH",
+      "symbol": "MAXHEALTH",
+      "token": "5728513",
+      "indices": [
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SYNGENE",
+      "symbol": "SYNGENE",
+      "token": "2622209",
+      "indices": [
+        "NIFTY HEALTHCARE"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "AMBER",
+      "symbol": "AMBER",
+      "token": "303361",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BATAINDIA",
+      "symbol": "BATAINDIA",
+      "token": "94977",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "CERA",
+      "symbol": "CERA",
+      "token": "3849985",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "CROMPTON",
+      "symbol": "CROMPTON",
+      "token": "4376065",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "DIXON",
+      "symbol": "DIXON",
+      "token": "5552641",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HAVELLS",
+      "symbol": "HAVELLS",
+      "token": "2513665",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "KAJARIACER",
+      "symbol": "KAJARIACER",
+      "token": "462849",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "KALYANKJIL",
+      "symbol": "KALYANKJIL",
+      "token": "756481",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PGEL",
+      "symbol": "PGEL",
+      "token": "6491649",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "TITAN",
+      "symbol": "TITAN",
+      "token": "897537",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "VGUARD",
+      "symbol": "VGUARD",
+      "token": "3932673",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "VOLTAS",
+      "symbol": "VOLTAS",
+      "token": "951809",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "WHIRLPOOL",
+      "symbol": "WHIRLPOOL",
+      "token": "4610817",
+      "indices": [
+        "NIFTY CONSR DURBL"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ATGL",
+      "symbol": "ATGL",
+      "token": "1552897",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "AEGISLOG",
+      "symbol": "AEGISLOG",
+      "token": "10241",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BPCL",
+      "symbol": "BPCL",
+      "token": "134657",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "CASTROLIND",
+      "symbol": "CASTROLIND",
+      "token": "320001",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "GAIL",
+      "symbol": "GAIL",
+      "token": "1207553",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "GUJGASLTD",
+      "symbol": "GUJGASLTD",
+      "token": "2713345",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "GSPL",
+      "symbol": "GSPL",
+      "token": "3378433",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HINDPETRO",
+      "symbol": "HINDPETRO",
+      "token": "359937",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "IOC",
+      "symbol": "IOC",
+      "token": "415745",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "IGL",
+      "symbol": "IGL",
+      "token": "2883073",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "MGL",
+      "symbol": "MGL",
+      "token": "4488705",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2024-03-11 09:15:00",
+        "last_date": "2026-02-26 14:16:00",
+        "total_records": 35961
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ONGC",
+      "symbol": "ONGC",
+      "token": "633601",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2024-03-11 09:15:00",
+        "last_date": "2026-02-26 14:16:00",
+        "total_records": 35961
+      },
+      "daily": {
+        "first_date": "2024-03-11 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 489
+      }
+    },
+    {
+      "name": "OIL",
+      "symbol": "OIL",
+      "token": "4464129",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2024-03-11 09:15:00",
+        "last_date": "2026-02-26 14:16:00",
+        "total_records": 35961
+      },
+      "daily": {
+        "first_date": "2024-03-11 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 489
+      }
+    },
+    {
+      "name": "PETRONET",
+      "symbol": "PETRONET",
+      "token": "2905857",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "RELIANCE",
+      "symbol": "RELIANCE",
+      "token": "738561",
+      "indices": [
+        "NIFTY OIL AND GAS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "360ONE",
+      "symbol": "360ONE",
+      "token": "3343617",
+      "indices": [
+        "NIFTY FINSEREXBNK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ABCAPITAL",
+      "symbol": "ABCAPITAL",
+      "token": "5533185",
+      "indices": [
+        "NIFTY FINSEREXBNK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ANGELONE",
+      "symbol": "ANGELONE",
+      "token": "82945",
+      "indices": [
+        "NIFTY FINSEREXBNK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BSE",
+      "symbol": "BSE",
+      "token": "5013761",
+      "indices": [
+        "NIFTY FINSEREXBNK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BAJFINANCE",
+      "symbol": "BAJFINANCE",
+      "token": "81153",
+      "indices": [
+        "NIFTY FINSEREXBNK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "BAJAJFINSV",
+      "symbol": "BAJAJFINSV",
+      "token": "4268801",
+      "indices": [
+        "NIFTY FINSEREXBNK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "CDSL",
+      "symbol": "CDSL",
+      "token": "5420545",
+      "indices": [
+        "NIFTY FINSEREXBNK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "CHOLAFIN",
+      "symbol": "CHOLAFIN",
+      "token": "175361",
+      "indices": [
+        "NIFTY FINSEREXBNK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 43024
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "CAMS",
+      "symbol": "CAMS",
+      "token": "87553",
+      "indices": [
+        "NIFTY FINSEREXBNK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HDFCAMC",
+      "symbol": "HDFCAMC",
+      "token": "1086465",
+      "indices": [
+        "NIFTY FINSEREXBNK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HDFCLIFE",
+      "symbol": "HDFCLIFE",
+      "token": "119553",
+      "indices": [
+        "NIFTY FINSEREXBNK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ICICIGI",
+      "symbol": "ICICIGI",
+      "token": "5573121",
+      "indices": [
+        "NIFTY FINSEREXBNK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ICICIPRULI",
+      "symbol": "ICICIPRULI",
+      "token": "4774913",
+      "indices": [
+        "NIFTY FINSEREXBNK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "IRFC",
+      "symbol": "IRFC",
+      "token": "519425",
+      "indices": [
+        "NIFTY FINSEREXBNK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "JIOFIN",
+      "symbol": "JIOFIN",
+      "token": "4644609",
+      "indices": [
+        "NIFTY FINSEREXBNK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 14:16:00",
+        "total_records": 46047
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "LTF",
+      "symbol": "LTF",
+      "token": "6386689",
+      "indices": [
+        "NIFTY FINSEREXBNK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2024-03-11 09:15:00",
+        "last_date": "2026-02-26 14:16:00",
+        "total_records": 35961
+      },
+      "daily": {
+        "first_date": "2024-03-11 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 489
+      }
+    },
+    {
+      "name": "PFC",
+      "symbol": "PFC",
+      "token": "3660545",
+      "indices": [
+        "NIFTY FINSEREXBNK"
+      ],
+      "5minute": {
+        "first_date": "2024-03-11 09:15:00",
+        "last_date": "2026-02-26 14:16:00",
+        "total_records": 35961
+      },
+      "daily": {
+        "first_date": "2024-03-11 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 489
+      }
+    },
+    {
+      "name": "RECLTD",
+      "symbol": "RECLTD",
+      "token": "3930881",
+      "indices": [
+        "NIFTY FINSEREXBNK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SBICARD",
+      "symbol": "SBICARD",
+      "token": "4600577",
+      "indices": [
+        "NIFTY FINSEREXBNK",
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SBILIFE",
+      "symbol": "SBILIFE",
+      "token": "5582849",
+      "indices": [
+        "NIFTY FINSEREXBNK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SHRIRAMFIN",
+      "symbol": "SHRIRAMFIN",
+      "token": "1102337",
+      "indices": [
+        "NIFTY FINSEREXBNK"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "AUBANK",
+      "symbol": "AUBANK",
+      "token": "5436929",
+      "indices": [
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HUDCO",
+      "symbol": "HUDCO",
+      "token": "5331201",
+      "indices": [
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "IEX",
+      "symbol": "IEX",
+      "token": "56321",
+      "indices": [
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "LICHSGFIN",
+      "symbol": "LICHSGFIN",
+      "token": "511233",
+      "indices": [
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "MFSL",
+      "symbol": "MFSL",
+      "token": "548353",
+      "indices": [
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "MCX",
+      "symbol": "MCX",
+      "token": "7982337",
+      "indices": [
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PAYTM",
+      "symbol": "PAYTM",
+      "token": "1716481",
+      "indices": [
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "POLICYBZR",
+      "symbol": "POLICYBZR",
+      "token": "1703937",
+      "indices": [
+        "NIFTY MS FIN SERV"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "AFFLE",
+      "symbol": "AFFLE",
+      "token": "2903809",
+      "indices": [
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2024-03-11 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 489
+      }
+    },
+    {
+      "name": "BSOFT",
+      "symbol": "BSOFT",
+      "token": "1790465",
+      "indices": [
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "CYIENT",
+      "symbol": "CYIENT",
+      "token": "1471489",
+      "indices": [
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 42985
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HFCL",
+      "symbol": "HFCL",
+      "token": "5619457",
+      "indices": [
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HEXT",
+      "symbol": "HEXT",
+      "token": "7594497",
+      "indices": [
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2025-02-19 09:15:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 18683
+      },
+      "daily": {
+        "first_date": "2025-02-19 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 253
+      }
+    },
+    {
+      "name": "INTELLECT",
+      "symbol": "INTELLECT",
+      "token": "1517057",
+      "indices": [
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "KPITTECH",
+      "symbol": "KPITTECH",
+      "token": "2478849",
+      "indices": [
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "LTTS",
+      "symbol": "LTTS",
+      "token": "4752385",
+      "indices": [
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "TATACOMM",
+      "symbol": "TATACOMM",
+      "token": "952577",
+      "indices": [
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "TATAELXSI",
+      "symbol": "TATAELXSI",
+      "token": "873217",
+      "indices": [
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "TATATECH",
+      "symbol": "TATATECH",
+      "token": "5195009",
+      "indices": [
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-11-30 10:00:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 41012
+      },
+      "daily": {
+        "first_date": "2023-11-30 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 559
+      }
+    },
+    {
+      "name": "IDEA",
+      "symbol": "IDEA",
+      "token": "3677697",
+      "indices": [
+        "NIFTY MS IT TELCM"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "AARTIIND",
+      "symbol": "AARTIIND",
+      "token": "1793",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "ATUL",
+      "symbol": "ATUL",
+      "token": "67329",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "CHAMBLFERT",
+      "symbol": "CHAMBLFERT",
+      "token": "163073",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "COROMANDEL",
+      "symbol": "COROMANDEL",
+      "token": "189185",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "DEEPAKNTR",
+      "symbol": "DEEPAKNTR",
+      "token": "5105409",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "EIDPARRY",
+      "symbol": "EIDPARRY",
+      "token": "234497",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "FLUOROCHEM",
+      "symbol": "FLUOROCHEM",
+      "token": "3520001",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "GNFC",
+      "symbol": "GNFC",
+      "token": "300545",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "HSCL",
+      "symbol": "HSCL",
+      "token": "3669505",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "LINDEINDIA",
+      "symbol": "LINDEINDIA",
+      "token": "416513",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "NAVINFLUOR",
+      "symbol": "NAVINFLUOR",
+      "token": "3756033",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PCBL",
+      "symbol": "PCBL",
+      "token": "678145",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PIIND",
+      "symbol": "PIIND",
+      "token": "6191105",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "PIDILITIND",
+      "symbol": "PIDILITIND",
+      "token": "681985",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SRF",
+      "symbol": "SRF",
+      "token": "837889",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SOLARINDS",
+      "symbol": "SOLARINDS",
+      "token": "3412993",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "SUMICHEM",
+      "symbol": "SUMICHEM",
+      "token": "4378881",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "TATACHEM",
+      "symbol": "TATACHEM",
+      "token": "871681",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    },
+    {
+      "name": "UPL",
+      "symbol": "UPL",
+      "token": "2889473",
+      "indices": [
+        "NIFTY CHEMICALS"
+      ],
+      "5minute": {
+        "first_date": "2023-08-21 15:10:00",
+        "last_date": "2026-02-26 15:12:00",
+        "total_records": 46059
+      },
+      "daily": {
+        "first_date": "2023-08-21 00:00:00",
+        "last_date": "2026-02-26 00:00:00",
+        "total_records": 628
+      }
+    }
+  ]
+}
