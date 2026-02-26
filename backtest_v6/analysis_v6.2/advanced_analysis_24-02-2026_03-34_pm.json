@@ -1,0 +1,340 @@
+{
+  "metadata": {
+    "analysis_date": "2026-02-24T15:34:29.121066",
+    "history_file": "backtest_v6\\history_v6.2\\backtest_history_24-02-2026_08-33_am.json",
+    "run_id": "BT_20260224_083316",
+    "run_status": "COMPLETED",
+    "start_date": "2025-03-01",
+    "end_date": "2025-12-31",
+    "market_data_available": true,
+    "market_data_error": ""
+  },
+  "trade_statistics": {
+    "total_trades": 2377,
+    "wins": 1508,
+    "losses": 868,
+    "breakeven": 1,
+    "win_rate_pct": 63.44,
+    "net_pnl": 153157.31,
+    "sum_positive_pnl": 1910647.92,
+    "sum_negative_pnl": -1757490.61,
+    "avg_trade_pnl": 64.43,
+    "best_trade": 17560.22,
+    "worst_trade": -7020.23,
+    "profit_factor": 1.09
+  },
+  "equity_analysis": {
+    "initial_equity": 1000000.0,
+    "final_equity": 1153157.31,
+    "total_return": 153157.31,
+    "total_return_pct": 15.32,
+    "max_drawdown_inr": 97385.43,
+    "max_drawdown_pct": 9.12
+  },
+  "execution_metrics": {
+    "all_a_grade_signals": 10104,
+    "executed_signals": 2377,
+    "execution_rate_pct": 23.53
+  },
+  "daily_performance": {
+    "total_trading_days": 203,
+    "positive_days": 109,
+    "negative_days": 93,
+    "breakeven_days": 1,
+    "best_day": 24057.48,
+    "worst_day": -19223.1,
+    "avg_daily_pnl": 754.47
+  },
+  "direction_matrix_index_sector_signal": {
+    "rows": [
+      {
+        "index_dir": "UP",
+        "sector_dir": "UP",
+        "signal_dir": "UP",
+        "trades": 994,
+        "win_rate_pct": 62.88,
+        "sum_positive_pnl": 879415.94,
+        "sum_negative_pnl": -725270.15,
+        "net_pnl": 154145.79
+      },
+      {
+        "index_dir": "UP",
+        "sector_dir": "UP",
+        "signal_dir": "DOWN",
+        "trades": 29,
+        "win_rate_pct": 65.52,
+        "sum_positive_pnl": 36569.69,
+        "sum_negative_pnl": -14911.11,
+        "net_pnl": 21658.58
+      },
+      {
+        "index_dir": "UP",
+        "sector_dir": "DOWN",
+        "signal_dir": "UP",
+        "trades": 23,
+        "win_rate_pct": 56.52,
+        "sum_positive_pnl": 13433.8,
+        "sum_negative_pnl": -15330.34,
+        "net_pnl": -1896.54
+      },
+      {
+        "index_dir": "UP",
+        "sector_dir": "DOWN",
+        "signal_dir": "DOWN",
+        "trades": 244,
+        "win_rate_pct": 61.07,
+        "sum_positive_pnl": 168677.54,
+        "sum_negative_pnl": -210046.09,
+        "net_pnl": -41368.55
+      },
+      {
+        "index_dir": "DOWN",
+        "sector_dir": "UP",
+        "signal_dir": "UP",
+        "trades": 324,
+        "win_rate_pct": 58.95,
+        "sum_positive_pnl": 241240.24,
+        "sum_negative_pnl": -321994.88,
+        "net_pnl": -80754.65
+      },
+      {
+        "index_dir": "DOWN",
+        "sector_dir": "UP",
+        "signal_dir": "DOWN",
+        "trades": 8,
+        "win_rate_pct": 62.5,
+        "sum_positive_pnl": 4090.04,
+        "sum_negative_pnl": -7770.3,
+        "net_pnl": -3680.26
+      },
+      {
+        "index_dir": "DOWN",
+        "sector_dir": "DOWN",
+        "signal_dir": "UP",
+        "trades": 16,
+        "win_rate_pct": 50.0,
+        "sum_positive_pnl": 10649.54,
+        "sum_negative_pnl": -12748.04,
+        "net_pnl": -2098.51
+      },
+      {
+        "index_dir": "DOWN",
+        "sector_dir": "DOWN",
+        "signal_dir": "DOWN",
+        "trades": 739,
+        "win_rate_pct": 67.39,
+        "sum_positive_pnl": 556571.15,
+        "sum_negative_pnl": -449419.7,
+        "net_pnl": 107151.45
+      }
+    ],
+    "total_trades_considered": 2377,
+    "excluded_trades": 0,
+    "sector_direction_source_counts": {
+      "MARKET_DATA": 2377
+    },
+    "aligned_win_rate_pct": 64.8
+  },
+  "risk_target_analysis": {
+    "available": true,
+    "summary_stop_pct": {
+      "count": 2377,
+      "mean": 0.4847,
+      "median": 0.3882,
+      "p10": 0.35,
+      "p25": 0.35,
+      "p75": 0.5441,
+      "p90": 0.7365,
+      "max": 1.83
+    },
+    "summary_target_pct": {
+      "count": 2377,
+      "mean": 0.727,
+      "median": 0.5823,
+      "p10": 0.525,
+      "p25": 0.525,
+      "p75": 0.8162,
+      "p90": 1.1048,
+      "max": 2.7449
+    },
+    "summary_t_s_ratio": {
+      "count": 2377,
+      "mean": 1.5,
+      "median": 1.5,
+      "p10": 1.5,
+      "p25": 1.5,
+      "p75": 1.5,
+      "p90": 1.5,
+      "max": 1.5
+    },
+    "summary_realized_r": {
+      "count": 2377,
+      "mean": 0.0606,
+      "median": 0.0761,
+      "p10": -1.0,
+      "p25": -1.0,
+      "p75": 0.6339,
+      "p90": 1.5,
+      "max": 3.6429
+    },
+    "by_direction": [
+      {
+        "direction": "LONG",
+        "trades": 1357,
+        "avg_stop_pct": 0.4878,
+        "avg_target_pct": 0.7316,
+        "avg_t_s_ratio": 1.5,
+        "avg_realized_r": 0.0502,
+        "win_rate_pct": 61.68
+      },
+      {
+        "direction": "SHORT",
+        "trades": 1020,
+        "avg_stop_pct": 0.4805,
+        "avg_target_pct": 0.7208,
+        "avg_t_s_ratio": 1.5,
+        "avg_realized_r": 0.0744,
+        "win_rate_pct": 65.78
+      }
+    ]
+  },
+  "target_stop_touch_analysis": {
+    "available": true,
+    "total_trades_checked": 2377,
+    "first_touch_breakdown": {
+      "NONE": {
+        "count": 1010,
+        "pct": 42.49
+      },
+      "STOP_ONLY": {
+        "count": 840,
+        "pct": 35.34
+      },
+      "TARGET_ONLY": {
+        "count": 525,
+        "pct": 22.09
+      },
+      "TARGET_FIRST": {
+        "count": 2,
+        "pct": 0.08
+      }
+    },
+    "first_touch_performance": [
+      {
+        "first_touch": "NONE",
+        "trades": 1010,
+        "win_rate_pct": 95.25,
+        "pnl": 337934.6
+      },
+      {
+        "first_touch": "STOP_ONLY",
+        "trades": 840,
+        "win_rate_pct": 2.26,
+        "pnl": -1720147.35
+      },
+      {
+        "first_touch": "TARGET_ONLY",
+        "trades": 525,
+        "win_rate_pct": 100.0,
+        "pnl": 1531996.57
+      },
+      {
+        "first_touch": "TARGET_FIRST",
+        "trades": 2,
+        "win_rate_pct": 100.0,
+        "pnl": 3373.49
+      }
+    ]
+  },
+  "capital_utilization": {
+    "summary": {
+      "days_with_trades": 202,
+      "avg_peak_deployed_notional": 1334664.24,
+      "max_peak_deployed_notional": 1933925.53,
+      "avg_peak_utilization_pct": 125.39
+    }
+  },
+  "first_trade_effect": {
+    "rows": [
+      {
+        "first_trade_outcome": "FIRST_WIN",
+        "days": 129,
+        "day_profit_rate_pct": 66.67,
+        "avg_day_pnl": 3490.09,
+        "median_day_pnl": 3701.2,
+        "win_rate_pct": 67.6,
+        "sum_positive_pnl": 1346302.43,
+        "sum_negative_pnl": -896081.07,
+        "net_pnl": 450221.36
+      },
+      {
+        "first_trade_outcome": "FIRST_LOSS",
+        "days": 73,
+        "day_profit_rate_pct": 31.51,
+        "avg_day_pnl": -4069.37,
+        "median_day_pnl": -5030.18,
+        "win_rate_pct": 56.36,
+        "sum_positive_pnl": 564345.49,
+        "sum_negative_pnl": -861409.54,
+        "net_pnl": -297064.05
+      }
+    ],
+    "correlation": 0.5549
+  },
+  "regime_performance": {
+    "rows": [
+      {
+        "regime": "TRENDING",
+        "trades": 883,
+        "win_rate_pct": 60.7,
+        "pnl": 9592.18
+      },
+      {
+        "regime": "NEUTRAL",
+        "trades": 704,
+        "win_rate_pct": 66.05,
+        "pnl": 80736.89
+      },
+      {
+        "regime": "EXTREME",
+        "trades": 460,
+        "win_rate_pct": 66.09,
+        "pnl": 63802.14
+      },
+      {
+        "regime": "MEAN_REVERT",
+        "trades": 330,
+        "win_rate_pct": 61.52,
+        "pnl": -973.89
+      }
+    ]
+  },
+  "time_bucket_performance": {
+    "rows": [
+      {
+        "bucket": "OPEN_0925_1030",
+        "trades": 773,
+        "win_rate_pct": 62.87,
+        "pnl": 20568.62
+      },
+      {
+        "bucket": "MID_1030_1200",
+        "trades": 643,
+        "win_rate_pct": 62.99,
+        "pnl": 32348.38
+      },
+      {
+        "bucket": "LUNCH_1200_1315",
+        "trades": 581,
+        "win_rate_pct": 63.68,
+        "pnl": 50579.59
+      },
+      {
+        "bucket": "AFTERNOON_1315_1405",
+        "trades": 380,
+        "win_rate_pct": 65.0,
+        "pnl": 49660.73
+      }
+    ]
+  }
+}

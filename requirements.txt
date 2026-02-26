@@ -28,3 +28,7 @@ pyarrow>=14.0.0
 
 # Testing
 pytest>=7.0.0
+
+# Analysis & Visualization
+plotly>=5.24.0
+statsmodels>=0.14.0

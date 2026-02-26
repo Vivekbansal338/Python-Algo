@@ -7,6 +7,7 @@ Advanced diagnostics for `backtest_v6` history output.
 import argparse
 import itertools
 import json
+import re
 import sys
 from collections import Counter
 from datetime import datetime, time
@@ -894,10 +895,18 @@ def main() -> int:
 
         if args.export:
             analysis_dir = Path(__file__).resolve().parent
-            stamp = datetime.now()
-            date_part = stamp.strftime("%d-%m-%Y")
-            time_part = stamp.strftime("%I-%M_%p").lower()
-            export_name = f"advanced_analysis_{date_part}_{time_part}.json"
+            dt_match = re.search(
+                r"backtest_history_(\d{2}-\d{2}-\d{4}_\d{2}-\d{2}_(?:am|pm))",
+                history_file.name,
+                re.IGNORECASE,
+            )
+            if dt_match:
+                export_name = f"advanced_analysis_{dt_match.group(1)}.json"
+            else:
+                stamp = datetime.now()
+                date_part = stamp.strftime("%d-%m-%Y")
+                time_part = stamp.strftime("%I-%M_%p").lower()
+                export_name = f"advanced_analysis_{date_part}_{time_part}.json"
             export_path = analysis_dir / export_name
             out = AdvancedBacktestAnalyzer.export_json(analysis, str(export_path))
             print(f"Advanced analysis exported to: {out}")

@@ -1,3 +1,5 @@
+<!-- .\.venv\Scripts\Activate.ps1 -->
+
 ## V6
 
 ```bash
