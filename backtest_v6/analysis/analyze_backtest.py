@@ -201,7 +201,6 @@ class AdvancedBacktestAnalyzer:
         self.trade_records = self.data.get("trade_records", [])
         self.signal_records = self.data.get("signal_records", [])
         self.position_records = self.data.get("position_records", [])
-        self.all_position_records = self.data.get("all_position_records", [])
 
         self.market = MarketDataProvider(self.run.get("data_root")) if use_market_data else None
         self.daily_df = pd.DataFrame(self.daily_results)
@@ -223,6 +222,9 @@ class AdvancedBacktestAnalyzer:
             "entry_price": 0.0,
             "initial_qty": 0,
             "realized_pnl": 0.0,
+            "gross_pnl": 0.0,
+            "total_turnover": 0.0,
+            "total_charges": 0.0,
             "exit_reason": "",
         }.items():
             if col not in tdf.columns:
@@ -233,6 +235,29 @@ class AdvancedBacktestAnalyzer:
         tdf["entry_price"] = pd.to_numeric(tdf["entry_price"], errors="coerce").fillna(0.0)
         tdf["initial_qty"] = pd.to_numeric(tdf["initial_qty"], errors="coerce").fillna(0).astype(int)
         tdf["realized_pnl"] = pd.to_numeric(tdf["realized_pnl"], errors="coerce").fillna(0.0)
+        tdf["gross_pnl"] = pd.to_numeric(tdf.get("gross_pnl"), errors="coerce").fillna(0.0)
+        tdf["total_turnover"] = pd.to_numeric(tdf.get("total_turnover"), errors="coerce").fillna(0.0)
+        tdf["total_charges"] = pd.to_numeric(tdf.get("total_charges"), errors="coerce").fillna(0.0)
+        if "brokerage_breakdown" in tdf.columns:
+            breakdown = pd.json_normalize(tdf["brokerage_breakdown"]).add_prefix("charge_")
+            if not breakdown.empty:
+                tdf = pd.concat([tdf.drop(columns=["brokerage_breakdown"]), breakdown], axis=1)
+        for col in [
+            "charge_brokerage",
+            "charge_stt",
+            "charge_transaction_charge",
+            "charge_sebi_charge",
+            "charge_stamp_charge",
+            "charge_gst",
+        ]:
+            if col not in tdf.columns:
+                tdf[col] = 0.0
+            tdf[col] = pd.to_numeric(tdf[col], errors="coerce").fillna(0.0)
+
+        # Backward compatibility for history files that do not store gross/charges.
+        if np.isclose(float(tdf["gross_pnl"].abs().sum()), 0.0) and np.isclose(float(tdf["total_charges"].abs().sum()), 0.0):
+            tdf["gross_pnl"] = tdf["realized_pnl"]
+
         tdf["entry_notional"] = tdf["entry_price"] * tdf["initial_qty"]
         tdf["entry_day"] = tdf["entry_time"].dt.date
 
@@ -285,10 +310,14 @@ class AdvancedBacktestAnalyzer:
         pnls = self.trade_df["realized_pnl"]
         pos = pnls[pnls > 0]
         neg = pnls[pnls < 0]
+        gross_pnls = pd.to_numeric(self.trade_df.get("gross_pnl", pd.Series(0.0, index=self.trade_df.index)), errors="coerce").fillna(0.0)
+        charges = pd.to_numeric(self.trade_df.get("total_charges", pd.Series(0.0, index=self.trade_df.index)), errors="coerce").fillna(0.0)
         total = int(pnls.shape[0])
         wins = int(pos.shape[0])
         losses = int(neg.shape[0])
         pf = (float(pos.sum()) / abs(float(neg.sum()))) if neg.shape[0] else float("inf")
+        gross_total = float(gross_pnls.sum())
+        total_charges = float(charges.sum())
         return {
             "total_trades": total,
             "wins": wins,
@@ -296,6 +325,9 @@ class AdvancedBacktestAnalyzer:
             "breakeven": int((pnls == 0).sum()),
             "win_rate_pct": round(_pct(wins, total), 2),
             "net_pnl": round(float(pnls.sum()), 2),
+            "gross_pnl_before_charges": round(gross_total, 2),
+            "total_charges": round(total_charges, 2),
+            "charges_as_pct_of_gross_pnl": round(_pct(total_charges, abs(gross_total)), 2) if gross_total != 0 else 0.0,
             "sum_positive_pnl": round(float(pos.sum()), 2) if not pos.empty else 0.0,
             "sum_negative_pnl": round(float(neg.sum()), 2) if not neg.empty else 0.0,
             "avg_trade_pnl": round(float(pnls.mean()), 2),
@@ -335,8 +367,14 @@ class AdvancedBacktestAnalyzer:
         }
 
     def _execution(self) -> Dict[str, Any]:
-        all_signals = len(self.data.get("all_signal_records", []))
-        executed = len(self.signal_records)
+        all_signals = int(_to_float(self.summary.get("all_a_grade_signals", 0)))
+        if all_signals <= 0:
+            all_signals = len(self.data.get("all_signal_records", [])) or len(self.signal_records)
+
+        executed = int(_to_float(self.summary.get("executed_positions", 0)))
+        if executed <= 0:
+            executed = len(self.signal_records) or int(self.trade_df.shape[0])
+
         return {
             "all_a_grade_signals": all_signals,
             "executed_signals": executed,
@@ -357,12 +395,64 @@ class AdvancedBacktestAnalyzer:
             "avg_daily_pnl": round(float(pnls.mean()), 2),
         }
 
+    def _brokerage(self) -> Dict[str, Any]:
+        exchange = (
+            self.summary.get("exchange")
+            or self.data.get("inputs", {}).get("exchange")
+            or self.data.get("config_snapshot", {}).get("V6_8_EXCHANGE")
+            or "UNKNOWN"
+        )
+        transaction_charge_pct = _to_float(
+            self.summary.get(
+                "transaction_charge_pct",
+                self.data.get("inputs", {}).get("transaction_charge_pct"),
+            ),
+            default=0.0,
+        )
+
+        trade_count = int(self.trade_df.shape[0]) if not self.trade_df.empty else 0
+        total_turnover = _to_float(self.summary.get("total_turnover"), default=np.nan)
+        total_charges = _to_float(self.summary.get("total_charges"), default=np.nan)
+
+        if (pd.isna(total_turnover) or total_turnover <= 0) and not self.trade_df.empty:
+            total_turnover = float(pd.to_numeric(self.trade_df.get("total_turnover", 0.0), errors="coerce").fillna(0.0).sum())
+        if (pd.isna(total_charges) or total_charges <= 0) and not self.trade_df.empty:
+            total_charges = float(pd.to_numeric(self.trade_df.get("total_charges", 0.0), errors="coerce").fillna(0.0).sum())
+
+        summary_breakdown = self.summary.get("brokerage_breakdown") or {}
+        trade_breakdown = {
+            "brokerage": float(pd.to_numeric(self.trade_df.get("charge_brokerage", 0.0), errors="coerce").fillna(0.0).sum()) if not self.trade_df.empty else 0.0,
+            "stt": float(pd.to_numeric(self.trade_df.get("charge_stt", 0.0), errors="coerce").fillna(0.0).sum()) if not self.trade_df.empty else 0.0,
+            "transaction_charge": float(pd.to_numeric(self.trade_df.get("charge_transaction_charge", 0.0), errors="coerce").fillna(0.0).sum()) if not self.trade_df.empty else 0.0,
+            "sebi_charge": float(pd.to_numeric(self.trade_df.get("charge_sebi_charge", 0.0), errors="coerce").fillna(0.0).sum()) if not self.trade_df.empty else 0.0,
+            "stamp_charge": float(pd.to_numeric(self.trade_df.get("charge_stamp_charge", 0.0), errors="coerce").fillna(0.0).sum()) if not self.trade_df.empty else 0.0,
+            "gst": float(pd.to_numeric(self.trade_df.get("charge_gst", 0.0), errors="coerce").fillna(0.0).sum()) if not self.trade_df.empty else 0.0,
+        }
+        breakdown = {
+            k: round(_to_float(summary_breakdown.get(k), default=v), 2)
+            for k, v in trade_breakdown.items()
+        }
+
+        charge_pct_turnover = round(_pct(float(total_charges or 0.0), float(total_turnover or 0.0)), 4)
+        avg_charge_per_trade = round((float(total_charges or 0.0) / trade_count), 4) if trade_count else 0.0
+
+        return {
+            "exchange": str(exchange),
+            "transaction_charge_pct": round(transaction_charge_pct, 5),
+            "total_turnover": round(float(total_turnover or 0.0), 2),
+            "total_charges": round(float(total_charges or 0.0), 2),
+            "charges_pct_of_turnover": charge_pct_turnover,
+            "avg_charge_per_trade": avg_charge_per_trade,
+            "breakdown": breakdown,
+        }
+
     def _blockers(self) -> Dict[str, Any]:
+        blocker_rows = self.data.get("all_position_records") or self.position_records
         raw_dec = self.summary.get("decision_counts") or Counter(
-            x.get("entry_decision", "NA") for x in self.all_position_records if x.get("entry_decision")
+            x.get("entry_decision", "NA") for x in blocker_rows if x.get("entry_decision")
         )
         raw_risk = self.summary.get("risk_reason_counts") or Counter(
-            x.get("risk_reason", "NA") for x in self.all_position_records if x.get("risk_reason")
+            x.get("risk_reason", "NA") for x in blocker_rows if x.get("risk_reason")
         )
         dec_norm = Counter()
         for k, v in raw_dec.items():
@@ -740,6 +830,8 @@ class AdvancedBacktestAnalyzer:
             "trade_statistics": self._core_trade_stats(),
             "equity_analysis": self._core_equity(),
             "execution_metrics": self._execution(),
+            "brokerage_analysis": self._brokerage(),
+            "blocker_analysis": self._blockers(),
             "daily_performance": self._daily(),
             "direction_matrix_index_sector_signal": self.direction_matrix(),
             "risk_target_analysis": self.risk_target_analysis(),
@@ -791,6 +883,8 @@ class AdvancedBacktestAnalyzer:
         print("  Trade Stats:", out["trade_statistics"])
         print("  Equity:", out["equity_analysis"])
         print("  Execution:", out["execution_metrics"])
+        print("  Brokerage:", out["brokerage_analysis"])
+        print("  Blockers:", out["blocker_analysis"])
         print("  Daily:", out["daily_performance"])
 
         self._print_table(
@@ -855,11 +949,16 @@ class AdvancedBacktestAnalyzer:
 
 
 def _find_latest_history_file() -> Optional[Path]:
-    history_dir = Path(__file__).parent.parent / "history"
-    if not history_dir.exists():
+    root = Path(__file__).parent.parent
+    candidates: List[Path] = []
+    for folder in ["history_v6.8", "history_v6.7", "history"]:
+        history_dir = root / folder
+        if not history_dir.exists():
+            continue
+        candidates.extend(history_dir.glob("backtest_history_*.json"))
+    if not candidates:
         return None
-    files = sorted(history_dir.glob("backtest_history_*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
-    return files[0] if files else None
+    return sorted(candidates, key=lambda p: p.stat().st_mtime, reverse=True)[0]
 
 
 def _parse_args() -> argparse.Namespace:

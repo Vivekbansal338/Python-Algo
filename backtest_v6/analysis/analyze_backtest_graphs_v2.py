@@ -189,10 +189,28 @@ def _load_bundle(path: Path, label: str) -> RunBundle:
     if not trades.empty:
         trades["entry_time"] = pd.to_datetime(trades.get("entry_time"), errors="coerce")
         trades["exit_time"] = pd.to_datetime(trades.get("exit_time"), errors="coerce")
-        for c in ("realized_pnl", "entry_price", "notional_at_entry",
+        for c in ("realized_pnl", "gross_pnl", "entry_price", "notional_at_entry", "total_turnover", "total_charges",
                    "entry_risk_per_share", "entry_atr_5m", "mfe_r", "mae_r"):
             if c in trades.columns:
                 trades[c] = pd.to_numeric(trades[c], errors="coerce")
+        if "brokerage_breakdown" in trades.columns:
+            breakdown = pd.json_normalize(trades["brokerage_breakdown"]).add_prefix("charge_")
+            if not breakdown.empty:
+                trades = pd.concat([trades.drop(columns=["brokerage_breakdown"]), breakdown], axis=1)
+        for c in ("charge_brokerage", "charge_stt", "charge_transaction_charge", "charge_sebi_charge", "charge_stamp_charge", "charge_gst"):
+            if c not in trades.columns:
+                trades[c] = 0.0
+            trades[c] = pd.to_numeric(trades[c], errors="coerce").fillna(0.0)
+        if "gross_pnl" not in trades.columns:
+            trades["gross_pnl"] = trades["realized_pnl"]
+        else:
+            trades["gross_pnl"] = pd.to_numeric(trades["gross_pnl"], errors="coerce").fillna(trades["realized_pnl"])
+        if "total_turnover" not in trades.columns:
+            trades["total_turnover"] = 0.0
+        if "total_charges" not in trades.columns:
+            trades["total_charges"] = 0.0
+        trades["total_turnover"] = pd.to_numeric(trades["total_turnover"], errors="coerce").fillna(0.0)
+        trades["total_charges"] = pd.to_numeric(trades["total_charges"], errors="coerce").fillna(0.0)
         trades["initial_qty"] = pd.to_numeric(trades.get("initial_qty"), errors="coerce").fillna(0).astype(int)
         if "notional_at_entry" not in trades.columns or trades["notional_at_entry"].isna().all():
             trades["notional_at_entry"] = trades["entry_price"] * trades["initial_qty"]
@@ -214,8 +232,11 @@ def _load_bundle(path: Path, label: str) -> RunBundle:
         ).astype(str)
         trades["label"] = label
 
-    # --- signals (all_signal_records = full opportunity universe) ---
-    signals = pd.DataFrame(data.get("all_signal_records", []))
+    # --- signals (v6.8 may not include all_signal_records; fallback to signal_records) ---
+    signal_source = data.get("all_signal_records")
+    if signal_source is None:
+        signal_source = data.get("signal_records", [])
+    signals = pd.DataFrame(signal_source)
     if not signals.empty:
         signals["label"] = label
         signals["timestamp"] = pd.to_datetime(signals.get("timestamp"), errors="coerce")
@@ -229,7 +250,10 @@ def _load_bundle(path: Path, label: str) -> RunBundle:
             signals["sector_rank"] = pd.to_numeric(signals["sector_rank"], errors="coerce")
 
     # --- positions ---
-    positions = pd.DataFrame(data.get("all_position_records", []))
+    position_source = data.get("all_position_records")
+    if position_source is None:
+        position_source = data.get("position_records", [])
+    positions = pd.DataFrame(position_source)
     if not positions.empty:
         positions["label"] = label
         for c in ("entry_price", "atr", "stop_price", "target_1", "sizing_shares",
@@ -284,6 +308,36 @@ def _load_bundle(path: Path, label: str) -> RunBundle:
     gp = float(trades.loc[trades["realized_pnl"] > 0, "realized_pnl"].sum()) if not trades.empty else 0
     gl = float(trades.loc[trades["realized_pnl"] < 0, "realized_pnl"].sum()) if not trades.empty else 0
     pf = (gp / abs(gl)) if gl < 0 else float("nan")
+    all_signals = int(_f(summary.get("all_a_grade_signals", 0)))
+    if all_signals <= 0:
+        all_signals = len(signals)
+    executed_signals = int(_f(summary.get("executed_positions", 0)))
+    if executed_signals <= 0:
+        executed_signals = len(trades)
+
+    exchange = (
+        summary.get("exchange")
+        or data.get("inputs", {}).get("exchange")
+        or config.get("V6_8_EXCHANGE")
+        or "UNKNOWN"
+    )
+    transaction_charge_pct = _f(
+        summary.get("transaction_charge_pct", data.get("inputs", {}).get("transaction_charge_pct", 0.0))
+    )
+    total_turnover = _f(summary.get("total_turnover", 0.0))
+    if total_turnover <= 0 and not trades.empty:
+        total_turnover = float(trades["total_turnover"].sum())
+    total_charges = _f(summary.get("total_charges", 0.0))
+    if total_charges <= 0 and not trades.empty:
+        total_charges = float(trades["total_charges"].sum())
+    charge_breakdown = summary.get("brokerage_breakdown") or {}
+    charge_brokerage = _f(charge_breakdown.get("brokerage", float(trades["charge_brokerage"].sum()) if "charge_brokerage" in trades.columns else 0.0))
+    charge_stt = _f(charge_breakdown.get("stt", float(trades["charge_stt"].sum()) if "charge_stt" in trades.columns else 0.0))
+    charge_transaction = _f(charge_breakdown.get("transaction_charge", float(trades["charge_transaction_charge"].sum()) if "charge_transaction_charge" in trades.columns else 0.0))
+    charge_sebi = _f(charge_breakdown.get("sebi_charge", float(trades["charge_sebi_charge"].sum()) if "charge_sebi_charge" in trades.columns else 0.0))
+    charge_stamp = _f(charge_breakdown.get("stamp_charge", float(trades["charge_stamp_charge"].sum()) if "charge_stamp_charge" in trades.columns else 0.0))
+    charge_gst = _f(charge_breakdown.get("gst", float(trades["charge_gst"].sum()) if "charge_gst" in trades.columns else 0.0))
+    gross_return_before_charges = _f(summary.get("gross_return_before_charges", _f(summary.get("total_return", 0.0)) + total_charges))
 
     row: Dict[str, Any] = {
         "label": label, "path": str(path),
@@ -294,11 +348,12 @@ def _load_bundle(path: Path, label: str) -> RunBundle:
         "initial_equity": _f(summary.get("initial_equity")),
         "final_equity": _f(summary.get("final_equity")),
         "total_return": _f(summary.get("total_return")),
+        "gross_return_before_charges": gross_return_before_charges,
         "total_return_pct": _f(summary.get("total_return_pct")),
         "trading_days": int(_f(summary.get("trading_days", 0))),
         "closed_trades": int(_f(summary.get("closed_trades", len(trades)))),
-        "all_signals": int(_f(summary.get("all_a_grade_signals", len(signals)))),
-        "executed_signals": int(_f(summary.get("executed_positions", len(trades)))),
+        "all_signals": all_signals,
+        "executed_signals": executed_signals,
         "wins": wins, "losses": losses,
         "win_rate_pct": round(_pct(wins, max(1, wins + losses)), 2),
         "profit_factor": round(pf, 3) if pd.notna(pf) else float("nan"),
@@ -306,9 +361,20 @@ def _load_bundle(path: Path, label: str) -> RunBundle:
         "best_trade": float(trades["realized_pnl"].max()) if not trades.empty else 0,
         "worst_trade": float(trades["realized_pnl"].min()) if not trades.empty else 0,
         "gross_profit": gp, "gross_loss": gl,
+        "exchange": str(exchange),
+        "transaction_charge_pct": transaction_charge_pct,
+        "total_turnover": total_turnover,
+        "total_charges": total_charges,
+        "charges_pct_turnover": round(_pct(total_charges, total_turnover), 4),
+        "charge_brokerage": charge_brokerage,
+        "charge_stt": charge_stt,
+        "charge_transaction": charge_transaction,
+        "charge_sebi": charge_sebi,
+        "charge_stamp": charge_stamp,
+        "charge_gst": charge_gst,
         "execution_rate_pct": round(_pct(
-            _f(summary.get("executed_positions", len(trades))),
-            _f(summary.get("all_a_grade_signals", len(signals))),
+            executed_signals,
+            all_signals,
         ), 2),
         "blocked_count": int(_f(summary.get("blocked_by_max_positions_count", 0))),
         "decision_counts": summary.get("decision_counts") or {},
@@ -402,6 +468,7 @@ class ProGraphAnalyzer:
             ("win_rate_pct", "Win %"), ("profit_factor", "PF"),
             ("total_return_pct", "Return %"), ("max_dd_pct", "Max DD %"),
             ("avg_trade_pnl", "Avg PnL"), ("execution_rate_pct", "Exec %"),
+            ("total_charges", "Charges"), ("charges_pct_turnover", "Charge % TO"),
             ("sharpe_daily", "Sharpe"), ("avg_r", "Avg R"),
         ]
         avail = [(k, n) for k, n in cols if k in sdf.columns]
@@ -436,6 +503,43 @@ class ProGraphAnalyzer:
         fig.update_layout(title="Multi-Metric Radar Comparison",
                           polar=dict(radialaxis=dict(visible=True)))
         blocks.append(self._fig_html(fig, js=js))
+
+        if "total_charges" in sdf.columns:
+            fig_cost = px.bar(
+                sdf.sort_values("total_charges", ascending=False),
+                x="label",
+                y="total_charges",
+                color="label",
+                title="Total Brokerage/Statutory Charges by Run",
+                text_auto=".2s",
+            )
+            fig_cost.update_layout(showlegend=False, yaxis_title="Charges (INR)", height=360)
+            blocks.append(self._fig_html(fig_cost))
+
+        charge_cols = [
+            ("charge_brokerage", "Brokerage"),
+            ("charge_stt", "STT/CTT"),
+            ("charge_transaction", "Transaction"),
+            ("charge_sebi", "SEBI"),
+            ("charge_stamp", "Stamp"),
+            ("charge_gst", "GST"),
+        ]
+        if all(c in sdf.columns for c, _ in charge_cols):
+            rows = []
+            for _, r in sdf.iterrows():
+                for c, name in charge_cols:
+                    rows.append({"label": r["label"], "component": name, "value": _f(r.get(c))})
+            cdf = pd.DataFrame(rows)
+            fig_break = px.bar(
+                cdf,
+                x="label",
+                y="value",
+                color="component",
+                barmode="stack",
+                title="Charge Component Breakdown by Run",
+            )
+            fig_break.update_layout(yaxis_title="Charges (INR)", height=380)
+            blocks.append(self._fig_html(fig_break))
 
         return "summary", blocks
 
@@ -893,12 +997,12 @@ class ProGraphAnalyzer:
                                        labels=["Low (0-20)", "Normal (20-50)",
                                                 "Elevated (50-75)", "High (75-90)", "Extreme (90+)"],
                                        include_lowest=True)
-            vb = m.groupby(["label", "vix_bracket"], as_index=False).agg(
+            vb = m.groupby(["label", "vix_bracket"], observed=True).agg(
                 trades=("realized_pnl", "size"),
                 net_pnl=("realized_pnl", "sum"),
                 avg_pnl=("realized_pnl", "mean"),
                 win_rate=("win", lambda s: round(s.mean() * 100, 1)),
-            )
+            ).reset_index()
             fig_vb = make_subplots(rows=1, cols=2, subplot_titles=("Net P&L by VIX Bracket", "Win Rate %"))
             for lbl in vb["label"].unique():
                 sub = vb[vb["label"] == lbl]
@@ -1159,11 +1263,11 @@ class ProGraphAnalyzer:
             m["rvol_bucket"] = pd.cut(m["rvol"], bins=[0, 1.3, 1.7, 2.5, 5, 100],
                                        labels=["<1.3", "1.3-1.7", "1.7-2.5", "2.5-5.0", "5.0+"],
                                        include_lowest=True)
-            rb = m.groupby(["label", "rvol_bucket"], as_index=False).agg(
+            rb = m.groupby(["label", "rvol_bucket"], observed=True).agg(
                 trades=("realized_pnl", "size"),
                 avg_pnl=("realized_pnl", "mean"),
                 win_rate=("win", lambda s: round(s.mean() * 100, 1)),
-            )
+            ).reset_index()
             fig3 = make_subplots(rows=1, cols=2, subplot_titles=("Avg P&L by RVOL", "Win Rate %"))
             for lbl in rb["label"].unique():
                 sub = rb[rb["label"] == lbl]
@@ -1178,11 +1282,11 @@ class ProGraphAnalyzer:
             m["stoch_bucket"] = pd.cut(m["stoch_k"], bins=[0, 20, 40, 60, 80, 100],
                                         labels=["0-20", "20-40", "40-60", "60-80", "80-100"],
                                         include_lowest=True)
-            sb = m.groupby(["label", "stoch_bucket"], as_index=False).agg(
+            sb = m.groupby(["label", "stoch_bucket"], observed=True).agg(
                 trades=("realized_pnl", "size"),
                 avg_pnl=("realized_pnl", "mean"),
                 win_rate=("win", lambda s: round(s.mean() * 100, 1)),
-            )
+            ).reset_index()
             fig4 = make_subplots(rows=1, cols=2, subplot_titles=("Avg P&L by StochK", "Win Rate %"))
             for lbl in sb["label"].unique():
                 sub = sb[sb["label"] == lbl]
@@ -1216,11 +1320,11 @@ class ProGraphAnalyzer:
             m["spread_bucket"] = pd.cut(m["spread_atr"], bins=[0, 0.02, 0.05, 0.1, 0.25, 1.0],
                                          labels=["<0.02", "0.02-0.05", "0.05-0.10", "0.10-0.25", "0.25+"],
                                          include_lowest=True)
-            sp = m.groupby(["label", "spread_bucket"], as_index=False).agg(
+            sp = m.groupby(["label", "spread_bucket"], observed=True).agg(
                 trades=("realized_pnl", "size"),
                 avg_pnl=("realized_pnl", "mean"),
                 win_rate=("win", lambda s: round(s.mean() * 100, 1)),
-            )
+            ).reset_index()
             fig6 = make_subplots(rows=1, cols=2, subplot_titles=("Avg P&L by Spread/ATR", "Win Rate %"))
             for lbl in sp["label"].unique():
                 sub = sp[sp["label"] == lbl]
@@ -1235,11 +1339,11 @@ class ProGraphAnalyzer:
             m["adv_bucket"] = pd.cut(m["adv_crores"], bins=[0, 100, 250, 500, 1000, 100000],
                                       labels=["<100Cr", "100-250Cr", "250-500Cr", "500-1000Cr", "1000Cr+"],
                                       include_lowest=True)
-            ap = m.groupby(["label", "adv_bucket"], as_index=False).agg(
+            ap = m.groupby(["label", "adv_bucket"], observed=True).agg(
                 trades=("realized_pnl", "size"),
                 avg_pnl=("realized_pnl", "mean"),
                 win_rate=("win", lambda s: round(s.mean() * 100, 1)),
-            )
+            ).reset_index()
             fig7 = make_subplots(rows=1, cols=2, subplot_titles=("Avg P&L by ADV", "Win Rate %"))
             for lbl in ap["label"].unique():
                 sub = ap[ap["label"] == lbl]
