@@ -42,3 +42,6 @@ logs/
 # OS
 .DS_Store
 Thumbs.db
+
+# Backtest v6 history folders (ignore any folder starting with "history" under backtest_v6)
+/backtest_v6/history*/

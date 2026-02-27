@@ -1,0 +1,806 @@
+{
+  "core": {
+    "run_id": "BT_20260226_191442",
+    "period": "2025-01-01 -> 2025-12-31",
+    "trades": 5846,
+    "gross_pnl": 769418.3968103566,
+    "brokerage_total": 800509.8969212226,
+    "net_after_brokerage": -31091.50011086602,
+    "gross_win_rate_pct": 63.95826205952788,
+    "net_win_rate_pct": 35.75094081423195,
+    "avg_trade_gross": 131.61450509927414,
+    "avg_trade_cost": 136.93292797147154,
+    "avg_trade_net": -5.318422872197404,
+    "median_trade_gross": 0.549999999999983,
+    "median_trade_cost": 73.71652057733365,
+    "median_trade_net": -0.8579919457448033,
+    "cost_to_gross_pnl_pct": 104.0409093725542,
+    "eroded_winners_count": 1649,
+    "eroded_winners_pct_of_winners": 44.10270125702059,
+    "gross_losers_count": 2103,
+    "net_losers_count": 3756,
+    "trades_with_cost_gt_pnl_abs": 1673,
+    "gross_pnl_q10": -2429.9920607143044,
+    "net_pnl_q10": -2651.23987497817,
+    "gross_pnl_q25": -3.6698491071428805,
+    "net_pnl_q25": -70.14420315670985,
+    "gross_pnl_q50": 0.549999999999983,
+    "net_pnl_q50": -0.8579919457448033,
+    "gross_pnl_q75": 204.04316999996047,
+    "net_pnl_q75": 3.174197422510358,
+    "gross_pnl_q90": 2064.1865000000353,
+    "net_pnl_q90": 1843.7228298036207,
+    "daily_positive_pct": 56.91056910569105,
+    "daily_negative_pct": 42.68292682926829,
+    "daily_median_pnl": 2415.2950185713125
+  },
+  "exit_reason": [
+    {
+      "exit_reason": "STOP_HARD",
+      "trades": 2009,
+      "gross_pnl": -3298308.2124778586,
+      "avg_gross": -1641.7661585255644,
+      "cost": 269517.5633317372,
+      "avg_cost": 134.1550837888189,
+      "net_pnl": -3567825.775809596,
+      "win_rate_gross": 0.0,
+      "win_rate_net": 0.0
+    },
+    {
+      "exit_reason": "TARGET1_FULL",
+      "trades": 327,
+      "gross_pnl": 1307.7991982142867,
+      "avg_gross": 3.9993859272608154,
+      "cost": 184.2595354135898,
+      "avg_cost": 0.5634848177785621,
+      "net_pnl": 1123.5396628006968,
+      "win_rate_gross": 100.0,
+      "win_rate_net": 100.0
+    },
+    {
+      "exit_reason": "FORCE_EXIT",
+      "trades": 204,
+      "gross_pnl": 87205.0034574996,
+      "avg_gross": 427.47550714460584,
+      "cost": 27160.913650823164,
+      "avg_cost": 133.1417335824665,
+      "net_pnl": 60044.08980667643,
+      "win_rate_gross": 51.9607843137255,
+      "win_rate_net": 45.588235294117645
+    },
+    {
+      "exit_reason": "STOP_TRAIL",
+      "trades": 3306,
+      "gross_pnl": 3979213.806632501,
+      "avg_gross": 1203.633940300212,
+      "cost": 503647.1604032487,
+      "avg_cost": 152.34336370334202,
+      "net_pnl": 3475566.6462292527,
+      "win_rate_gross": 100.0,
+      "win_rate_net": 50.51421657592257
+    }
+  ],
+  "time_bucket": [
+    {
+      "time_bucket": "AFTERNOON_1315_1405",
+      "trades": 89,
+      "gross_pnl": 5928.649783500086,
+      "cost": 10175.131129147108,
+      "net_pnl": -4246.481345647022,
+      "win_rate_gross": 56.17977528089888,
+      "win_rate_net": 39.325842696629216,
+      "avg_duration": 39.7752808988764
+    },
+    {
+      "time_bucket": "LUNCH_1200_1315",
+      "trades": 983,
+      "gross_pnl": 164968.57096535817,
+      "cost": 128338.1981032491,
+      "net_pnl": 36630.37286210905,
+      "win_rate_gross": 63.68260427263479,
+      "win_rate_net": 35.910478128179044,
+      "avg_duration": 46.50050864699898
+    },
+    {
+      "time_bucket": "MID_1030_1200",
+      "trades": 2031,
+      "gross_pnl": 60553.43465857029,
+      "cost": 247225.65696630723,
+      "net_pnl": -186672.22230773696,
+      "win_rate_gross": 64.35253569670112,
+      "win_rate_net": 36.533727227966516,
+      "avg_duration": 54.78581979320532
+    },
+    {
+      "time_bucket": "OPEN_0925_1030",
+      "trades": 2743,
+      "gross_pnl": 537967.741402928,
+      "cost": 414770.91072251915,
+      "net_pnl": 123196.83068040894,
+      "win_rate_gross": 64.01749908858913,
+      "win_rate_net": 34.998177178271966,
+      "avg_duration": 53.57090776522056
+    }
+  ],
+  "duration_bucket": [
+    {
+      "duration_bin": "15-30m",
+      "trades": 1216,
+      "gross_pnl": -261299.5253124291,
+      "cost": 156476.8662351417,
+      "net_pnl": -417776.39154757076,
+      "win_rate_gross": 62.00657894736842,
+      "win_rate_net": 21.957236842105264
+    },
+    {
+      "duration_bin": "30-60m",
+      "trades": 1576,
+      "gross_pnl": 553563.8910412156,
+      "cost": 209628.7473368962,
+      "net_pnl": 343935.14370431943,
+      "win_rate_gross": 70.36802030456852,
+      "win_rate_net": 43.78172588832487
+    },
+    {
+      "duration_bin": "60-120m",
+      "trades": 1309,
+      "gross_pnl": 1214151.6366708565,
+      "cost": 180745.3986179085,
+      "net_pnl": 1033406.2380529479,
+      "win_rate_gross": 73.33842627960276,
+      "win_rate_net": 59.51107715813598
+    },
+    {
+      "duration_bin": "<=15m",
+      "trades": 1310,
+      "gross_pnl": -1024485.1434168582,
+      "cost": 193530.8407932591,
+      "net_pnl": -1218015.9842101173,
+      "win_rate_gross": 48.396946564885496,
+      "win_rate_net": 10.610687022900764
+    },
+    {
+      "duration_bin": ">120m",
+      "trades": 435,
+      "gross_pnl": 287487.53782757174,
+      "cost": 60128.04393801713,
+      "net_pnl": 227359.49388955458,
+      "win_rate_gross": 64.82758620689654,
+      "win_rate_net": 49.42528735632184
+    }
+  ],
+  "direction": [
+    {
+      "direction": "LONG",
+      "trades": 3078,
+      "gross_pnl": 328262.96968800126,
+      "cost": 428553.11879067833,
+      "net_pnl": -100290.14910267713,
+      "win_rate_gross": 62.31319038336582,
+      "win_rate_net": 33.75568551007147
+    },
+    {
+      "direction": "SHORT",
+      "trades": 2768,
+      "gross_pnl": 441155.4271223554,
+      "cost": 371956.77813054423,
+      "net_pnl": 69198.64899181113,
+      "win_rate_gross": 65.78757225433526,
+      "win_rate_net": 37.96965317919075
+    }
+  ],
+  "sector_top15": [
+    {
+      "sector": "NIFTY REALTY",
+      "trades": 713,
+      "gross_pnl": 259373.04852071364,
+      "cost": 128038.79465913391,
+      "net_pnl": 131334.25386157972,
+      "win_rate_gross": 65.91865357643759
+    },
+    {
+      "sector": "NIFTY AUTO",
+      "trades": 659,
+      "gross_pnl": 138494.8232127867,
+      "cost": 78994.36180473572,
+      "net_pnl": 59500.46140805097,
+      "win_rate_gross": 62.06373292867981
+    },
+    {
+      "sector": "NIFTY OIL AND GAS",
+      "trades": 530,
+      "gross_pnl": 92399.79529428578,
+      "cost": 61084.000034294615,
+      "net_pnl": 31315.795259991166,
+      "win_rate_gross": 67.16981132075472
+    },
+    {
+      "sector": "NIFTY MEDIA",
+      "trades": 343,
+      "gross_pnl": 50179.422181714595,
+      "cost": 39670.78306391358,
+      "net_pnl": 10508.63911780101,
+      "win_rate_gross": 63.26530612244898
+    },
+    {
+      "sector": "NIFTY PSU BANK",
+      "trades": 958,
+      "gross_pnl": 107817.57348978591,
+      "cost": 106541.45502695958,
+      "net_pnl": 1276.1184628263213,
+      "win_rate_gross": 63.77870563674322
+    },
+    {
+      "sector": "NIFTY CHEMICALS",
+      "trades": 6,
+      "gross_pnl": -20635.02850000009,
+      "cost": 1081.9120316903027,
+      "net_pnl": -21716.940531690394,
+      "win_rate_gross": 16.666666666666664
+    },
+    {
+      "sector": "NIFTY IT",
+      "trades": 903,
+      "gross_pnl": 153513.951348999,
+      "cost": 184440.77693797892,
+      "net_pnl": -30926.82558897995,
+      "win_rate_gross": 63.565891472868216
+    },
+    {
+      "sector": "NIFTY PHARMA",
+      "trades": 465,
+      "gross_pnl": 15712.76234121368,
+      "cost": 62474.181509962706,
+      "net_pnl": -46761.419168749024,
+      "win_rate_gross": 61.72043010752688
+    },
+    {
+      "sector": "NIFTY FMCG",
+      "trades": 392,
+      "gross_pnl": -18136.325856785636,
+      "cost": 53250.40571661873,
+      "net_pnl": -71386.73157340435,
+      "win_rate_gross": 63.775510204081634
+    },
+    {
+      "sector": "NIFTY METAL",
+      "trades": 877,
+      "gross_pnl": -9301.62522235693,
+      "cost": 84933.22613593453,
+      "net_pnl": -94234.85135829146,
+      "win_rate_gross": 64.31014823261117
+    }
+  ],
+  "sector_bottom15": [
+    {
+      "sector": "NIFTY METAL",
+      "trades": 877,
+      "gross_pnl": -9301.62522235693,
+      "cost": 84933.22613593453,
+      "net_pnl": -94234.85135829146,
+      "win_rate_gross": 64.31014823261117
+    },
+    {
+      "sector": "NIFTY FMCG",
+      "trades": 392,
+      "gross_pnl": -18136.325856785636,
+      "cost": 53250.40571661873,
+      "net_pnl": -71386.73157340435,
+      "win_rate_gross": 63.775510204081634
+    },
+    {
+      "sector": "NIFTY PHARMA",
+      "trades": 465,
+      "gross_pnl": 15712.76234121368,
+      "cost": 62474.181509962706,
+      "net_pnl": -46761.419168749024,
+      "win_rate_gross": 61.72043010752688
+    },
+    {
+      "sector": "NIFTY IT",
+      "trades": 903,
+      "gross_pnl": 153513.951348999,
+      "cost": 184440.77693797892,
+      "net_pnl": -30926.82558897995,
+      "win_rate_gross": 63.565891472868216
+    },
+    {
+      "sector": "NIFTY CHEMICALS",
+      "trades": 6,
+      "gross_pnl": -20635.02850000009,
+      "cost": 1081.9120316903027,
+      "net_pnl": -21716.940531690394,
+      "win_rate_gross": 16.666666666666664
+    },
+    {
+      "sector": "NIFTY PSU BANK",
+      "trades": 958,
+      "gross_pnl": 107817.57348978591,
+      "cost": 106541.45502695958,
+      "net_pnl": 1276.1184628263213,
+      "win_rate_gross": 63.77870563674322
+    },
+    {
+      "sector": "NIFTY MEDIA",
+      "trades": 343,
+      "gross_pnl": 50179.422181714595,
+      "cost": 39670.78306391358,
+      "net_pnl": 10508.63911780101,
+      "win_rate_gross": 63.26530612244898
+    },
+    {
+      "sector": "NIFTY OIL AND GAS",
+      "trades": 530,
+      "gross_pnl": 92399.79529428578,
+      "cost": 61084.000034294615,
+      "net_pnl": 31315.795259991166,
+      "win_rate_gross": 67.16981132075472
+    },
+    {
+      "sector": "NIFTY AUTO",
+      "trades": 659,
+      "gross_pnl": 138494.8232127867,
+      "cost": 78994.36180473572,
+      "net_pnl": 59500.46140805097,
+      "win_rate_gross": 62.06373292867981
+    },
+    {
+      "sector": "NIFTY REALTY",
+      "trades": 713,
+      "gross_pnl": 259373.04852071364,
+      "cost": 128038.79465913391,
+      "net_pnl": 131334.25386157972,
+      "win_rate_gross": 65.91865357643759
+    }
+  ],
+  "symbol_top20_min40": [
+    {
+      "symbol": "ANANTRAJ",
+      "trades": 272,
+      "gross_pnl": 142092.3036835713,
+      "cost": 50358.61701137542,
+      "net_pnl": 91733.68667219591,
+      "win_rate_gross": 68.75
+    },
+    {
+      "symbol": "DLF",
+      "trades": 218,
+      "gross_pnl": 111708.72318821444,
+      "cost": 38847.93790018031,
+      "net_pnl": 72860.78528803414,
+      "win_rate_gross": 68.34862385321101
+    },
+    {
+      "symbol": "COFORGE",
+      "trades": 329,
+      "gross_pnl": 146902.3464257145,
+      "cost": 98213.4484898525,
+      "net_pnl": 48688.897935862,
+      "win_rate_gross": 65.34954407294833
+    },
+    {
+      "symbol": "BPCL",
+      "trades": 147,
+      "gross_pnl": 65403.45949392858,
+      "cost": 18294.161502385454,
+      "net_pnl": 47109.297991543135,
+      "win_rate_gross": 69.38775510204081
+    },
+    {
+      "symbol": "ADANIENT",
+      "trades": 102,
+      "gross_pnl": 54989.49395428559,
+      "cost": 18290.63591018046,
+      "net_pnl": 36698.85804410512,
+      "win_rate_gross": 65.68627450980392
+    },
+    {
+      "symbol": "ASHOKLEY",
+      "trades": 264,
+      "gross_pnl": 66302.3127275722,
+      "cost": 32410.70846682366,
+      "net_pnl": 33891.60426074855,
+      "win_rate_gross": 60.60606060606061
+    },
+    {
+      "symbol": "AEGISLOG",
+      "trades": 75,
+      "gross_pnl": 42547.01560535691,
+      "cost": 10884.690608486451,
+      "net_pnl": 31662.324996870455,
+      "win_rate_gross": 68.0
+    },
+    {
+      "symbol": "INDIANB",
+      "trades": 44,
+      "gross_pnl": 36600.737462143225,
+      "cost": 7652.148803943702,
+      "net_pnl": 28948.588658199526,
+      "win_rate_gross": 65.9090909090909
+    },
+    {
+      "symbol": "ZEEL",
+      "trades": 180,
+      "gross_pnl": 33429.674960785575,
+      "cost": 14997.764285144734,
+      "net_pnl": 18431.910675640844,
+      "win_rate_gross": 65.55555555555556
+    },
+    {
+      "symbol": "BIOCON",
+      "trades": 123,
+      "gross_pnl": 15243.703334285752,
+      "cost": 4995.270965280559,
+      "net_pnl": 10248.432369005193,
+      "win_rate_gross": 60.97560975609756
+    },
+    {
+      "symbol": "INFY",
+      "trades": 67,
+      "gross_pnl": 24447.1368939283,
+      "cost": 14428.60327407434,
+      "net_pnl": 10018.53361985396,
+      "win_rate_gross": 68.65671641791045
+    },
+    {
+      "symbol": "CANBK",
+      "trades": 104,
+      "gross_pnl": 14405.386029286032,
+      "cost": 6161.602608842163,
+      "net_pnl": 8243.78342044387,
+      "win_rate_gross": 65.38461538461539
+    },
+    {
+      "symbol": "HINDALCO",
+      "trades": 148,
+      "gross_pnl": 18416.354535357408,
+      "cost": 10639.617640820657,
+      "net_pnl": 7776.73689453675,
+      "win_rate_gross": 64.1891891891892
+    },
+    {
+      "symbol": "BAJAJ-AUTO",
+      "trades": 88,
+      "gross_pnl": 26367.931632143485,
+      "cost": 19612.679293119083,
+      "net_pnl": 6755.252339024404,
+      "win_rate_gross": 67.04545454545455
+    },
+    {
+      "symbol": "HINDCOPPER",
+      "trades": 123,
+      "gross_pnl": 9249.612668428403,
+      "cost": 4075.6438792343197,
+      "net_pnl": 5173.968789194083,
+      "win_rate_gross": 67.47967479674797
+    },
+    {
+      "symbol": "BHARATFORG",
+      "trades": 58,
+      "gross_pnl": 11819.849012857045,
+      "cost": 8763.150215050737,
+      "net_pnl": 3056.698797806307,
+      "win_rate_gross": 70.6896551724138
+    },
+    {
+      "symbol": "GAIL",
+      "trades": 97,
+      "gross_pnl": 8773.784632143266,
+      "cost": 6281.481948607878,
+      "net_pnl": 2492.3026835353885,
+      "win_rate_gross": 70.10309278350515
+    },
+    {
+      "symbol": "PPLPHARMA",
+      "trades": 52,
+      "gross_pnl": 2606.5407965713785,
+      "cost": 341.02338086733124,
+      "net_pnl": 2265.517415704047,
+      "win_rate_gross": 63.46153846153846
+    },
+    {
+      "symbol": "COLPAL",
+      "trades": 78,
+      "gross_pnl": 10045.974871785682,
+      "cost": 10279.030614018371,
+      "net_pnl": -233.05574223269036,
+      "win_rate_gross": 70.51282051282051
+    },
+    {
+      "symbol": "NMDC",
+      "trades": 153,
+      "gross_pnl": -623.6312745714675,
+      "cost": 897.6155207357893,
+      "net_pnl": -1521.246795307257,
+      "win_rate_gross": 73.20261437908496
+    }
+  ],
+  "symbol_bottom20_min40": [
+    {
+      "symbol": "APLAPOLLO",
+      "trades": 179,
+      "gross_pnl": -50788.86067928552,
+      "cost": 39243.012557436225,
+      "net_pnl": -90031.87323672175,
+      "win_rate_gross": 60.33519553072626
+    },
+    {
+      "symbol": "ALKEM",
+      "trades": 44,
+      "gross_pnl": -16140.530160714112,
+      "cost": 12652.83713004097,
+      "net_pnl": -28793.367290755083,
+      "win_rate_gross": 54.54545454545454
+    },
+    {
+      "symbol": "GODREJPROP",
+      "trades": 80,
+      "gross_pnl": -12316.65825928593,
+      "cost": 14407.389956219533,
+      "net_pnl": -26724.048215505463,
+      "win_rate_gross": 56.25
+    },
+    {
+      "symbol": "DABUR",
+      "trades": 96,
+      "gross_pnl": -20644.223650714437,
+      "cost": 6052.106609151177,
+      "net_pnl": -26696.330259865612,
+      "win_rate_gross": 60.416666666666664
+    },
+    {
+      "symbol": "BANKINDIA",
+      "trades": 221,
+      "gross_pnl": -7633.853591214673,
+      "cost": 18478.224504445803,
+      "net_pnl": -26112.078095660476,
+      "win_rate_gross": 60.633484162895925
+    },
+    {
+      "symbol": "LTIM",
+      "trades": 51,
+      "gross_pnl": -12094.615994999593,
+      "cost": 12780.253150120992,
+      "net_pnl": -24874.869145120585,
+      "win_rate_gross": 62.745098039215684
+    },
+    {
+      "symbol": "BRITANNIA",
+      "trades": 91,
+      "gross_pnl": 4306.687107142557,
+      "cost": 25848.055147467516,
+      "net_pnl": -21541.36804032496,
+      "win_rate_gross": 63.73626373626373
+    },
+    {
+      "symbol": "BANKBARODA",
+      "trades": 355,
+      "gross_pnl": 34982.62899471455,
+      "cost": 55487.404863808246,
+      "net_pnl": -20504.7758690937,
+      "win_rate_gross": 62.25352112676056
+    },
+    {
+      "symbol": "CIPLA",
+      "trades": 40,
+      "gross_pnl": -11041.253175714373,
+      "cost": 8230.408873591148,
+      "net_pnl": -19271.66204930552,
+      "win_rate_gross": 52.5
+    },
+    {
+      "symbol": "ATGL",
+      "trades": 59,
+      "gross_pnl": -7361.990904285811,
+      "cost": 10049.873489897793,
+      "net_pnl": -17411.8643941836,
+      "win_rate_gross": 67.79661016949152
+    },
+    {
+      "symbol": "LODHA",
+      "trades": 57,
+      "gross_pnl": -7012.254305357257,
+      "cost": 8582.825553963092,
+      "net_pnl": -15595.07985932035,
+      "win_rate_gross": 70.17543859649122
+    },
+    {
+      "symbol": "HCLTECH",
+      "trades": 186,
+      "gross_pnl": 27311.66951357035,
+      "cost": 40130.20383574411,
+      "net_pnl": -12818.534322173771,
+      "win_rate_gross": 61.29032258064516
+    },
+    {
+      "symbol": "AUROPHARMA",
+      "trades": 138,
+      "gross_pnl": 15593.721048213907,
+      "cost": 25700.29513281436,
+      "net_pnl": -10106.574084600456,
+      "win_rate_gross": 63.76811594202898
+    },
+    {
+      "symbol": "IOC",
+      "trades": 52,
+      "gross_pnl": -7735.987268071484,
+      "cost": 1784.6830381619222,
+      "net_pnl": -9520.670306233405,
+      "win_rate_gross": 67.3076923076923
+    },
+    {
+      "symbol": "WIPRO",
+      "trades": 177,
+      "gross_pnl": -6874.071828500112,
+      "cost": 1801.646792955058,
+      "net_pnl": -8675.71862145517,
+      "win_rate_gross": 65.5367231638418
+    },
+    {
+      "symbol": "NAZARA",
+      "trades": 72,
+      "gross_pnl": 8520.68276357183,
+      "cost": 14654.06589981947,
+      "net_pnl": -6133.38313624764,
+      "win_rate_gross": 54.166666666666664
+    },
+    {
+      "symbol": "ITC",
+      "trades": 41,
+      "gross_pnl": -1627.3460017856796,
+      "cost": 1362.6728099202865,
+      "net_pnl": -2990.018811705966,
+      "win_rate_gross": 68.29268292682927
+    },
+    {
+      "symbol": "MAHABANK",
+      "trades": 139,
+      "gross_pnl": 4666.823718642636,
+      "cost": 7541.773352117379,
+      "net_pnl": -2874.949633474742,
+      "win_rate_gross": 71.22302158273382
+    },
+    {
+      "symbol": "MOTHERSON",
+      "trades": 102,
+      "gross_pnl": -940.1703726428598,
+      "cost": 647.4517393614518,
+      "net_pnl": -1587.6221120043112,
+      "win_rate_gross": 55.88235294117647
+    },
+    {
+      "symbol": "NMDC",
+      "trades": 153,
+      "gross_pnl": -623.6312745714675,
+      "cost": 897.6155207357893,
+      "net_pnl": -1521.246795307257,
+      "win_rate_gross": 73.20261437908496
+    }
+  ],
+  "entry_decision_top20": [
+    {
+      "entry_decision": "INSUFFICIENT_CAPITAL",
+      "count": 105230
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_POSITIONS (6)",
+      "count": 12813
+    },
+    {
+      "entry_decision": "EXECUTED",
+      "count": 5846
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_SECTOR_LIMIT (NIFTY METAL: 2)",
+      "count": 3347
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_SECTOR_LIMIT (NIFTY IT: 2)",
+      "count": 2918
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_SECTOR_LIMIT (NIFTY PSU BANK: 2)",
+      "count": 2355
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_SECTOR_LIMIT (NIFTY AUTO: 2)",
+      "count": 1946
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_SECTOR_LIMIT (NIFTY OIL AND GAS: 2)",
+      "count": 1417
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_SECTOR_LIMIT (NIFTY REALTY: 2)",
+      "count": 1153
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_SECTOR_LIMIT (NIFTY PHARMA: 2)",
+      "count": 959
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_SECTOR_LIMIT (NIFTY FMCG: 2)",
+      "count": 828
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_STOCK_LIMIT (ZEEL: 1)",
+      "count": 152
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_SECTOR_LIMIT (NIFTY MEDIA: 2)",
+      "count": 126
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_STOCK_LIMIT (ANANTRAJ: 1)",
+      "count": 101
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_STOCK_LIMIT (ASHOKLEY: 1)",
+      "count": 94
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_STOCK_LIMIT (BANKBARODA: 1)",
+      "count": 91
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_STOCK_LIMIT (COFORGE: 1)",
+      "count": 43
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_STOCK_LIMIT (WIPRO: 1)",
+      "count": 40
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_STOCK_LIMIT (DLF: 1)",
+      "count": 38
+    },
+    {
+      "entry_decision": "RISK_REJECTED:MAX_STOCK_LIMIT (HCLTECH: 1)",
+      "count": 30
+    }
+  ],
+  "r_buckets": [
+    {
+      "r_bucket": "<=-1R",
+      "trades": 1011,
+      "gross_pnl": -1661910.9761092993,
+      "net_pnl": -1795950.4381121148
+    },
+    {
+      "r_bucket": "-1R to -0.5R",
+      "trades": 1017,
+      "gross_pnl": -1652607.6163685592,
+      "net_pnl": -1789958.2965304062
+    },
+    {
+      "r_bucket": "-0.5R to 0R",
+      "trades": 79,
+      "gross_pnl": -30127.660000000553,
+      "net_pnl": -41719.5512122614
+    },
+    {
+      "r_bucket": "0 to 0.5R",
+      "trades": 2155,
+      "gross_pnl": 445188.742312001,
+      "net_pnl": 145267.95988699925
+    },
+    {
+      "r_bucket": "0.5R to 1R",
+      "trades": 368,
+      "gross_pnl": 502370.4640190697,
+      "net_pnl": 448218.06569385406
+    },
+    {
+      "r_bucket": "1R to 1.5R",
+      "trades": 640,
+      "gross_pnl": 1341775.0834067864,
+      "net_pnl": 1254190.2705994786
+    },
+    {
+      "r_bucket": ">1.5R",
+      "trades": 576,
+      "gross_pnl": 1824730.3595503587,
+      "net_pnl": 1748860.4895635843
+    }
+  ]
+}
