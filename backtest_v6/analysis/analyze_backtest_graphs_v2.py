@@ -59,9 +59,9 @@ DEFAULT_HISTORY_SOURCES: List[Dict[str, Any]] = [
     # {"path": ROOT / "history_v6.2" / "backtest_history_25-02-2026_07-30_am.json", "label": "v6.2_run2"},
     # {"path": ROOT / "history_v6.2" / "backtest_history_25-02-2026_09-11_am.json", "label": "v6.2_run3"},
     # {"path": ROOT / "history_v6.2" / "backtest_history_25-02-2026_10-58_am.json", "label": "v6.2_run4"},
-    {"path": ROOT / "history_v6.5" / "backtest_history_26-02-2026_02-19_pm.json", "label": "2025"},
-    {"path": ROOT / "history_v6.5" / "backtest_history_26-02-2026_02-26_pm.json", "label": "2024"},
-    {"path": ROOT / "history_v6.5" / "backtest_history_26-02-2026_04-26_pm.json", "label": "2023"},
+    {"path": ROOT / "history_v6.8" / "backtest_history_27-02-2026_04-55_pm.json", "label": "2025"},
+    {"path": ROOT / "history_v6.8" / "backtest_history_27-02-2026_04-54_pm.json", "label": "2024"},
+    {"path": ROOT / "history_v6.8" / "backtest_history_27-02-2026_04-53_pm.json", "label": "2023"},
     # {"path": ROOT / "history_v6.3", "label": "v6.3"},
     # {"path": ROOT / "history_v6.4", "label": "v6.4"},
 ]

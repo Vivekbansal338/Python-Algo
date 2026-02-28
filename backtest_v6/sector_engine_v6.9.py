@@ -1,44 +1,34 @@
 """
 ===============================================================================
-V6.8 SECTOR BACKTEST ENGINE — ENHANCED SIGNAL QUALITY GATES + BROKERAGE
+V6.9 SECTOR BACKTEST ENGINE — DYNAMIC HMA-BASED EXIT SYSTEM
 ===============================================================================
-Inherits V6.6 A+-only policy + execution/risk/exit architecture, and adds
-five signal-quality gates to eliminate low-conviction entries.
+Inherits V6.8 signal quality gates + brokerage accounting, and replaces the
+fixed R-multiple exit system with a dynamic, HMA-aware exit architecture.
 
-Also adds full brokerage/slippage accounting on every executed order leg
-(entry, partial exit, and final exit), and persists charge breakdowns in
-trade-level and run-level summaries.
+ENTRY: Unchanged from V6.8 (HMA crossover + 5 quality gates + alignment).
 
-SIGNAL QUALITY GATES (new in V6.7):
-────────────────────────────────────
-1) HMA SLOPE CONFIRMATION
-   - Compute HMA(9) and HMA(21) slopes over the last SLOPE_LOOKBACK bars.
-   - For LONG : both slopes must be positive (pointing up).
-   - For SHORT: both slopes must be negative (pointing down).
-   - Flat or counter-directional slopes → reject.
+EXIT SYSTEM (new in V6.9):
+─────────────────────────────
+1) INITIAL STOP: max(1.4 × ATR_5m, 0.35% of price) — tighter than V6.8.
 
-2) CROSSOVER FRESHNESS
-   - Detect the exact bar where HMA(9) crossed HMA(21).
-   - Only accept signals within CROSS_FRESHNESS_BARS of the crossover.
-   - Stale crossovers (>N bars old) are rejected — the momentum is spent.
+2) HMA21 TRAILING STOP (always-on):
+   - LONG : trail_stop = HMA21 − (0.3 × ATR_5m)
+   - SHORT: trail_stop = HMA21 + (0.3 × ATR_5m)
+   - Ratchet: stop only moves in your favor, never backward.
+   - Applies whenever the HMA21-based level beats the current stop.
 
-3) PRICE-HMA ALIGNMENT
-   - For LONG : price must be above HMA(9) which must be above HMA(21).
-   - For SHORT: price must be below HMA(9) which must be below HMA(21).
-   - Price trapped between the two HMAs → no clean trend → reject.
+3) HMA CROSS EXIT (primary signal-based exit):
+   - LONG : exit when HMA9 crosses back below HMA21.
+   - SHORT: exit when HMA9 crosses back above HMA21.
+   - The entry signal has reversed — trend is over.
 
-4) HMA SEPARATION (Anti-Chop Filter)
-   - HMA gap = abs(HMA9 − HMA21) must be at least MIN_HMA_SEP_ATR_FRAC
-     times the 5-minute ATR.
-   - Prevents entries during tight, choppy HMA convergence zones.
+4) PARTIAL PROFIT TAKING at 1.5R:
+   - Exit 50% of position at 1.5R target.
+   - Move stop to breakeven (entry price) on remaining.
+   - Let remaining 50% ride with HMA21 trail.
 
-5) HMA DIVERGENCE (Momentum Expanding)
-   - Current HMA gap must be wider than gap DIVERGENCE_LOOKBACK bars ago.
-   - Ensures the fast HMA is accelerating *away* — momentum is expanding.
-   - Converging HMAs (decelerating move) → reject.
-
-Everything else — risk, sizing, stops, trailing, TP1, history export — is
-identical to V6.6.
+BROKERAGE: Full V6.8 brokerage/slippage accounting preserved.
+QUALITY GATES: All V6.7 signal quality gates preserved.
 ===============================================================================
 """
 
@@ -79,20 +69,19 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger("SectorBacktesterV6")
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# V6.1 INTRADAY RISK/TARGET CONFIGURATION (unchanged)
+# V6.9 DYNAMIC HMA-BASED EXIT CONFIGURATION
 # ═══════════════════════════════════════════════════════════════════════════════
 
-STOP_ATR_MULT_5M = 1.6
-STOP_MIN_PCT = 0.0035
+# Initial stop
+STOP_ATR_MULT_5M = 1.4              # Tighter initial stop (was 1.6 in V6.8)
+STOP_MIN_PCT = 0.0035                # Minimum stop distance floor (unchanged)
 
-BE_ARM_R = 0.6
-BE_BUFFER_BPS = 3
+# HMA21 trailing stop
+HMA_TRAIL_BUFFER_ATR = 0.3           # Trail = HMA21 ± (buffer × ATR_5m)
 
-TRAIL_ARM_R = 0.8
-TRAIL_LOOKBACK_BARS = 10
-TRAIL_MULT_LOW = 2.2
-TRAIL_MULT_MID = 1.8
-TRAIL_MULT_HIGH = 1.4
+# Target partial exit
+TARGET_1_R = 1.5                     # Take partial profit at 1.5R
+TARGET_1_EXIT_PCT = 0.50             # Exit 50% at target
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # V6.7 SIGNAL QUALITY GATE CONSTANTS
@@ -210,6 +199,11 @@ class BacktestTrade:
     total_stamp_charge: float = 0.0
     total_gst: float = 0.0
     total_charges: float = 0.0
+    # V6.9 additions — HMA dynamic exit tracking
+    hma_trail_active: bool = False     # HMA21 trail is providing stop
+    bars_in_trade: int = 0             # Count of bars since entry
+    last_hma9: float = 0.0             # Live HMA9 at last bar
+    last_hma21: float = 0.0            # Live HMA21 at last bar
 
 
 @dataclass
@@ -226,7 +220,7 @@ class DayResult:
 
 class SectorBacktesterV6:
     """
-    V6.8 backtester — V6.7 quality gates + full brokerage accounting.
+    V6.9 backtester — Dynamic HMA-based exit system + brokerage accounting.
 
     Five new gates filter out low-conviction HMA crossover signals:
       1. HMA slope direction confirmation
@@ -252,7 +246,7 @@ class SectorBacktesterV6:
         self.daily_dir = self.data_root / "daily"
         self.intra_dir = self.data_root / "5minute"
         self.backtest_root = Path(__file__).parent
-        self.history_dir = self.backtest_root / "history_v6.8"
+        self.history_dir = self.backtest_root / "history_v6.9"
 
         self.synthetic_spread_bps = max(0.0, float(synthetic_spread_bps))
         self.synthetic_circuit_pct = max(0.01, float(synthetic_circuit_pct))
@@ -553,16 +547,12 @@ class SectorBacktesterV6:
             if not key.isupper():
                 continue
             snapshot[key] = self._json_safe(getattr(config, key))
-        # V6.1 constants
-        snapshot["V6_1_STOP_ATR_MULT_5M"] = STOP_ATR_MULT_5M
-        snapshot["V6_1_STOP_MIN_PCT"] = STOP_MIN_PCT
-        snapshot["V6_1_BE_ARM_R"] = BE_ARM_R
-        snapshot["V6_1_BE_BUFFER_BPS"] = BE_BUFFER_BPS
-        snapshot["V6_1_TRAIL_ARM_R"] = TRAIL_ARM_R
-        snapshot["V6_1_TRAIL_LOOKBACK_BARS"] = TRAIL_LOOKBACK_BARS
-        snapshot["V6_1_TRAIL_MULT_LOW"] = TRAIL_MULT_LOW
-        snapshot["V6_1_TRAIL_MULT_MID"] = TRAIL_MULT_MID
-        snapshot["V6_1_TRAIL_MULT_HIGH"] = TRAIL_MULT_HIGH
+        # V6.9 exit constants
+        snapshot["V6_9_STOP_ATR_MULT_5M"] = STOP_ATR_MULT_5M
+        snapshot["V6_9_STOP_MIN_PCT"] = STOP_MIN_PCT
+        snapshot["V6_9_HMA_TRAIL_BUFFER_ATR"] = HMA_TRAIL_BUFFER_ATR
+        snapshot["V6_9_TARGET_1_R"] = TARGET_1_R
+        snapshot["V6_9_TARGET_1_EXIT_PCT"] = TARGET_1_EXIT_PCT
         # V6.2
         snapshot["V6_2_LEVERAGE_ALLOWED"] = False
         # V6.4
@@ -634,6 +624,11 @@ class SectorBacktesterV6:
             "index_direction": trade.index_direction,
             "sector_bias_at_entry": trade.sector_bias_at_entry,
             "signal_direction": trade.signal_direction,
+            # V6.9 fields
+            "hma_trail_active": bool(trade.hma_trail_active),
+            "bars_in_trade": int(trade.bars_in_trade),
+            "last_hma9": float(trade.last_hma9),
+            "last_hma21": float(trade.last_hma21),
         }
 
     def _build_run_summary(self) -> Dict[str, Any]:
@@ -1611,9 +1606,9 @@ class SectorBacktesterV6:
             )
             if sizing.risk_per_share > 0:
                 target_1 = (
-                    ltp + (sizing.risk_per_share * config.TARGET_1_MULT)
+                    ltp + (sizing.risk_per_share * TARGET_1_R)
                     if signal.direction == "LONG"
-                    else ltp - (sizing.risk_per_share * config.TARGET_1_MULT)
+                    else ltp - (sizing.risk_per_share * TARGET_1_R)
                 )
 
         available_capital = self._get_available_capital()
@@ -1897,45 +1892,41 @@ class SectorBacktesterV6:
         self.active_trades.pop(trade_id, None)
 
     # ═══════════════════════════════════════════════════════════════════════════
-    # V6.1 — Chandelier rewrite
+    # V6.9 — Live HMA computation for exit decisions
     # ═══════════════════════════════════════════════════════════════════════════
 
-    def _calculate_chandelier(self, trade: BacktestTrade, intra_pos: int) -> float:
-        intra_np = self._intra_np.get(trade.symbol)
+    def _compute_live_hma(self, symbol: str, intra_pos: int, current_close: float) -> Dict[str, float]:
+        """Compute live HMA9 and HMA21 for a stock at the current bar position.
+
+        Uses the _intra_np close array up to `intra_pos`, appending `current_close`.
+        Returns dict with hma9, hma21 values (0.0 if insufficient data).
+        """
+        result = {"hma9": 0.0, "hma21": 0.0}
+
+        intra_np = self._intra_np.get(symbol)
         if intra_np is None or intra_pos < 0:
-            return trade.current_stop
+            return result
 
-        end = intra_pos + 1
-        if end < TRAIL_LOOKBACK_BARS + 1:
-            return trade.current_stop
+        closes_up_to = intra_np["close"][:intra_pos]
+        min_bars = HMA_SLOW + int(np.sqrt(HMA_SLOW))
+        if len(closes_up_to) < min_bars:
+            return result
 
-        atr_start = end - (TRAIL_LOOKBACK_BARS + 1)
-        highs_arr = intra_np["high"][atr_start:end]
-        lows_arr = intra_np["low"][atr_start:end]
-        closes_arr = intra_np["close"][atr_start:end]
-        atr_5m = calculate_atr(highs_arr, lows_arr, closes_arr, period=TRAIL_LOOKBACK_BARS)
-        if atr_5m <= 0:
-            return trade.current_stop
+        # Build series including current bar
+        series = np.append(closes_up_to, current_close)
 
-        if trade.mfe_r >= 2.0:
-            trail_mult = TRAIL_MULT_HIGH
-        elif trade.mfe_r >= 1.0:
-            trail_mult = TRAIL_MULT_MID
-        else:
-            trail_mult = TRAIL_MULT_LOW
+        hma9 = calculate_hma(series, HMA_FAST)
+        hma21 = calculate_hma(series, HMA_SLOW)
 
-        atr_buffer = atr_5m * trail_mult
+        if hma9 > 0:
+            result["hma9"] = float(hma9)
+        if hma21 > 0:
+            result["hma21"] = float(hma21)
 
-        lookback_start = end - TRAIL_LOOKBACK_BARS
-        if trade.direction == "LONG":
-            anchor = float(np.max(intra_np["high"][lookback_start:end]))
-            return anchor - atr_buffer
-        else:
-            anchor = float(np.min(intra_np["low"][lookback_start:end]))
-            return anchor + atr_buffer
+        return result
 
     # ═══════════════════════════════════════════════════════════════════════════
-    # V6.1 — Active trade management loop
+    # V6.9 — Active trade management loop (HMA-based exits)
     # ═══════════════════════════════════════════════════════════════════════════
 
     def _update_active_trades(self, ts: pd.Timestamp):
@@ -1946,9 +1937,12 @@ class SectorBacktesterV6:
 
             high = float(row["high"])
             low = float(row["low"])
+            close = float(row["close"])
 
+            # --- 1. Update price tracking & MFE/MAE ---
             trade.highest_price = max(trade.highest_price, high)
             trade.lowest_price = min(trade.lowest_price, low)
+            trade.bars_in_trade += 1
 
             if trade.entry_risk_per_share > 0:
                 if trade.direction == "LONG":
@@ -1960,41 +1954,53 @@ class SectorBacktesterV6:
                 trade.mfe_r = max(trade.mfe_r, max(fav, 0.0))
                 trade.mae_r = max(trade.mae_r, max(adv, 0.0))
 
+            # --- 2. Compute live HMA9 and HMA21 ---
+            hma = self._compute_live_hma(trade.symbol, intra_pos, close)
+            hma9 = hma["hma9"]
+            hma21 = hma["hma21"]
+            trade.last_hma9 = hma9
+            trade.last_hma21 = hma21
+
+            # --- 3. Check STOP HIT (hard stop or HMA trail stop) ---
             stop_hit = (
                 trade.direction == "LONG" and low <= trade.current_stop
             ) or (
                 trade.direction == "SHORT" and high >= trade.current_stop
             )
             if stop_hit:
-                reason = "STOP_TRAIL" if (trade.be_armed or trade.trail_armed) else "STOP_HARD"
+                reason = "STOP_HMA_TRAIL" if trade.hma_trail_active else "STOP_HARD"
                 self._close_trade(trade_id, trade, ts, float(trade.current_stop), reason)
                 continue
 
-            if (
-                not trade.be_armed
-                and trade.entry_risk_per_share > 0
-                and trade.mfe_r >= BE_ARM_R
-            ):
+            # --- 4. HMA21 Trailing Stop (always-on, ratchet) ---
+            # Compute the HMA21-based trail level and apply if better than current stop
+            if hma21 > 0 and trade.entry_atr_5m > 0:
+                buffer = HMA_TRAIL_BUFFER_ATR * trade.entry_atr_5m
                 if trade.direction == "LONG":
-                    be_stop = trade.entry_price + (BE_BUFFER_BPS * trade.entry_price / 10000)
-                    if be_stop > trade.current_stop:
-                        trade.current_stop = be_stop
-                else:
-                    be_stop = trade.entry_price - (BE_BUFFER_BPS * trade.entry_price / 10000)
-                    if be_stop < trade.current_stop:
-                        trade.current_stop = be_stop
-                trade.be_armed = True
+                    hma_trail_level = hma21 - buffer
+                    if hma_trail_level > trade.current_stop:
+                        trade.current_stop = hma_trail_level
+                        trade.hma_trail_active = True
+                        trade.trail_armed = True  # backward compat
+                else:  # SHORT
+                    hma_trail_level = hma21 + buffer
+                    if hma_trail_level < trade.current_stop:
+                        trade.current_stop = hma_trail_level
+                        trade.hma_trail_active = True
+                        trade.trail_armed = True  # backward compat
 
-            if not trade.trail_armed and trade.mfe_r >= TRAIL_ARM_R:
-                trade.trail_armed = True
+            # --- 5. HMA Cross Exit (primary signal-based exit) ---
+            # If HMA9 crosses HMA21 against our direction, the entry signal has reversed
+            if hma9 > 0 and hma21 > 0:
+                hma_cross_against = (
+                    (trade.direction == "LONG" and hma9 < hma21) or
+                    (trade.direction == "SHORT" and hma9 > hma21)
+                )
+                if hma_cross_against:
+                    self._close_trade(trade_id, trade, ts, close, "HMA_CROSS_EXIT")
+                    continue
 
-            if trade.trail_armed:
-                new_trail = self._calculate_chandelier(trade, intra_pos)
-                if trade.direction == "LONG" and new_trail > trade.current_stop:
-                    trade.current_stop = new_trail
-                elif trade.direction == "SHORT" and new_trail < trade.current_stop:
-                    trade.current_stop = new_trail
-
+            # --- 6. Target Partial Exit (1.5R) ---
             if trade.stage == "ACTIVE":
                 target_hit = (
                     trade.direction == "LONG" and high >= trade.target_1
@@ -2002,7 +2008,7 @@ class SectorBacktesterV6:
                     trade.direction == "SHORT" and low <= trade.target_1
                 )
                 if target_hit:
-                    partial_qty = max(1, int(trade.qty * config.TARGET_1_EXIT_PCT))
+                    partial_qty = max(1, int(trade.qty * TARGET_1_EXIT_PCT))
                     partial_qty = min(partial_qty, trade.qty)
                     partial_gross_pnl = self._calculate_trade_pnl(
                         trade.direction,
@@ -2019,11 +2025,13 @@ class SectorBacktesterV6:
                         gross_pnl_delta=float(partial_gross_pnl),
                     )
                     trade.qty -= partial_qty
+                    trade.be_armed = True  # backward compat
 
                     if trade.qty <= 0:
                         self._close_trade(trade_id, trade, ts, float(trade.target_1), "TARGET1_FULL")
                         continue
 
+                    # Move stop to breakeven (entry price) for remaining position
                     if trade.direction == "LONG":
                         trade.current_stop = max(trade.current_stop, trade.entry_price)
                     else:
@@ -2227,7 +2235,7 @@ class SectorBacktesterV6:
         gross_return = total_return + self.brokerage_totals.total
 
         print("\n" + "=" * 80)
-        print("V6.8 BACKTEST SUMMARY (QUALITY GATES + BROKERAGE)")
+        print("V6.9 BACKTEST SUMMARY (HMA-BASED EXIT SYSTEM + BROKERAGE)")
         print("-" * 80)
         print(f"Data Root:           {self.data_root}")
         print(f"Exchange:            {self.exchange} (Txn: {self.transaction_charge_pct:.5f}%)")
@@ -2269,11 +2277,13 @@ class SectorBacktesterV6:
             mae_vals = [t.mae_r for t in self.trade_history]
             be_count = sum(1 for t in self.trade_history if t.be_armed)
             trail_count = sum(1 for t in self.trade_history if t.trail_armed)
-            print(f"\nRisk Management:")
+            hma_trail_count = sum(1 for t in self.trade_history if t.hma_trail_active)
+            print(f"\nRisk Management (V6.9 HMA Exit):")
             print(f"  Median MFE (R):    {float(np.median(mfe_vals)):.2f}")
             print(f"  Median MAE (R):    {float(np.median(mae_vals)):.2f}")
             print(f"  BE Armed:          {be_count} ({be_count/len(self.trade_history)*100:.1f}%)")
             print(f"  Trail Armed:       {trail_count} ({trail_count/len(self.trade_history)*100:.1f}%)")
+            print(f"  HMA Trail Active:  {hma_trail_count} ({hma_trail_count/len(self.trade_history)*100:.1f}%)")
 
             equity_curve = [self.initial_equity]
             for trade in sorted(self.trade_history, key=lambda t: t.exit_time or t.entry_time):
@@ -2301,7 +2311,7 @@ class SectorBacktesterV6:
                 if self.brokerage_totals.turnover > 0
                 else 0.0
             )
-            print(f"\nBrokerage & Statutory Charges (V6.8):")
+            print(f"\nBrokerage & Statutory Charges:")
             print(f"  Total Turnover:    {self.brokerage_totals.turnover:,.0f}")
             print(f"  Brokerage:         {self.brokerage_totals.brokerage:,.0f}")
             print(f"  STT/CTT:           {self.brokerage_totals.stt:,.0f}")
@@ -2354,16 +2364,16 @@ class SectorBacktesterV6:
             )
             print(f"\nV6.7 Signal Quality Gates:")
             print(f"  Total gate rejections:    {total_gate_blocks}")
-            print(f"  ├─ Slope fail:            {self.gate_slope_blocked}")
-            print(f"  ├─ Crossover stale:       {self.gate_freshness_blocked}")
-            print(f"  ├─ Price-HMA misalign:    {self.gate_price_align_blocked}")
-            print(f"  ├─ Separation (chop):     {self.gate_separation_blocked}")
-            print(f"  └─ Converging (no div):   {self.gate_divergence_blocked}")
+            print(f"  - Slope fail:            {self.gate_slope_blocked}")
+            print(f"  - Crossover stale:       {self.gate_freshness_blocked}")
+            print(f"  - Price-HMA misalign:    {self.gate_price_align_blocked}")
+            print(f"  - Separation (chop):     {self.gate_separation_blocked}")
+            print(f"  - Converging (no div):   {self.gate_divergence_blocked}")
 
         print("=" * 80 + "\n")
 
     def export_trades(self, filepath: Optional[Path] = None):
-        out_path = Path(filepath) if filepath else (self.data_root / "backtest_trades_v6.8.csv")
+        out_path = Path(filepath) if filepath else (self.data_root / "backtest_trades_v6.9.csv")
         out_path.parent.mkdir(parents=True, exist_ok=True)
 
         if not self.trade_history:
@@ -2413,7 +2423,7 @@ class SectorBacktesterV6:
 
 
 def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="V6.8 sector backtest engine (quality gates + brokerage)")
+    parser = argparse.ArgumentParser(description="V6.9 sector backtest engine (HMA-based exit system + brokerage)")
     parser.add_argument("--start", type=str, default="2026-01-05", help="Start date YYYY-MM-DD")
     parser.add_argument("--end", type=str, default="2026-01-10", help="End date YYYY-MM-DD")
     parser.add_argument("--data-root", type=str, default=None, help="Data folder containing daily/ and 5minute/")
