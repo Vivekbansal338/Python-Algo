@@ -11,21 +11,21 @@ EXIT SYSTEM (new in V6.9):
 ─────────────────────────────
 1) INITIAL STOP: max(1.4 × ATR_5m, 0.35% of price) — tighter than V6.8.
 
-2) HMA21 TRAILING STOP (always-on):
-   - LONG : trail_stop = HMA21 − (0.3 × ATR_5m)
-   - SHORT: trail_stop = HMA21 + (0.3 × ATR_5m)
+2) HMA_SLOW TRAILING STOP (always-on):
+   - LONG : trail_stop = HMA_SLOW − (0.3 × ATR_5m)
+   - SHORT: trail_stop = HMA_SLOW + (0.3 × ATR_5m)
    - Ratchet: stop only moves in your favor, never backward.
-   - Applies whenever the HMA21-based level beats the current stop.
+   - Applies whenever the HMA_SLOW-based level beats the current stop.
 
 3) HMA CROSS EXIT (primary signal-based exit):
-   - LONG : exit when HMA9 crosses back below HMA21.
-   - SHORT: exit when HMA9 crosses back above HMA21.
+   - LONG : exit when HMA_FAST crosses back below HMA_SLOW.
+   - SHORT: exit when HMA_FAST crosses back above HMA_SLOW.
    - The entry signal has reversed — trend is over.
 
 4) PARTIAL PROFIT TAKING at 1.5R:
    - Exit 50% of position at 1.5R target.
    - Move stop to breakeven (entry price) on remaining.
-   - Let remaining 50% ride with HMA21 trail.
+   - Let remaining 50% ride with HMA_SLOW trail.
 
 BROKERAGE: Full V6.8 brokerage/slippage accounting preserved.
 QUALITY GATES: All V6.7 signal quality gates preserved.
@@ -76,8 +76,8 @@ logger = logging.getLogger("SectorBacktesterV6")
 STOP_ATR_MULT_5M = 1.4              # Tighter initial stop (was 1.6 in V6.8)
 STOP_MIN_PCT = 0.0035                # Minimum stop distance floor (unchanged)
 
-# HMA21 trailing stop
-HMA_TRAIL_BUFFER_ATR = 0.3           # Trail = HMA21 ± (buffer × ATR_5m)
+# HMA_SLOW trailing stop
+HMA_TRAIL_BUFFER_ATR = 0.3           # Trail = HMA_SLOW ± (buffer × ATR_5m)
 
 # Target partial exit
 TARGET_1_R = 1.5                     # Take partial profit at 1.5R
@@ -200,10 +200,10 @@ class BacktestTrade:
     total_gst: float = 0.0
     total_charges: float = 0.0
     # V6.9 additions — HMA dynamic exit tracking
-    hma_trail_active: bool = False     # HMA21 trail is providing stop
+    hma_trail_active: bool = False     # HMA_SLOW trail is providing stop
     bars_in_trade: int = 0             # Count of bars since entry
-    last_hma9: float = 0.0             # Live HMA9 at last bar
-    last_hma21: float = 0.0            # Live HMA21 at last bar
+    last_hma_fast: float = 0.0         # Live HMA_FAST at last bar
+    last_hma_slow: float = 0.0         # Live HMA_SLOW at last bar
 
 
 @dataclass
@@ -225,7 +225,7 @@ class SectorBacktesterV6:
     Five new gates filter out low-conviction HMA crossover signals:
       1. HMA slope direction confirmation
       2. Crossover freshness (max bars since cross)
-      3. Price-HMA structural alignment (price > HMA9 > HMA21 for LONG)
+      3. Price-HMA structural alignment (price > HMA_FAST > HMA_SLOW for LONG)
       4. HMA separation vs ATR (anti-chop)
       5. HMA divergence (momentum expanding, not converging)
 
@@ -627,8 +627,8 @@ class SectorBacktesterV6:
             # V6.9 fields
             "hma_trail_active": bool(trade.hma_trail_active),
             "bars_in_trade": int(trade.bars_in_trade),
-            "last_hma9": float(trade.last_hma9),
-            "last_hma21": float(trade.last_hma21),
+            "last_hma_fast": float(trade.last_hma_fast),
+            "last_hma_slow": float(trade.last_hma_slow),
         }
 
     def _build_run_summary(self) -> Dict[str, Any]:
@@ -1178,20 +1178,20 @@ class SectorBacktesterV6:
 
         Returns dict with keys:
             align        : BULLISH / BEARISH / MIXED
-            hma9, hma21  : current HMA values
-            slope9, slope21 : percentage slope per bar
-            cross_bars_ago : bars since last HMA9/HMA21 crossover (-1 if unknown)
-            separation   : abs(hma9 - hma21)
+            hma_fast, hma_slow  : current HMA values
+            slope_fast, slope_slow : percentage slope per bar
+            cross_bars_ago : bars since last HMA_FAST/HMA_SLOW crossover (-1 if unknown)
+            separation   : abs(hma_fast - hma_slow)
             sep_atr_frac : separation / atr_5m
             is_diverging : True if gap widening vs DIVERGENCE_LOOKBACK bars ago
             reject_reasons : list of gate rejection reasons (empty = all passed)
         """
         result: Dict[str, Any] = {
             "align": "MIXED",
-            "hma9": 0.0,
-            "hma21": 0.0,
-            "slope9": 0.0,
-            "slope21": 0.0,
+            "hma_fast": 0.0,
+            "hma_slow": 0.0,
+            "slope_fast": 0.0,
+            "slope_slow": 0.0,
             "cross_bars_ago": -1,
             "separation": 0.0,
             "sep_atr_frac": 0.0,
@@ -1213,17 +1213,17 @@ class SectorBacktesterV6:
         n = len(series)
 
         # ── Current HMA values ──
-        hma9 = calculate_hma(series, HMA_FAST)
-        hma21 = calculate_hma(series, HMA_SLOW)
-        if hma9 <= 0 or hma21 <= 0:
+        hma_fast = calculate_hma(series, HMA_FAST)
+        hma_slow = calculate_hma(series, HMA_SLOW)
+        if hma_fast <= 0 or hma_slow <= 0:
             return result
 
-        result["hma9"] = float(hma9)
-        result["hma21"] = float(hma21)
+        result["hma_fast"] = float(hma_fast)
+        result["hma_slow"] = float(hma_slow)
 
-        if hma9 > hma21:
+        if hma_fast > hma_slow:
             result["align"] = "BULLISH"
-        elif hma9 < hma21:
+        elif hma_fast < hma_slow:
             result["align"] = "BEARISH"
         else:
             return result  # exactly equal — MIXED, no gates to check
@@ -1233,43 +1233,44 @@ class SectorBacktesterV6:
 
         # ── Gate 1: HMA Slope Confirmation ──
         # Compute HMA at SLOPE_LOOKBACK bars ago and compare
-        hma9_prev = self._hma_at_offset(series, HMA_FAST, SLOPE_LOOKBACK)
-        hma21_prev = self._hma_at_offset(series, HMA_SLOW, SLOPE_LOOKBACK)
+        hma_fast_prev = self._hma_at_offset(series, HMA_FAST, SLOPE_LOOKBACK)
+        hma_slow_prev = self._hma_at_offset(series, HMA_SLOW, SLOPE_LOOKBACK)
 
-        if hma9_prev > 0 and hma21_prev > 0:
-            slope9 = (hma9 - hma9_prev) / hma9_prev * 100.0  # pct change over SLOPE_LOOKBACK bars
-            slope21 = (hma21 - hma21_prev) / hma21_prev * 100.0
-            result["slope9"] = float(slope9)
-            result["slope21"] = float(slope21)
+        if hma_fast_prev > 0 and hma_slow_prev > 0:
+            slope_fast = (hma_fast - hma_fast_prev) / hma_fast_prev * 100.0  # pct change over SLOPE_LOOKBACK bars
+            slope_slow = (hma_slow - hma_slow_prev) / hma_slow_prev * 100.0
+            result["slope_fast"] = float(slope_fast)
+            result["slope_slow"] = float(slope_slow)
 
-            slope9_per_bar = slope9 / SLOPE_LOOKBACK
-            slope21_per_bar = slope21 / SLOPE_LOOKBACK
+            slope_fast_per_bar = slope_fast / SLOPE_LOOKBACK
+            slope_slow_per_bar = slope_slow / SLOPE_LOOKBACK
 
             if direction == "LONG":
-                if slope9_per_bar < SLOPE_MIN_PCT or slope21_per_bar < SLOPE_MIN_PCT:
+                if slope_fast_per_bar < SLOPE_MIN_PCT or slope_slow_per_bar < SLOPE_MIN_PCT:
                     reject_reasons.append(
-                        f"SLOPE_FAIL: HMA9_slope={slope9_per_bar:.4f}%/bar HMA21_slope={slope21_per_bar:.4f}%/bar (need>{SLOPE_MIN_PCT}%)"
+                        f"SLOPE_FAIL: HMA_FAST_slope={slope_fast_per_bar:.4f}%/bar HMA_SLOW_slope={slope_slow_per_bar:.4f}%/bar (need>{SLOPE_MIN_PCT}%)"
                     )
             else:
-                if slope9_per_bar > -SLOPE_MIN_PCT or slope21_per_bar > -SLOPE_MIN_PCT:
+                if slope_fast_per_bar > -SLOPE_MIN_PCT or slope_slow_per_bar > -SLOPE_MIN_PCT:
                     reject_reasons.append(
-                        f"SLOPE_FAIL: HMA9_slope={slope9_per_bar:.4f}%/bar HMA21_slope={slope21_per_bar:.4f}%/bar (need<-{SLOPE_MIN_PCT}%)"
+                        f"SLOPE_FAIL: HMA_FAST_slope={slope_fast_per_bar:.4f}%/bar HMA_SLOW_slope={slope_slow_per_bar:.4f}%/bar (need<-{SLOPE_MIN_PCT}%)"
                     )
 
         # ── Gate 2: Crossover Freshness ──
-        # Walk backwards through series to find the bar where HMA9 crossed HMA21
-        max_scan = min(60, n - 25)  # don't scan too far back
+        # Walk backwards through series to find the bar where HMA_FAST crossed HMA_SLOW
+        min_data_bars = HMA_SLOW + int(np.sqrt(HMA_SLOW))
+        max_scan = min(60, n - min_data_bars)  # don't scan too far back
         cross_bars_ago = -1
         for offset in range(1, max_scan):
-            h9 = self._hma_at_offset(series, HMA_FAST, offset)
-            h21 = self._hma_at_offset(series, HMA_SLOW, offset)
-            if h9 <= 0 or h21 <= 0:
+            h_fast = self._hma_at_offset(series, HMA_FAST, offset)
+            h_slow = self._hma_at_offset(series, HMA_SLOW, offset)
+            if h_fast <= 0 or h_slow <= 0:
                 break
-            # Detect sign flip: current hma9>hma21 but at offset hma9<=hma21 (or vice versa)
-            if direction == "LONG" and h9 <= h21:
+            # Detect sign flip: current hma_fast>hma_slow but at offset hma_fast<=hma_slow (or vice versa)
+            if direction == "LONG" and h_fast <= h_slow:
                 cross_bars_ago = offset
                 break
-            if direction == "SHORT" and h9 >= h21:
+            if direction == "SHORT" and h_fast >= h_slow:
                 cross_bars_ago = offset
                 break
 
@@ -1286,18 +1287,18 @@ class SectorBacktesterV6:
 
         # ── Gate 3: Price-HMA Alignment ──
         if direction == "LONG":
-            if not (current_price > hma9 > hma21):
+            if not (current_price > hma_fast > hma_slow):
                 reject_reasons.append(
-                    f"PRICE_ALIGN_FAIL: need Price({current_price:.2f})>HMA9({hma9:.2f})>HMA21({hma21:.2f})"
+                    f"PRICE_ALIGN_FAIL: need Price({current_price:.2f})>HMA_FAST({hma_fast:.2f})>HMA_SLOW({hma_slow:.2f})"
                 )
         else:
-            if not (current_price < hma9 < hma21):
+            if not (current_price < hma_fast < hma_slow):
                 reject_reasons.append(
-                    f"PRICE_ALIGN_FAIL: need Price({current_price:.2f})<HMA9({hma9:.2f})<HMA21({hma21:.2f})"
+                    f"PRICE_ALIGN_FAIL: need Price({current_price:.2f})<HMA_FAST({hma_fast:.2f})<HMA_SLOW({hma_slow:.2f})"
                 )
 
         # ── Gate 4: HMA Separation (anti-chop) ──
-        separation = abs(hma9 - hma21)
+        separation = abs(hma_fast - hma_slow)
         result["separation"] = float(separation)
         if atr_5m > 0:
             sep_frac = separation / atr_5m
@@ -1308,10 +1309,10 @@ class SectorBacktesterV6:
                 )
 
         # ── Gate 5: HMA Divergence (expanding gap) ──
-        h9_old = self._hma_at_offset(series, HMA_FAST, DIVERGENCE_LOOKBACK)
-        h21_old = self._hma_at_offset(series, HMA_SLOW, DIVERGENCE_LOOKBACK)
-        if h9_old > 0 and h21_old > 0:
-            old_gap = abs(h9_old - h21_old)
+        h_fast_old = self._hma_at_offset(series, HMA_FAST, DIVERGENCE_LOOKBACK)
+        h_slow_old = self._hma_at_offset(series, HMA_SLOW, DIVERGENCE_LOOKBACK)
+        if h_fast_old > 0 and h_slow_old > 0:
+            old_gap = abs(h_fast_old - h_slow_old)
             is_diverging = separation > old_gap
             result["is_diverging"] = is_diverging
             if not is_diverging:
@@ -1339,8 +1340,8 @@ class SectorBacktesterV6:
         """Build signal with V6.6 A+ criteria + V6.7 quality gates."""
 
         hma_align = hma_info["align"]
-        hma9_5m = hma_info["hma9"]
-        hma21_5m = hma_info["hma21"]
+        hma_fast_5m = hma_info["hma_fast"]
+        hma_slow_5m = hma_info["hma_slow"]
 
         if hma_align == "BULLISH":
             direction = "LONG"
@@ -1358,7 +1359,7 @@ class SectorBacktesterV6:
         if sector_rank > 3:
             reasons.append(f"SECTOR_RANK_BLOCKED: rank={sector_rank} > 3")
         elif direction == "NONE":
-            reasons.append("HMA9_21_NOT_ALIGNED")
+            reasons.append("HMA_FAST_SLOW_NOT_ALIGNED")
         elif sector_bias == "NEUTRAL":
             reasons.append("SECTOR_BIAS_NEUTRAL")
         elif sector_bias == "LONG" and direction != "LONG":
@@ -1395,7 +1396,7 @@ class SectorBacktesterV6:
                     score = float(config.THRESHOLD_A_PLUS)
                     multiplier = config.GRADE_MULTIPLIERS.get("A+", 1.0)
 
-                    slope_info = f"slope9={hma_info['slope9']:.3f}% slope21={hma_info['slope21']:.3f}%"
+                    slope_info = f"slope_fast={hma_info['slope_fast']:.3f}% slope_slow={hma_info['slope_slow']:.3f}%"
                     cross_info = f"cross_age={hma_info['cross_bars_ago']}bars"
                     sep_info = f"sep/ATR={hma_info['sep_atr_frac']:.3f}"
                     div_info = "DIVERGING" if hma_info["is_diverging"] else "FLAT"
@@ -1403,9 +1404,9 @@ class SectorBacktesterV6:
                     reasons.extend(
                         [
                             (
-                                f"HMA9>HMA21_5M={hma9_5m:.2f}/{hma21_5m:.2f}"
+                                f"HMA_FAST>HMA_SLOW_5M={hma_fast_5m:.2f}/{hma_slow_5m:.2f}"
                                 if direction == "LONG"
-                                else f"HMA9<HMA21_5M={hma9_5m:.2f}/{hma21_5m:.2f}"
+                                else f"HMA_FAST<HMA_SLOW_5M={hma_fast_5m:.2f}/{hma_slow_5m:.2f}"
                             ),
                             f"TOP3_SECTOR_RANK={sector_rank}",
                             f"ALIGNMENT_OK: Index={index_dir} Sector={sector_bias} Signal={direction}",
@@ -1535,8 +1536,8 @@ class SectorBacktesterV6:
                 sector_rank=sec_rank,
                 sector_bias=sec_bias,
             )
-            signal.hma9_5m = float(hma_info["hma9"])
-            signal.hma21_5m = float(hma_info["hma21"])
+            signal.hma_fast_5m = float(hma_info["hma_fast"])
+            signal.hma_slow_5m = float(hma_info["hma_slow"])
             signal.gate_passed = passed
             signal.gate_reason = gate_reason
             self.active_signals.append(signal)
@@ -1707,8 +1708,8 @@ class SectorBacktesterV6:
         hma_quality = {}
         if hma_info is not None:
             hma_quality = {
-                "slope9": float(hma_info.get("slope9", 0.0)),
-                "slope21": float(hma_info.get("slope21", 0.0)),
+                "slope_fast": float(hma_info.get("slope_fast", 0.0)),
+                "slope_slow": float(hma_info.get("slope_slow", 0.0)),
                 "cross_bars_ago": int(hma_info.get("cross_bars_ago", -1)),
                 "separation": float(hma_info.get("separation", 0.0)),
                 "sep_atr_frac": float(hma_info.get("sep_atr_frac", 0.0)),
@@ -1730,8 +1731,8 @@ class SectorBacktesterV6:
             "price": float(ltp),
             "change_pct": float(signal.change_pct),
             "hma_align": signal.hma_align,
-            "hma9_5m": float(getattr(signal, "hma9_5m", 0.0)),
-            "hma21_5m": float(getattr(signal, "hma21_5m", 0.0)),
+            "hma_fast_5m": float(getattr(signal, "hma_fast_5m", 0.0)),
+            "hma_slow_5m": float(getattr(signal, "hma_slow_5m", 0.0)),
             "sector_rank": int(signal.sector_rank),
             "gate_passed": bool(gate_passed),
             "gate_reason": gate_reason,
@@ -1896,12 +1897,12 @@ class SectorBacktesterV6:
     # ═══════════════════════════════════════════════════════════════════════════
 
     def _compute_live_hma(self, symbol: str, intra_pos: int, current_close: float) -> Dict[str, float]:
-        """Compute live HMA9 and HMA21 for a stock at the current bar position.
+        """Compute live HMA_FAST and HMA_SLOW for a stock at the current bar position.
 
         Uses the _intra_np close array up to `intra_pos`, appending `current_close`.
-        Returns dict with hma9, hma21 values (0.0 if insufficient data).
+        Returns dict with hma_fast, hma_slow values (0.0 if insufficient data).
         """
-        result = {"hma9": 0.0, "hma21": 0.0}
+        result = {"hma_fast": 0.0, "hma_slow": 0.0}
 
         intra_np = self._intra_np.get(symbol)
         if intra_np is None or intra_pos < 0:
@@ -1915,13 +1916,13 @@ class SectorBacktesterV6:
         # Build series including current bar
         series = np.append(closes_up_to, current_close)
 
-        hma9 = calculate_hma(series, HMA_FAST)
-        hma21 = calculate_hma(series, HMA_SLOW)
+        hma_fast_val = calculate_hma(series, HMA_FAST)
+        hma_slow_val = calculate_hma(series, HMA_SLOW)
 
-        if hma9 > 0:
-            result["hma9"] = float(hma9)
-        if hma21 > 0:
-            result["hma21"] = float(hma21)
+        if hma_fast_val > 0:
+            result["hma_fast"] = float(hma_fast_val)
+        if hma_slow_val > 0:
+            result["hma_slow"] = float(hma_slow_val)
 
         return result
 
@@ -1954,12 +1955,12 @@ class SectorBacktesterV6:
                 trade.mfe_r = max(trade.mfe_r, max(fav, 0.0))
                 trade.mae_r = max(trade.mae_r, max(adv, 0.0))
 
-            # --- 2. Compute live HMA9 and HMA21 ---
+            # --- 2. Compute live HMA_FAST and HMA_SLOW ---
             hma = self._compute_live_hma(trade.symbol, intra_pos, close)
-            hma9 = hma["hma9"]
-            hma21 = hma["hma21"]
-            trade.last_hma9 = hma9
-            trade.last_hma21 = hma21
+            hma_fast = hma["hma_fast"]
+            hma_slow = hma["hma_slow"]
+            trade.last_hma_fast = hma_fast
+            trade.last_hma_slow = hma_slow
 
             # --- 3. Check STOP HIT (hard stop or HMA trail stop) ---
             stop_hit = (
@@ -1972,29 +1973,29 @@ class SectorBacktesterV6:
                 self._close_trade(trade_id, trade, ts, float(trade.current_stop), reason)
                 continue
 
-            # --- 4. HMA21 Trailing Stop (always-on, ratchet) ---
-            # Compute the HMA21-based trail level and apply if better than current stop
-            if hma21 > 0 and trade.entry_atr_5m > 0:
+            # --- 4. HMA_SLOW Trailing Stop (always-on, ratchet) ---
+            # Compute the HMA_SLOW-based trail level and apply if better than current stop
+            if hma_slow > 0 and trade.entry_atr_5m > 0:
                 buffer = HMA_TRAIL_BUFFER_ATR * trade.entry_atr_5m
                 if trade.direction == "LONG":
-                    hma_trail_level = hma21 - buffer
+                    hma_trail_level = hma_slow - buffer
                     if hma_trail_level > trade.current_stop:
                         trade.current_stop = hma_trail_level
                         trade.hma_trail_active = True
                         trade.trail_armed = True  # backward compat
                 else:  # SHORT
-                    hma_trail_level = hma21 + buffer
+                    hma_trail_level = hma_slow + buffer
                     if hma_trail_level < trade.current_stop:
                         trade.current_stop = hma_trail_level
                         trade.hma_trail_active = True
                         trade.trail_armed = True  # backward compat
 
             # --- 5. HMA Cross Exit (primary signal-based exit) ---
-            # If HMA9 crosses HMA21 against our direction, the entry signal has reversed
-            if hma9 > 0 and hma21 > 0:
+            # If HMA_FAST crosses HMA_SLOW against our direction, the entry signal has reversed
+            if hma_fast > 0 and hma_slow > 0:
                 hma_cross_against = (
-                    (trade.direction == "LONG" and hma9 < hma21) or
-                    (trade.direction == "SHORT" and hma9 > hma21)
+                    (trade.direction == "LONG" and hma_fast < hma_slow) or
+                    (trade.direction == "SHORT" and hma_fast > hma_slow)
                 )
                 if hma_cross_against:
                     self._close_trade(trade_id, trade, ts, close, "HMA_CROSS_EXIT")
