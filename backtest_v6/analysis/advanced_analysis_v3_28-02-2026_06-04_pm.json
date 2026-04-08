@@ -1,0 +1,594 @@
+{
+  "metadata": {
+    "analysis_date": "2026-03-01T15:12:26.924084",
+    "history_file": "backtest_v6\\history_v6.9\\backtest_history_28-02-2026_06-04_pm.json",
+    "run_id": "BT_20260228_180322",
+    "run_status": "COMPLETED",
+    "start_date": "2025-01-01",
+    "end_date": "2025-12-31",
+    "market_data_available": false,
+    "market_data_error": "",
+    "engine_version": "V6.9 (HMA-based exit system)"
+  },
+  "v69_exit_config": {
+    "STOP_ATR_MULT_5M": 1.4,
+    "STOP_MIN_PCT": 0.0035,
+    "HMA_TRAIL_BUFFER_ATR": 0.3,
+    "TARGET_1_R": 1.5,
+    "TARGET_1_EXIT_PCT": 0.5
+  },
+  "trade_statistics": {
+    "total_trades": 151,
+    "wins": 72,
+    "losses": 79,
+    "breakeven": 0,
+    "win_rate_pct": 47.68,
+    "net_pnl": 97734.42,
+    "gross_pnl_before_charges": 147219.16,
+    "total_charges": 49484.74,
+    "charges_as_pct_of_gross_pnl": 33.61,
+    "sum_positive_pnl": 351916.96,
+    "sum_negative_pnl": -254182.54,
+    "avg_trade_pnl": 647.25,
+    "best_trade": 20948.73,
+    "worst_trade": -5467.69,
+    "profit_factor": 1.38,
+    "avg_r_multiple": 0.166,
+    "median_r_multiple": -0.167,
+    "positive_r_trades": 72,
+    "negative_r_trades": 79
+  },
+  "equity_analysis": {
+    "initial_equity": 1000000.0,
+    "final_equity": 1097734.42,
+    "total_return": 97734.42,
+    "total_return_pct": 9.77,
+    "gross_return_before_charges": 147219.16,
+    "max_drawdown_inr": 62372.37,
+    "max_drawdown_pct": 6.13
+  },
+  "execution_metrics": {
+    "all_a_grade_signals": 175,
+    "executed_signals": 151,
+    "execution_rate_pct": 86.29,
+    "blocked_by_max_positions": 0,
+    "capital_blocked": 17,
+    "alignment_blocked": 68593
+  },
+  "brokerage_analysis": {
+    "exchange": "NSE",
+    "transaction_charge_pct": 0.00297,
+    "total_turnover": 234102212.04,
+    "total_charges": 49484.74,
+    "charges_pct_of_turnover": 0.0211,
+    "avg_charge_per_trade": 327.7135,
+    "breakdown": {
+      "brokerage": 6960.72,
+      "stt": 29281.18,
+      "transaction_charge": 6952.84,
+      "sebi_charge": 234.1,
+      "stamp_charge": 3509.32,
+      "gst": 2546.58
+    }
+  },
+  "hma_exit_analysis": {
+    "available": true,
+    "exit_reason_counts": {
+      "STOP_HARD": 63,
+      "STOP_HMA_TRAIL": 59,
+      "HMA_CROSS_EXIT": 21,
+      "FORCE_EXIT": 6,
+      "TARGET1_FULL": 2
+    },
+    "exit_reason_analysis": [
+      {
+        "exit_reason": "STOP_HARD",
+        "description": "Initial hard stop hit",
+        "trades": 63,
+        "win_rate_pct": 23.81,
+        "net_pnl": -164624.2,
+        "avg_pnl": -2613.08,
+        "avg_bars_in_trade": 4.7,
+        "avg_duration_min": 23.4,
+        "avg_mfe_r": 0.76,
+        "avg_mae_r": 1.2
+      },
+      {
+        "exit_reason": "STOP_HMA_TRAIL",
+        "description": "HMA trailing stop hit",
+        "trades": 59,
+        "win_rate_pct": 52.54,
+        "net_pnl": 115822.84,
+        "avg_pnl": 1963.1,
+        "avg_bars_in_trade": 18.0,
+        "avg_duration_min": 89.9,
+        "avg_mfe_r": 1.98,
+        "avg_mae_r": 0.52
+      },
+      {
+        "exit_reason": "HMA_CROSS_EXIT",
+        "description": "Signal reversal (HMA cross)",
+        "trades": 21,
+        "win_rate_pct": 85.71,
+        "net_pnl": 101240.85,
+        "avg_pnl": 4820.99,
+        "avg_bars_in_trade": 28.0,
+        "avg_duration_min": 140.0,
+        "avg_mfe_r": 2.68,
+        "avg_mae_r": 0.38
+      },
+      {
+        "exit_reason": "FORCE_EXIT",
+        "description": "End-of-day force exit",
+        "trades": 6,
+        "win_rate_pct": 100.0,
+        "net_pnl": 45264.56,
+        "avg_pnl": 7544.09,
+        "avg_bars_in_trade": 19.7,
+        "avg_duration_min": 98.3,
+        "avg_mfe_r": 3.11,
+        "avg_mae_r": 0.49
+      },
+      {
+        "exit_reason": "TARGET1_FULL",
+        "description": "Full target exit (all qty at T1)",
+        "trades": 2,
+        "win_rate_pct": 100.0,
+        "net_pnl": 30.38,
+        "avg_pnl": 15.19,
+        "avg_bars_in_trade": 4.5,
+        "avg_duration_min": 22.5,
+        "avg_mfe_r": 1.94,
+        "avg_mae_r": 0.13
+      }
+    ],
+    "hma_trail_activated": 86,
+    "hma_trail_pct": 56.95,
+    "be_armed_count": 65,
+    "be_armed_pct": 43.05,
+    "partial_profit_takes": 2,
+    "bars_in_trade_summary": {
+      "count": 151,
+      "mean": 13.7152,
+      "median": 11.0,
+      "p10": 1.0,
+      "p25": 3.0,
+      "p75": 22.0,
+      "p90": 31.0,
+      "max": 50.0
+    }
+  },
+  "quality_gate_analysis": {
+    "gate_rejection_stats": {
+      "gate_slope_blocked": 87656,
+      "gate_freshness_blocked": 183201,
+      "gate_price_align_blocked": 95241,
+      "gate_separation_blocked": 5433,
+      "gate_divergence_blocked": 96025,
+      "total_gate_rejections": 467556
+    },
+    "hma_quality_on_executed": {
+      "hq_slope_fast": {
+        "count": 151,
+        "mean": 0.1186,
+        "median": 0.1828,
+        "p10": -0.411,
+        "p25": -0.2208,
+        "p75": 0.403,
+        "p90": 0.671,
+        "max": 2.2946
+      },
+      "hq_slope_slow": {
+        "count": 151,
+        "mean": 0.0108,
+        "median": 0.0389,
+        "p10": -0.0967,
+        "p25": -0.0561,
+        "p75": 0.0714,
+        "p90": 0.1193,
+        "max": 0.2173
+      },
+      "hq_cross_bars_ago": {
+        "count": 151,
+        "mean": 1.0,
+        "median": 1.0,
+        "p10": 1.0,
+        "p25": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      "hq_separation": {
+        "count": 151,
+        "mean": 3.2361,
+        "median": 1.0858,
+        "p10": 0.0913,
+        "p25": 0.2579,
+        "p75": 3.3834,
+        "p90": 7.5276,
+        "max": 49.8154
+      },
+      "hq_sep_atr_frac": {
+        "count": 151,
+        "mean": 0.4566,
+        "median": 0.3837,
+        "p10": 0.1922,
+        "p25": 0.2486,
+        "p75": 0.6266,
+        "p90": 0.8167,
+        "max": 1.2903
+      },
+      "diverging_pct": 100.0
+    },
+    "hma_config": {
+      "HMA_FAST": 18,
+      "HMA_SLOW": 126,
+      "CROSS_FRESHNESS_BARS": 1,
+      "SLOPE_LOOKBACK": 3,
+      "SLOPE_MIN_PCT": 0.01,
+      "MIN_HMA_SEP_ATR_FRAC": 0.15,
+      "DIVERGENCE_LOOKBACK": 5
+    }
+  },
+  "blocker_analysis": {
+    "decision_breakdown": {
+      "EXECUTED": 151,
+      "INSUFFICIENT_CAPITAL": 17,
+      "GATE_FAIL:CIRCUIT_BUFFER_1.84%_<_2%": 1,
+      "GATE_FAIL:CIRCUIT_BUFFER_1.46%_<_2%": 1,
+      "GATE_FAIL:CIRCUIT_BUFFER_1.83%_<_2%": 1,
+      "GATE_FAIL:CIRCUIT_BUFFER_1.68%_<_2%": 1,
+      "GATE_FAIL:CIRCUIT_BUFFER_1.93%_<_2%": 1,
+      "RISK_REJECTED:MAX_SECTOR_LIMIT (NIFTY METAL: 2)": 2
+    },
+    "risk_reason_breakdown": {
+      "OK": 170,
+      "MAX_SECTOR_LIMIT (NIFTY AUTO: 2)": 2,
+      "MAX_SECTOR_LIMIT (NIFTY REALTY: 2)": 1,
+      "MAX_SECTOR_LIMIT (NIFTY METAL: 2)": 2
+    },
+    "decision_breakdown_normalized": {
+      "EXECUTED": 151,
+      "INSUFFICIENT_CAPITAL": 17,
+      "GATE_FAIL:CIRCUIT_BUFFER_1.84%_<_2%": 1,
+      "GATE_FAIL:CIRCUIT_BUFFER_1.46%_<_2%": 1,
+      "GATE_FAIL:CIRCUIT_BUFFER_1.83%_<_2%": 1,
+      "GATE_FAIL:CIRCUIT_BUFFER_1.68%_<_2%": 1,
+      "GATE_FAIL:CIRCUIT_BUFFER_1.93%_<_2%": 1,
+      "RISK_REJECTED:MAX_SECTOR_LIMIT": 2
+    },
+    "risk_reason_breakdown_normalized": {
+      "OK": 170,
+      "MAX_SECTOR_LIMIT": 5
+    }
+  },
+  "daily_performance": {
+    "total_trading_days": 246,
+    "positive_days": 55,
+    "negative_days": 46,
+    "breakeven_days": 145,
+    "best_day": 17697.22,
+    "worst_day": -12335.09,
+    "avg_daily_pnl": 397.29
+  },
+  "direction_matrix_index_sector_signal": {
+    "rows": [
+      {
+        "index_dir": "UP",
+        "sector_dir": "UP",
+        "signal_dir": "UP",
+        "trades": 90,
+        "win_rate_pct": 46.67,
+        "sum_positive_pnl": 241607.94,
+        "sum_negative_pnl": -153282.84,
+        "net_pnl": 88325.1
+      },
+      {
+        "index_dir": "UP",
+        "sector_dir": "UP",
+        "signal_dir": "DOWN",
+        "trades": 0,
+        "win_rate_pct": 0.0,
+        "sum_positive_pnl": 0.0,
+        "sum_negative_pnl": 0.0,
+        "net_pnl": 0.0
+      },
+      {
+        "index_dir": "UP",
+        "sector_dir": "DOWN",
+        "signal_dir": "UP",
+        "trades": 0,
+        "win_rate_pct": 0.0,
+        "sum_positive_pnl": 0.0,
+        "sum_negative_pnl": 0.0,
+        "net_pnl": 0.0
+      },
+      {
+        "index_dir": "UP",
+        "sector_dir": "DOWN",
+        "signal_dir": "DOWN",
+        "trades": 0,
+        "win_rate_pct": 0.0,
+        "sum_positive_pnl": 0.0,
+        "sum_negative_pnl": 0.0,
+        "net_pnl": 0.0
+      },
+      {
+        "index_dir": "DOWN",
+        "sector_dir": "UP",
+        "signal_dir": "UP",
+        "trades": 0,
+        "win_rate_pct": 0.0,
+        "sum_positive_pnl": 0.0,
+        "sum_negative_pnl": 0.0,
+        "net_pnl": 0.0
+      },
+      {
+        "index_dir": "DOWN",
+        "sector_dir": "UP",
+        "signal_dir": "DOWN",
+        "trades": 0,
+        "win_rate_pct": 0.0,
+        "sum_positive_pnl": 0.0,
+        "sum_negative_pnl": 0.0,
+        "net_pnl": 0.0
+      },
+      {
+        "index_dir": "DOWN",
+        "sector_dir": "DOWN",
+        "signal_dir": "UP",
+        "trades": 0,
+        "win_rate_pct": 0.0,
+        "sum_positive_pnl": 0.0,
+        "sum_negative_pnl": 0.0,
+        "net_pnl": 0.0
+      },
+      {
+        "index_dir": "DOWN",
+        "sector_dir": "DOWN",
+        "signal_dir": "DOWN",
+        "trades": 61,
+        "win_rate_pct": 49.18,
+        "sum_positive_pnl": 110309.02,
+        "sum_negative_pnl": -100899.7,
+        "net_pnl": 9409.32
+      }
+    ],
+    "total_trades_considered": 151,
+    "excluded_trades": 0,
+    "sector_direction_source_counts": {
+      "SIGNAL_PROXY": 151
+    },
+    "aligned_win_rate_pct": 47.68
+  },
+  "risk_target_analysis": {
+    "available": true,
+    "summary_stop_pct": {
+      "count": 151,
+      "mean": 0.5183,
+      "median": 0.4158,
+      "p10": 0.35,
+      "p25": 0.35,
+      "p75": 0.5768,
+      "p90": 0.8151,
+      "max": 1.9878
+    },
+    "summary_target_pct": {
+      "count": 151,
+      "mean": 0.7775,
+      "median": 0.6238,
+      "p10": 0.525,
+      "p25": 0.525,
+      "p75": 0.8652,
+      "p90": 1.2226,
+      "max": 2.9818
+    },
+    "summary_t_s_ratio": {
+      "count": 151,
+      "mean": 1.5,
+      "median": 1.5,
+      "p10": 1.5,
+      "p25": 1.5,
+      "p75": 1.5,
+      "p90": 1.5,
+      "max": 1.5
+    },
+    "summary_realized_r": {
+      "count": 151,
+      "mean": 0.166,
+      "median": -0.167,
+      "p10": -1.1134,
+      "p25": -1.0593,
+      "p75": 1.0437,
+      "p90": 1.9385,
+      "max": 4.9685
+    },
+    "summary_mfe_r": {
+      "count": 151,
+      "mean": 1.6117,
+      "median": 1.1992,
+      "p10": 0.1509,
+      "p25": 0.379,
+      "p75": 2.1172,
+      "p90": 3.5402,
+      "max": 16.9399
+    },
+    "summary_mae_r": {
+      "count": 151,
+      "mean": 0.7791,
+      "median": 0.7094,
+      "p10": 0.1215,
+      "p25": 0.3392,
+      "p75": 1.1384,
+      "p90": 1.5031,
+      "max": 2.3674
+    },
+    "by_direction": [
+      {
+        "direction": "LONG",
+        "trades": 90,
+        "avg_stop_pct": 0.5139,
+        "avg_target_pct": 0.7708,
+        "avg_t_s_ratio": 1.5,
+        "avg_realized_r": 0.2259,
+        "win_rate_pct": 46.67
+      },
+      {
+        "direction": "SHORT",
+        "trades": 61,
+        "avg_stop_pct": 0.5249,
+        "avg_target_pct": 0.7873,
+        "avg_t_s_ratio": 1.5,
+        "avg_realized_r": 0.0776,
+        "win_rate_pct": 49.18
+      }
+    ],
+    "by_exit_reason": [
+      {
+        "exit_reason": "STOP_HARD",
+        "trades": 63,
+        "avg_realized_r": -0.6733,
+        "avg_mfe_r": 0.76,
+        "avg_mae_r": 1.203
+      },
+      {
+        "exit_reason": "STOP_HMA_TRAIL",
+        "trades": 59,
+        "avg_realized_r": 0.4394,
+        "avg_mfe_r": 1.978,
+        "avg_mae_r": 0.519
+      },
+      {
+        "exit_reason": "HMA_CROSS_EXIT",
+        "trades": 21,
+        "avg_realized_r": 1.2944,
+        "avg_mfe_r": 2.677,
+        "avg_mae_r": 0.385
+      },
+      {
+        "exit_reason": "FORCE_EXIT",
+        "trades": 6,
+        "avg_realized_r": 1.9708,
+        "avg_mfe_r": 3.113,
+        "avg_mae_r": 0.485
+      },
+      {
+        "exit_reason": "TARGET1_FULL",
+        "trades": 2,
+        "avg_realized_r": 1.2764,
+        "avg_mfe_r": 1.941,
+        "avg_mae_r": 0.134
+      }
+    ]
+  },
+  "target_stop_touch_analysis": {
+    "available": false,
+    "reason": "Market data not available"
+  },
+  "capital_utilization": {
+    "summary": {
+      "days_with_trades": 101,
+      "avg_peak_deployed_notional": 970893.11,
+      "max_peak_deployed_notional": 1605952.0,
+      "avg_peak_utilization_pct": 96.43,
+      "peak_utilization_from_summary": 108.77
+    }
+  },
+  "first_trade_effect": {
+    "rows": [
+      {
+        "first_trade_outcome": "FIRST_WIN",
+        "days": 52,
+        "day_profit_rate_pct": 96.15,
+        "avg_day_pnl": 5525.56,
+        "median_day_pnl": 4870.42,
+        "win_rate_pct": 85.14,
+        "net_pnl": 287329.09
+      },
+      {
+        "first_trade_outcome": "FIRST_LOSS",
+        "days": 49,
+        "day_profit_rate_pct": 10.2,
+        "avg_day_pnl": -3869.28,
+        "median_day_pnl": -3937.13,
+        "win_rate_pct": 11.69,
+        "net_pnl": -189594.67
+      }
+    ],
+    "correlation": 0.9208
+  },
+  "regime_performance": {
+    "rows": [
+      {
+        "regime": "TRENDING",
+        "trades": 55,
+        "win_rate_pct": 54.55,
+        "pnl": 85799.71,
+        "avg_pnl": 1559.99
+      },
+      {
+        "regime": "NEUTRAL",
+        "trades": 44,
+        "win_rate_pct": 40.91,
+        "pnl": -3063.71,
+        "avg_pnl": -69.63
+      },
+      {
+        "regime": "EXTREME",
+        "trades": 35,
+        "win_rate_pct": 45.71,
+        "pnl": 3154.11,
+        "avg_pnl": 90.12
+      },
+      {
+        "regime": "MEAN_REVERT",
+        "trades": 17,
+        "win_rate_pct": 47.06,
+        "pnl": 11844.32,
+        "avg_pnl": 696.72
+      }
+    ]
+  },
+  "time_bucket_performance": {
+    "rows": [
+      {
+        "bucket": "OPEN_0925_1030",
+        "trades": 92,
+        "win_rate_pct": 50.0,
+        "pnl": 68134.3,
+        "avg_pnl": 740.59
+      },
+      {
+        "bucket": "LUNCH_1200_1315",
+        "trades": 24,
+        "win_rate_pct": 37.5,
+        "pnl": 4022.53,
+        "avg_pnl": 167.61
+      },
+      {
+        "bucket": "AFTERNOON_1315_1405",
+        "trades": 18,
+        "win_rate_pct": 50.0,
+        "pnl": 22539.9,
+        "avg_pnl": 1252.22
+      },
+      {
+        "bucket": "MID_1030_1200",
+        "trades": 17,
+        "win_rate_pct": 47.06,
+        "pnl": 3037.69,
+        "avg_pnl": 178.69
+      }
+    ]
+  },
+  "sector_performance": {
+    "rows": [
+      {
+        "sector": "NIFTY PSU BANK",
+        "trades": 22,
+        "win_rate_pct": 45.45,
+        "net_pnl": 33916.01,
+        "avg_pnl": 1541.64,
+        "avg_bars": 18.1,
+        "exit_breakdown": {
+          "STOP_HMA_TRAIL": 
